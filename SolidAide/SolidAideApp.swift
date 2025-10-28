@@ -11,7 +11,7 @@ import SwiftUI
 struct SolidAideApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SolidAideView()
         }
     }
 }
