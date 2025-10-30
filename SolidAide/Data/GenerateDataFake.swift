@@ -55,28 +55,16 @@ func GenerateDataBaseFunc(context: ModelContext) {
     
     //  PROFILES
     let profiles: [ProfileClass] = [
+
         ProfileClass(
             userId: users[0],
             pseudo: "Marie D.",
-            city: "Marseille",
+            city: "Paris",
             birthday: Calendar.current.date(byAdding: .year, value: -35, to: Date()) ?? Date(),
             userQuality: [.reliableNeighbour, .punctual, .goodCommunication],
             imageURL: "image1.jpg",
             aboutMe: "Professeure de français, j'adore aider mes voisins et partager mes compétences en cuisine. Disponible en soirée et le week-end.",
-            position: GPSCoordinateStruct(latitude: 48.8566, longitude: 2.3522, altitude: 35.0),
-            skills: [.cooking],
-            availability: "Lundi-Vendredi: 18h-21h, Week-end: 9h-18h",
-            contacts: [users[2], users[4], users[6]]
-        ),
-        ProfileClass(
-            userId: users[0],
-            pseudo: "Marie D.",
-            city: "Lille",
-            birthday: Calendar.current.date(byAdding: .year, value: -35, to: Date()) ?? Date(),
-            userQuality: [.reliableNeighbour, .punctual, .goodCommunication],
-            imageURL: "image1.jpg",
-            aboutMe: "Professeure de français, j'adore aider mes voisins et partager mes compétences en cuisine. Disponible en soirée et le week-end.",
-            position: GPSCoordinateStruct(latitude: 48.8566, longitude: 2.3522, altitude: 35.0),
+            position: GPSCoordinateStruct(latitude: 48.896347, longitude: 2.345625, altitude: 35.0),
             skills: [.cooking],
             availability: "Lundi-Vendredi: 18h-21h, Week-end: 9h-18h",
             contacts: [users[2], users[4], users[6]],
@@ -87,12 +75,12 @@ func GenerateDataBaseFunc(context: ModelContext) {
         ProfileClass(
             userId: users[1],
             pseudo: "Pierre M.",
-            city: "Toulouse",
+            city: "Paris",
             birthday: Calendar.current.date(byAdding: .year, value: -42, to: Date()) ?? Date(),
             userQuality: [.efficient, .reliableNeighbour, .activeMember],
             imageURL: "image2",
             aboutMe: "Bricoleur passionné et retraité. Je propose mes services de bricolage et petits travaux. Très flexible sur les horaires.",
-            position: GPSCoordinateStruct(latitude: 48.8606, longitude: 2.3376, altitude: 33.0),
+            position: GPSCoordinateStruct(latitude: 48.892304, longitude: 2.331346, altitude: 33.0),
             skills: [.DIY],
             availability: "Tous les jours: 8h-20h",
             contacts: [users[3], users[5], users[7]],
@@ -103,12 +91,12 @@ func GenerateDataBaseFunc(context: ModelContext) {
         ProfileClass(
             userId: users[2],
             pseudo: "Sophie B.",
-            city: "Nice",
+            city: "Paris",
             birthday: Calendar.current.date(byAdding: .year, value: -28, to: Date()) ?? Date(),
             userQuality: [.patient, .verySupportive, .goodCommunication],
             imageURL: "image3",
             aboutMe: "Étudiante en informatique, je peux aider avec les problèmes numériques et donner des cours de soutien scolaire en mathématiques.",
-            position: GPSCoordinateStruct(latitude: 48.8656, longitude: 2.3212, altitude: 38.0),
+            position: GPSCoordinateStruct(latitude: 48.884286, longitude: 2.349548, altitude: 38.0),
             skills: [.digital],
             availability: "Mardi-Jeudi: 14h-19h, Samedi: 10h-16h",
             contacts: [users[0], users[3]],
@@ -123,7 +111,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.punctual, .available, .activeMember],
             imageURL: "image4",
             aboutMe: "Propriétaire d'un chien adorable, je promène volontiers les animaux du quartier. Je peux aussi faire du covoiturage.",
-            position: GPSCoordinateStruct(latitude: 48.8466, longitude: 2.3622, altitude: 32.0),
+            position: GPSCoordinateStruct(latitude: 48.898136, longitude: 2.346827, altitude: 32.0),
             skills: [.dogWalk],
             availability: "Matin: 7h-9h, Soir: 18h-20h",
             contacts: [users[1], users[2], users[4], users[6]]
@@ -136,7 +124,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.goodCommunication, .patient, .verySupportive],
             imageURL: "image5",
             aboutMe: "Maman de trois enfants, j'adore cuisiner et faire les courses. Je peux aider avec les tâches administratives également.",
-            position: GPSCoordinateStruct(latitude: 48.8766, longitude: 2.3422, altitude: 36.0),
+            position: GPSCoordinateStruct(latitude: 48.885704, longitude: 2.359410, altitude: 36.0),
             skills: [.shopping],
             availability: "Lundi-Vendredi: 9h-15h",
             contacts: [users[1], users[3], users[5], users[7]]
@@ -149,7 +137,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.reliableNeighbour, .efficient, .punctual],
             imageURL: "image6",
             aboutMe: "Expert en déménagement et transport. J'ai un camion et je peux aider pour les gros travaux de déménagement.",
-            position: GPSCoordinateStruct(latitude: 48.8366, longitude: 2.3722, altitude: 34.0),
+            position: GPSCoordinateStruct(latitude: 48.895232, longitude: 2.351775, altitude: 34.0),
             skills: [.moving],
             availability: "Week-end: 8h-19h",
             contacts: [users[1], users[4], users[7]]
@@ -157,12 +145,12 @@ func GenerateDataBaseFunc(context: ModelContext) {
         ProfileClass(
             userId: users[6],
             pseudo: "Julie L.",
-            city: "Lille",
+            city: "Paris",
             birthday: Calendar.current.date(byAdding: .year, value: -26, to: Date()) ?? Date(),
             userQuality: [.patient, .goodCommunication, .available],
             imageURL: "image7",
             aboutMe: "Couturière professionnelle, je propose des retouches et créations sur mesure. Passionnée par mon métier !",
-            position: GPSCoordinateStruct(latitude: 48.8666, longitude: 2.3522, altitude: 37.0),
+            position: GPSCoordinateStruct(latitude: 48.885332, longitude: 2.334209, altitude: 37.0),
             skills: [.sewing],
             availability: "Mercredi-Samedi: 10h-18h",
             contacts: [users[0], users[3]]
@@ -170,12 +158,12 @@ func GenerateDataBaseFunc(context: ModelContext) {
         ProfileClass(
             userId: users[7],
             pseudo: "Antoine S.",
-            city: "Aniche",
+            city: "Paris",
             birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
             userQuality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
             imageURL: "image8",
             aboutMe: "Formateur en bureautique et gestion. Je donne des formations gratuites aux seniors et débutants. Membre actif depuis 2 ans !",
-            position: GPSCoordinateStruct(latitude: 48.8466, longitude: 2.3322, altitude: 35.0),
+            position: GPSCoordinateStruct(latitude: 48.891212, longitude: 2.348629, altitude: 35.0),
             skills: [.trainingCourses],
             availability: "Lundi-Mercredi-Vendredi: 14h-17h",
             contacts: [users[1], users[4], users[5]]
