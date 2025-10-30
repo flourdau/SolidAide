@@ -29,10 +29,27 @@ struct SolidAideView: View {
                     Image(systemName: "bubble")
                 }
             
+            AdminDataBaseView()
+                .tabItem {
+                    Text("Messagerie")
+                    Image(systemName: "arrow.2.circlepath.circle")
+                }
+            
+            
         }
     }
 }
 
 #Preview {
-    SolidAideView()
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: UserClass.self, configurations: config)
+        
+        GenerateDataBaseFunc(context: container.mainContext)
+        return SolidAideView()
+            .modelContainer(container)
+        
+    } catch {
+       fatalError("Échec de la création du ModelContainer pour la preview : \(error)")
+    }
 }

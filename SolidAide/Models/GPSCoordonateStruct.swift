@@ -5,10 +5,14 @@
 //  Created by apprenant78 on 28/10/2025.
 //
 import Foundation
-import SwiftData
+import CoreLocation
 
 struct GPSCoordinateStruct: Codable {
-    let latitude: Double
-    let longitude: Double
-    let altitude: Double
+    var latitude: Double?
+    var longitude: Double?
+
+    init(coordinate: CLLocationCoordinate2D?) {
+        self.latitude = coordinate?.latitude
+        self.longitude = coordinate?.longitude
+    }
 }

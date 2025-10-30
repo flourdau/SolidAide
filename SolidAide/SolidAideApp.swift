@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct SolidAideApp: App {
     var body: some Scene {
         WindowGroup {
             SolidAideView()
+                .modelContainer(for: UserClass.self)
         }
     }
 }

@@ -24,10 +24,21 @@ class ProfileClass: Identifiable {
     }
     var imageURL: String? = nil
     var aboutMe: String? = nil
-    var position: CLLocationCoordinate2D? = nil
+    var positionData: GPSCoordinateStruct? = nil
+    var position: CLLocationCoordinate2D? {
+        get {
+            if let lat = positionData?.latitude, let lon = positionData?.longitude {
+                return CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            }
+            return nil
+        }
+        set {
+            self.positionData = newValue != nil ? GPSCoordinateStruct(coordinate: newValue) : nil
+        }
+    }
     @Attribute private var skillsRawValues: [String]? = nil
     var skills: [SkillsEnum]? {
-        get {  return skillsRawValues?.compactMap { SkillsEnum(rawValue: $0) } }
+        get { return skillsRawValues?.compactMap { SkillsEnum(rawValue: $0) } }
         
         set { skillsRawValues = newValue?.map { $0.rawValue } }
 
