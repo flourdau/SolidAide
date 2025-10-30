@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import SwiftData
 
-enum SkillsEnum: String, CaseIterable {
+enum SkillsEnum: String, CaseIterable, Codable {
     case administrative = "Administratif"
     case pets = "Animaux"
     case DIY = "Bricolage"

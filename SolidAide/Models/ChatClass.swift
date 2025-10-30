@@ -5,10 +5,10 @@
 //  Created by apprenant78 on 28/10/2025.
 //
 
-import SwiftUI
+import Foundation
 import SwiftData
 
-//@Model
+@Model
 class ChatClass: Identifiable {
     var id = UUID()
     var dateTime: Date

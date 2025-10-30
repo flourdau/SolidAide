@@ -5,7 +5,9 @@
 //  Created by apprenant78 on 28/10/2025.
 //
 
-enum UserQualityEnum: String, CaseIterable {
+import Foundation
+
+enum UserQualityEnum: String, CaseIterable, Codable {
     case reliableNeighbour = "Voisin fiable"
     case punctual = "Ponctuel"
     case available = "Disponible"

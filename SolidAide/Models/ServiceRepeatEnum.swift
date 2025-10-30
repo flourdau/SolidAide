@@ -5,7 +5,9 @@
 //  Created by apprenant78 on 28/10/2025.
 //
 
-enum ServiceRepeatEnum : String, CaseIterable {
+import Foundation
+
+enum ServiceRepeatEnum : String, CaseIterable, Codable {
     case everyDay = "Tous les jours"
     case everyWeek = "Toutes les semaines"
     

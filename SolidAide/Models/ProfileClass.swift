@@ -5,49 +5,70 @@
 //  Created by apprenant78 on 28/10/2025.
 //
 
-import SwiftUI
+import Foundation
 import SwiftData
 
-//@Model
+@Model
 class ProfileClass: Identifiable {
     var userId: UserClass
     var pseudo: String
-    var birthday: Date
-    var userQuality: [UserQualityEnum]
-    var imageURL: String
-    var aboutMe: String
-    var position: GPSCoordinateStruct
-    var skills: SkillsEnum
-    var availability: String
+    var city: String? = nil
+    var birthday: Date? = nil
+    @Attribute private var userQualityRawValues: [String]? = nil
+    var userQuality: [UserQualityEnum]? {
+        get { return userQualityRawValues?.compactMap { UserQualityEnum(rawValue: $0) } }
+        
+        set { userQualityRawValues = newValue? .map { $0.rawValue } }
+        
+    }
+    var imageURL: String? = nil
+    var aboutMe: String? = nil
+    var position: GPSCoordinateStruct? = nil
+    @Attribute private var skillsRawValues: [String]? = nil
+    var skills: [SkillsEnum]? {
+        get {  return skillsRawValues?.compactMap { SkillsEnum(rawValue: $0) } }
+        
+        set { skillsRawValues = newValue?.map { $0.rawValue } }
+
+    }
+    var availability: String? = nil
     var contacts: [UserClass]? = nil
     var favorite: [UserClass]? = nil
     var chats: [ChatClass]? = nil
-    
+    var helper: [UserClass]? = nil
+    var beneficiary: [UserClass]? = nil
+
     init(
         userId: UserClass,
         pseudo: String,
-        birthday: Date,
-        userQuality: [UserQualityEnum],
-        imageURL: String,
-        aboutMe: String,
-        position: GPSCoordinateStruct,
-        skills: SkillsEnum,
-        availability: String,
-        contacts: [UserClass],
-        favorite: [UserClass],
-        chats: [ChatClass]
+        city: String? = nil,
+        birthday: Date? = nil,
+        userQuality: [UserQualityEnum]? = nil,
+        imageURL: String? = nil,
+        aboutMe: String? = nil,
+        position: GPSCoordinateStruct? = nil,
+        skills: [SkillsEnum]? = nil,
+        availability: String? = nil,
+        contacts: [UserClass]? = nil,
+        favorite: [UserClass]? = nil,
+        chats: [ChatClass]? = nil,
+        helper: [UserClass]? = nil,
+        beneficiary: [UserClass]? = nil
     ) {
         self.userId = userId
         self.pseudo = pseudo
+        self.city = city
         self.birthday = birthday
-        self.userQuality = userQuality
+        self.userQualityRawValues = userQuality?.map { $0.rawValue }
         self.imageURL = imageURL
         self.aboutMe = aboutMe
         self.position = position
-        self.skills = skills
+        self.skillsRawValues = skills?.map { $0.rawValue }
         self.availability = availability
         self.contacts = contacts
         self.favorite = favorite
         self.chats = chats
+        self.helper = helper
+        self.beneficiary = beneficiary
     }
 }
