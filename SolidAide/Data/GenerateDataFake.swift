@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import MapKit
 
 func GenerateDataBaseFunc(context: ModelContext) {
     //  USERS
@@ -64,7 +65,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.reliableNeighbour, .punctual, .goodCommunication],
             imageURL: "image1.jpg",
             aboutMe: "Professeure de français, j'adore aider mes voisins et partager mes compétences en cuisine. Disponible en soirée et le week-end.",
-            position: GPSCoordinateStruct(latitude: 48.896347, longitude: 2.345625, altitude: 35.0),
+            position: CLLocationCoordinate2D(latitude: 48.896347, longitude: 2.345625),
             skills: [.cooking],
             availability: "Lundi-Vendredi: 18h-21h, Week-end: 9h-18h",
             contacts: [users[2], users[4], users[6]],
@@ -80,7 +81,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.efficient, .reliableNeighbour, .activeMember],
             imageURL: "image2",
             aboutMe: "Bricoleur passionné et retraité. Je propose mes services de bricolage et petits travaux. Très flexible sur les horaires.",
-            position: GPSCoordinateStruct(latitude: 48.892304, longitude: 2.331346, altitude: 33.0),
+            position: CLLocationCoordinate2D(latitude: 48.892304, longitude: 2.331346),
             skills: [.DIY],
             availability: "Tous les jours: 8h-20h",
             contacts: [users[3], users[5], users[7]],
@@ -96,7 +97,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.patient, .verySupportive, .goodCommunication],
             imageURL: "image3",
             aboutMe: "Étudiante en informatique, je peux aider avec les problèmes numériques et donner des cours de soutien scolaire en mathématiques.",
-            position: GPSCoordinateStruct(latitude: 48.884286, longitude: 2.349548, altitude: 38.0),
+            position: CLLocationCoordinate2D(latitude: 48.884286, longitude: 2.349548),
             skills: [.digital],
             availability: "Mardi-Jeudi: 14h-19h, Samedi: 10h-16h",
             contacts: [users[0], users[3]],
@@ -111,7 +112,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.punctual, .available, .activeMember],
             imageURL: "image4",
             aboutMe: "Propriétaire d'un chien adorable, je promène volontiers les animaux du quartier. Je peux aussi faire du covoiturage.",
-            position: GPSCoordinateStruct(latitude: 48.898136, longitude: 2.346827, altitude: 32.0),
+            position: CLLocationCoordinate2D(latitude: 48.898136, longitude: 2.346827),
             skills: [.dogWalk],
             availability: "Matin: 7h-9h, Soir: 18h-20h",
             contacts: [users[1], users[2], users[4], users[6]]
@@ -124,7 +125,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.goodCommunication, .patient, .verySupportive],
             imageURL: "image5",
             aboutMe: "Maman de trois enfants, j'adore cuisiner et faire les courses. Je peux aider avec les tâches administratives également.",
-            position: GPSCoordinateStruct(latitude: 48.885704, longitude: 2.359410, altitude: 36.0),
+            position: CLLocationCoordinate2D(latitude: 48.885704, longitude: 2.359410),
             skills: [.shopping],
             availability: "Lundi-Vendredi: 9h-15h",
             contacts: [users[1], users[3], users[5], users[7]]
@@ -137,7 +138,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.reliableNeighbour, .efficient, .punctual],
             imageURL: "image6",
             aboutMe: "Expert en déménagement et transport. J'ai un camion et je peux aider pour les gros travaux de déménagement.",
-            position: GPSCoordinateStruct(latitude: 48.895232, longitude: 2.351775, altitude: 34.0),
+            position: CLLocationCoordinate2D(latitude: 48.895232, longitude: 2.351775),
             skills: [.moving],
             availability: "Week-end: 8h-19h",
             contacts: [users[1], users[4], users[7]]
@@ -150,7 +151,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.patient, .goodCommunication, .available],
             imageURL: "image7",
             aboutMe: "Couturière professionnelle, je propose des retouches et créations sur mesure. Passionnée par mon métier !",
-            position: GPSCoordinateStruct(latitude: 48.885332, longitude: 2.334209, altitude: 37.0),
+            position: CLLocationCoordinate2D(latitude: 48.885332, longitude: 2.334209),
             skills: [.sewing],
             availability: "Mercredi-Samedi: 10h-18h",
             contacts: [users[0], users[3]]
@@ -163,7 +164,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
             imageURL: "image8",
             aboutMe: "Formateur en bureautique et gestion. Je donne des formations gratuites aux seniors et débutants. Membre actif depuis 2 ans !",
-            position: GPSCoordinateStruct(latitude: 48.891212, longitude: 2.348629, altitude: 35.0),
+            position: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
             skills: [.trainingCourses],
             availability: "Lundi-Mercredi-Vendredi: 14h-17h",
             contacts: [users[1], users[4], users[5]]
@@ -247,7 +248,6 @@ func GenerateDataBaseFunc(context: ModelContext) {
             skill: .cooking,
             serviceDescription: "Cours de cuisine française traditionnelle - Apprenez à préparer un coq au vin et une tarte tatin !",
             city: "Paris",
-            position: GPSCoordinateStruct(latitude: 48.8566, longitude: 2.3522, altitude: 35.0),
             isFree: false,
             timeSpent: 3,
             startDate: Calendar.current.date(byAdding: .month, value: 3, to: Date()) ?? Date()
@@ -256,8 +256,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             profilId: profiles[0],
             skill: .DIY,
             serviceDescription: "Réparation de petits meubles et montage IKEA. J'apporte mes outils !",
-            city: "Marseille",
-            position: GPSCoordinateStruct(latitude: 48.8606, longitude: 2.3376, altitude: 33.0),
+            city: "Paris",
             isFree: false,
             timeSpent: 3,
             startDate: Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
@@ -266,8 +265,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             profilId: profiles[2],
             skill: .digital,
             serviceDescription: "Aide à la configuration d'ordinateur, smartphone, tablette. Installation de logiciels et explications.",
-            city: "Lille",
-            position: GPSCoordinateStruct(latitude: 48.8656, longitude: 2.3212, altitude: 38.0),
+            city: "Paris",
             isFree: false,
             timeSpent: 1,
             startDate: Date()
@@ -278,7 +276,6 @@ func GenerateDataBaseFunc(context: ModelContext) {
             skill: .dogWalk,
             serviceDescription: "Promenade quotidienne pour votre chien. Je suis habitué aux grands et petits chiens.",
             city: "Paris",
-            position: GPSCoordinateStruct(latitude: 48.8466, longitude: 2.3622, altitude: 32.0),
             isFree: false,
             timeSpent: 1,
             startDate: Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date(),
@@ -293,8 +290,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             profilIdHelper: profiles[20],
             skill: .shopping,
             serviceDescription: "Courses au supermarché pour personnes à mobilité réduite ou débordées. Je peux livrer chez vous.",
-            city: "Aniche",
-            position: GPSCoordinateStruct(latitude: 48.8766, longitude: 2.3422, altitude: 36.0),
+            city: "Paris",
             isFree: false,
             timeSpent: 2,
             startDate: Calendar.current.date(byAdding: .day, value: 3, to: Date()) ?? Date(),
@@ -309,8 +305,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             profilIdHelper: profiles[4],
             skill: .moving,
             serviceDescription: "Déménagement complet avec camion 20m³. Aide au chargement et déchargement.",
-            city: "Toulouse",
-            position: GPSCoordinateStruct(latitude: 48.8366, longitude: 2.3722, altitude: 34.0),
+            city: "Paris",
             isFree: false,
             timeSpent: 6,
             startDate: Calendar.current.date(byAdding: .day, value: 7, to: Date()) ?? Date(),
@@ -325,8 +320,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             profilIdHelper: profiles[1],
             skill: .sewing,
             serviceDescription: "Retouches de vêtements : ourlets, fermetures éclair, ajustements. Travail soigné garanti !",
-            city: "Nice",
-            position: GPSCoordinateStruct(latitude: 48.8666, longitude: 2.3522, altitude: 37.0),
+            city: "Paris",
             isFree: false,
             timeSpent: 1,
             startDate: Calendar.current.date(byAdding: .day, value: 5, to: Date()) ?? Date(),
@@ -342,7 +336,6 @@ func GenerateDataBaseFunc(context: ModelContext) {
             skill: .trainingCourses,
             serviceDescription: "Formation Word, Excel et PowerPoint pour débutants. Séances individuelles adaptées à votre rythme.",
             city: "Paris",
-            position: GPSCoordinateStruct(latitude: 48.8466, longitude: 2.3322, altitude: 35.0),
             isFree: false,
             timeSpent: 2,
             startDate: Calendar.current.date(byAdding: .day, value: 4, to: Date()) ?? Date(),
@@ -354,7 +347,6 @@ func GenerateDataBaseFunc(context: ModelContext) {
             skill: .householdTasks,
             serviceDescription: "Ménage complet : aspirateur, serpillère, dépoussiérage. Produits écologiques fournis.",
             city: "Paris",
-            position: GPSCoordinateStruct(latitude: 48.8566, longitude: 2.3522, altitude: 35.0),
             isFree: false,
             timeSpent: 3,
             startDate: Calendar.current.date(byAdding: .day, value: 6, to: Date()) ?? Date(),
@@ -365,8 +357,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             profilIdHelper: profiles[1],
             skill: .homeworkSupport,
             serviceDescription: "Soutien scolaire en mathématiques niveau collège et lycée. Préparation aux examens.",
-            city: "Lille",
-            position: GPSCoordinateStruct(latitude: 48.8656, longitude: 2.3212, altitude: 38.0),
+            city: "Paris",
             isFree: false,
             timeSpent: 2,
             startDate: Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date(),
@@ -381,7 +372,6 @@ func GenerateDataBaseFunc(context: ModelContext) {
             skill: .lending,
             serviceDescription: "Prêt de perceuse-visseuse sans fil et coffret de mèches. À récupérer chez moi.",
             city: "Paris",
-            position: GPSCoordinateStruct(latitude: 48.8606, longitude: 2.3376, altitude: 33.0),
             isFree: true,
             timeSpent: 0,
             startDate: Date(),
@@ -391,7 +381,6 @@ func GenerateDataBaseFunc(context: ModelContext) {
             skill: .carSharing,
             serviceDescription: "Covoiturage Paris-Lyon ce week-end. 3 places disponibles. Départ samedi 8h.",
             city: "Paris",
-            position: GPSCoordinateStruct(latitude: 48.8466, longitude: 2.3622, altitude: 32.0),
             isFree: false,
             timeSpent: 4,
             startDate: Calendar.current.date(byAdding: .day, value: 2, to: Date()) ?? Date()
@@ -401,7 +390,6 @@ func GenerateDataBaseFunc(context: ModelContext) {
             skill: .administrative,
             serviceDescription: "Aide aux démarches administratives : CAF, impôts, Sécurité sociale. Je vous accompagne dans vos papiers.",
             city: "Paris",
-            position: GPSCoordinateStruct(latitude: 48.8766, longitude: 2.3422, altitude: 36.0),
             isFree: false,
             timeSpent: 1,
             startDate: Calendar.current.date(byAdding: .day, value: 8, to: Date()) ?? Date()
@@ -411,7 +399,6 @@ func GenerateDataBaseFunc(context: ModelContext) {
             skill: .pets,
             serviceDescription: "Garde de chat à mon domicile pendant vos vacances. J'ai l'habitude des félins !",
             city: "Paris",
-            position: GPSCoordinateStruct(latitude: 48.8666, longitude: 2.3522, altitude: 37.0),
             isFree: false,
             timeSpent: 24,
             startDate: Calendar.current.date(byAdding: .day, value: 15, to: Date()) ?? Date()
