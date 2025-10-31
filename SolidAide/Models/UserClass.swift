@@ -15,6 +15,9 @@ class UserClass: Identifiable {
     var password: String
     var timeBank: Int = 3
 
+    @Relationship(inverse: \ProfileClass.userId)
+    var profileId: ProfileClass?
+
     init(
         logIn: String,
         password: String,

@@ -65,7 +65,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.reliableNeighbour, .punctual, .goodCommunication],
             imageURL: "image1.jpg",
             aboutMe: "Professeure de français, j'adore aider mes voisins et partager mes compétences en cuisine. Disponible en soirée et le week-end.",
-            position: CLLocationCoordinate2D(latitude: 48.896347, longitude: 2.345625),
+            userPosition: CLLocationCoordinate2D(latitude: 48.896347, longitude: 2.345625),
             skills: [.cooking],
             availability: "Lundi-Vendredi: 18h-21h, Week-end: 9h-18h",
             contacts: [users[2], users[4], users[6]],
@@ -81,7 +81,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.efficient, .reliableNeighbour, .activeMember],
             imageURL: "image2",
             aboutMe: "Bricoleur passionné et retraité. Je propose mes services de bricolage et petits travaux. Très flexible sur les horaires.",
-            position: CLLocationCoordinate2D(latitude: 48.892304, longitude: 2.331346),
+            userPosition: CLLocationCoordinate2D(latitude: 48.892304, longitude: 2.331346),
             skills: [.DIY],
             availability: "Tous les jours: 8h-20h",
             contacts: [users[3], users[5], users[7]],
@@ -97,7 +97,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.patient, .verySupportive, .goodCommunication],
             imageURL: "image3",
             aboutMe: "Étudiante en informatique, je peux aider avec les problèmes numériques et donner des cours de soutien scolaire en mathématiques.",
-            position: CLLocationCoordinate2D(latitude: 48.884286, longitude: 2.349548),
+            userPosition: CLLocationCoordinate2D(latitude: 48.884286, longitude: 2.349548),
             skills: [.digital],
             availability: "Mardi-Jeudi: 14h-19h, Samedi: 10h-16h",
             contacts: [users[0], users[3]],
@@ -112,7 +112,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.punctual, .available, .activeMember],
             imageURL: "image4",
             aboutMe: "Propriétaire d'un chien adorable, je promène volontiers les animaux du quartier. Je peux aussi faire du covoiturage.",
-            position: CLLocationCoordinate2D(latitude: 48.898136, longitude: 2.346827),
+            userPosition: CLLocationCoordinate2D(latitude: 48.898136, longitude: 2.346827),
             skills: [.dogWalk],
             availability: "Matin: 7h-9h, Soir: 18h-20h",
             contacts: [users[1], users[2], users[4], users[6]]
@@ -125,7 +125,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.goodCommunication, .patient, .verySupportive],
             imageURL: "image5",
             aboutMe: "Maman de trois enfants, j'adore cuisiner et faire les courses. Je peux aider avec les tâches administratives également.",
-            position: CLLocationCoordinate2D(latitude: 48.885704, longitude: 2.359410),
+            userPosition: CLLocationCoordinate2D(latitude: 48.885704, longitude: 2.359410),
             skills: [.shopping],
             availability: "Lundi-Vendredi: 9h-15h",
             contacts: [users[1], users[3], users[5], users[7]]
@@ -138,7 +138,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.reliableNeighbour, .efficient, .punctual],
             imageURL: "image6",
             aboutMe: "Expert en déménagement et transport. J'ai un camion et je peux aider pour les gros travaux de déménagement.",
-            position: CLLocationCoordinate2D(latitude: 48.895232, longitude: 2.351775),
+            userPosition: CLLocationCoordinate2D(latitude: 48.895232, longitude: 2.351775),
             skills: [.moving],
             availability: "Week-end: 8h-19h",
             contacts: [users[1], users[4], users[7]]
@@ -151,7 +151,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.patient, .goodCommunication, .available],
             imageURL: "image7",
             aboutMe: "Couturière professionnelle, je propose des retouches et créations sur mesure. Passionnée par mon métier !",
-            position: CLLocationCoordinate2D(latitude: 48.885332, longitude: 2.334209),
+            userPosition: CLLocationCoordinate2D(latitude: 48.885332, longitude: 2.334209),
             skills: [.sewing],
             availability: "Mercredi-Samedi: 10h-18h",
             contacts: [users[0], users[3]]
@@ -164,7 +164,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             userQuality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
             imageURL: "image8",
             aboutMe: "Formateur en bureautique et gestion. Je donne des formations gratuites aux seniors et débutants. Membre actif depuis 2 ans !",
-            position: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
+            userPosition: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
             skills: [.trainingCourses],
             availability: "Lundi-Mercredi-Vendredi: 14h-17h",
             contacts: [users[1], users[4], users[5]]
@@ -287,7 +287,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
         ),
         ServiceClass(
             profilId: profiles[4],
-            profilIdHelper: profiles[20],
+            profilIdHelper: profiles[2],
             skill: .shopping,
             serviceDescription: "Courses au supermarché pour personnes à mobilité réduite ou débordées. Je peux livrer chez vous.",
             city: "Paris",
@@ -425,7 +425,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
             iconName: "hourglass.badge.plus",
             iconColor: .warmCoral,
-            title: "Proposition d’aide à Ghania pour bricoler.",
+            title: "ProuserPosition d’aide à Ghania pour bricoler.",
             subtitle: "Solde de temps gagné : +3h"
         )
     ]
@@ -433,7 +433,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
     //  LOOPS INSERT DETABASE
     for user in users { context.insert(user) }
     for profile in profiles { context.insert(profile) }
-    for service in services { context.insert(service) }
     for chat in chats { context.insert(chat) }
+    for service in services { context.insert(service) }
     for timeBank in timeBanks { context.insert(timeBank) }
 }

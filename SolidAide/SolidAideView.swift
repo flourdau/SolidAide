@@ -28,11 +28,24 @@ struct SolidAideView: View {
                     Text("Messagerie")
                     Image(systemName: "bubble")
                 }
-            
+            //  ACommenter
+            AdminDataBaseView()
+                .tabItem {
+                    Text("Admin")
+                    Image(systemName: "arrow.2.circlepath.circle")
+                }
         }
     }
 }
 
 #Preview {
     SolidAideView()
+        .modelContainer(for: [
+            UserClass.self,
+            ProfileClass.self,
+            ChatClass.self,
+            ServiceClass.self,
+            TimeBankClass.self
+        ])
 }
+
