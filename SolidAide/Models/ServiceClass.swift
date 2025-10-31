@@ -8,7 +8,6 @@
 import Foundation
 import SwiftData
 
-
 @Model
 class ServiceClass: Identifiable {
     var id = UUID()

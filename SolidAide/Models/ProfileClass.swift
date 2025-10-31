@@ -11,10 +11,11 @@ import MapKit
 
 @Model
 class ProfileClass: Identifiable {
-    var userId: UserClass
+    var userId: UserClass?
     var pseudo: String
     var city: String? = nil
     var birthday: Date? = nil
+// ADD var isOnline pour la messagerie
     @Attribute private var userQualityRawValues: [String]? = nil
     var userQuality: [UserQualityEnum]? {
         get { return userQualityRawValues?.compactMap { UserQualityEnum(rawValue: $0) } }
@@ -22,10 +23,11 @@ class ProfileClass: Identifiable {
         set { userQualityRawValues = newValue? .map { $0.rawValue } }
         
     }
+
     var imageURL: String? = nil
     var aboutMe: String? = nil
     var positionData: GPSCoordinateStruct? = nil
-    var position: CLLocationCoordinate2D? {
+    var userPosition: CLLocationCoordinate2D? {
         get {
             if let lat = positionData?.latitude, let lon = positionData?.longitude {
                 return CLLocationCoordinate2D(latitude: lat, longitude: lon)
@@ -36,6 +38,7 @@ class ProfileClass: Identifiable {
             self.positionData = newValue != nil ? GPSCoordinateStruct(coordinate: newValue) : nil
         }
     }
+
     @Attribute private var skillsRawValues: [String]? = nil
     var skills: [SkillsEnum]? {
         get { return skillsRawValues?.compactMap { SkillsEnum(rawValue: $0) } }
@@ -43,6 +46,7 @@ class ProfileClass: Identifiable {
         set { skillsRawValues = newValue?.map { $0.rawValue } }
 
     }
+
     var availability: String? = nil
     var contacts: [UserClass]? = nil
     var favorite: [UserClass]? = nil
@@ -51,14 +55,14 @@ class ProfileClass: Identifiable {
     var beneficiary: [UserClass]? = nil
 
     init(
-        userId: UserClass,
+        userId: UserClass? = nil,
         pseudo: String,
         city: String? = nil,
         birthday: Date? = nil,
         userQuality: [UserQualityEnum]? = nil,
         imageURL: String? = nil,
         aboutMe: String? = nil,
-        position: CLLocationCoordinate2D? = nil,
+        userPosition: CLLocationCoordinate2D? = nil,
         skills: [SkillsEnum]? = nil,
         availability: String? = nil,
         contacts: [UserClass]? = nil,
@@ -74,7 +78,7 @@ class ProfileClass: Identifiable {
         self.userQualityRawValues = userQuality?.map { $0.rawValue }
         self.imageURL = imageURL
         self.aboutMe = aboutMe
-        self.position = position
+        self.userPosition = userPosition
         self.skillsRawValues = skills?.map { $0.rawValue }
         self.availability = availability
         self.contacts = contacts
