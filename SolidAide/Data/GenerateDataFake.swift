@@ -241,7 +241,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
     ]
     
     //  SERVICES
-    let services : [ServiceClass] = [
+    let services = [
         ServiceClass(
             profilId: profiles[0],
             skill: .cooking,
