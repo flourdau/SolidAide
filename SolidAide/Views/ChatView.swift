@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ChatView: View {
-    //@Environment(\.modelContext) private var modelContext
+    @Environment(\.modelContext) private var modelContext
     @Query private var profiles: [ProfileClass]
     @Query private var chats: [ChatClass]
     
@@ -18,7 +18,7 @@ struct ChatView: View {
     let status = ["Tous", "Non Lus", "Favoris"]
 
     var currentUserId: UUID? {
-        profiles.first(where: { $0.pseudo == "Marie D." })?.userId.id
+        profiles.first(where: { $0.pseudo == "Marie D." })?.userId?.id
     }
         
     var filteredProfiles: [ProfileClass] {
@@ -28,8 +28,7 @@ struct ChatView: View {
         case "Non Lus":
             return profiles.filter { profile in
                 chats.contains { chat in
-            (chat.sender.id == profile.userId.id ||
-            chat.recipient.id == profile.userId.id) &&
+            (chat.sender.id == profile.userId?.id ||            chat.recipient.id == profile.userId?.id) &&
             chat.isRead == false
                     }
                 }
@@ -38,12 +37,12 @@ struct ChatView: View {
             guard let currentUserId = currentUserId else { return [] }
                 
             // trouve le profil de l'user
-            guard let myProfile = profiles.first(where: { $0.userId.id == currentUserId }) else {
+            guard let myProfile = profiles.first(where: { $0.userId?.id == currentUserId }) else {  // 👈 FIX: ?.id
                     return []
                 }
             // Retroune les users favoris
             return profiles.filter { profile in
-                myProfile.favorite?.contains(where: { $0.id == profile.userId.id }) ?? false
+                myProfile.favorite?.contains(where: { $0.id == profile.userId?.id }) ?? false  // 👈 FIX: ?.id
                 }
             default:
                 return profiles
@@ -91,10 +90,8 @@ struct ChatView: View {
                                 
                                 if let chat = chats
                                                 .filter({
-                                                    $0.sender.id == contactInfo.userId.id ||
-                                                    $0.recipient.id == contactInfo.userId.id
-                                                })
-                                                .sorted(by: { $0.dateTime > $1.dateTime })  
+                                                    $0.sender.id == contactInfo.userId?.id ||          $0.recipient.id == contactInfo.userId?.id                                                })
+                                                .sorted(by: { $0.dateTime > $1.dateTime })
                                                 .first {
                                                 
                                                 Text(chat.message)
@@ -112,8 +109,8 @@ struct ChatView: View {
                             
                             if let chat = chats
                                      .filter({
-                                         $0.sender.id == contactInfo.userId.id ||
-                                         $0.recipient.id == contactInfo.userId.id
+                                         $0.sender.id == contactInfo.userId?.id ||
+                                         $0.recipient.id == contactInfo.userId?.id
                                      })
                                      .sorted(by: { $0.dateTime > $1.dateTime })
                                      .first {
