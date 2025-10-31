@@ -23,42 +23,48 @@ struct MapView: View {
             ZStack {
                 Map(position: $cameraPosition) {
                     ForEach(profiles, id: \.self){ profile in
-                        if let position = profile.userPosition {
-                            Annotation(profile.pseudo, coordinate: profile.userPosition ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)) {
-                                Image(systemName: "figure.wave")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 30, height: 30)
-                                    .foregroundStyle(.warmCoral)
-                            }
-                            
-                            
+                        
+//                        Annotation(profile.pseudo, coordinate: profile.userPosition ?? CLLocationCoordinate2D(latitude: 0, longitude: 0), anchor: .center) {
+//                            Image(systemName: "figure.wave")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(width: 30, height: 30)
+//                                .foregroundStyle(.warmCoral)
+//                        }
+                        Annotation(profile.pseudo, coordinate:  CLLocationCoordinate2D(latitude: profile.userPosition?.latitude ?? 0,longitude: profile.userPosition?.longitude ?? 0), anchor: .center) {
+                            Image(systemName: "figure.wave")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .foregroundStyle(.warmCoral)
                         }
-                        UserAnnotation()
+             
                     }
-                    .tint(.warmCoral)
-                    .onAppear {
-                        locationManager.requestWhenInUseAuthorization()
-                    }
-                    .mapControls {
-                        MapUserLocationButton()
-                        MapCompass()
-                        MapPitchToggle()
-                        MapScaleView()
-                    }
-                    .mapStyle(.standard(elevation: .realistic))
+                    UserAnnotation()
                 }
-                .navigationTitle("Bienvenue")
-                .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Rechercher un service")
+                .onAppear {
+                    locationManager.requestWhenInUseAuthorization()
+                }
+                .mapControls {
+                    MapUserLocationButton()
+                    MapCompass()
+                    MapPitchToggle()
+                    MapScaleView()
+                }
+                .mapStyle(.standard(elevation: .realistic))
+                
             }
+            .navigationTitle("Bienvenue")
+            .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Rechercher un service")
         }
     }
-    
-    
-    
-    
-    
 }
+
+
+
+
+
+
 
 
 #Preview {
