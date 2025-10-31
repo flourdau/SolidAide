@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 
+
 @Model
 class ServiceClass: Identifiable {
     var id = UUID()
@@ -27,7 +28,6 @@ class ServiceClass: Identifiable {
     }
     var serviceDescription: String
     var city: String
-    var position: GPSCoordinateStruct? = nil
     var isFree: Bool = false
     var timeSpent: Int
     var startDate: Date
@@ -64,7 +64,6 @@ class ServiceClass: Identifiable {
         skill: SkillsEnum,
         serviceDescription: String,
         city: String,
-        position: GPSCoordinateStruct? = nil,
         isFree: Bool,
         timeSpent: Int,
         startDate: Date,
@@ -80,7 +79,6 @@ class ServiceClass: Identifiable {
         self.skillRawValue = skill.rawValue
         self.serviceDescription = serviceDescription
         self.city = city
-        self.position = position
         self.isFree = isFree
         self.timeSpent = timeSpent
         self.startDate = startDate
