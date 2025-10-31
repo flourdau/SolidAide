@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import MapKit
 
 func GenerateDataBaseFunc(context: ModelContext) {
     //  USERS
@@ -240,7 +241,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
     ]
     
     //  SERVICES
-    let services = [
+    let services : [ServiceClass] = [
         ServiceClass(
             profilId: profiles[0],
             skill: .cooking,
