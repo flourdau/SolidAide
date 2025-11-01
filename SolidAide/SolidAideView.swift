@@ -28,12 +28,14 @@ struct SolidAideView: View {
                     Text("Messagerie")
                     Image(systemName: "bubble")
                 }
+
             //  ACommenter
             AdminDataBaseView()
                 .tabItem {
                     Text("Admin")
                     Image(systemName: "arrow.2.circlepath.circle")
                 }
+
         }
     }
 }
@@ -48,4 +50,3 @@ struct SolidAideView: View {
             TimeBankClass.self
         ])
 }
-

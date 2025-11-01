@@ -5,28 +5,29 @@
 //  Created by apprenant78 on 28/10/2025.
 //
 
-import Foundation
-
 enum ServiceRepeatEnum : String, CaseIterable, Codable {
+    case never = "Jamais"
     case everyDay = "Tous les jours"
     case everyWeek = "Toutes les semaines"
     
     var durationInHours: Int {
         switch self {
-        case .everyDay:
-            return 24
-        case .everyWeek:
-            return 24 * 7
+        case .never:  return 0
+        case .everyDay: return 24
+        case .everyWeek: return 24 * 7
+            
         }
+        
     }
     
     var durationInDays: Int {
         switch self {
-        case .everyDay:
-            return 1
-        case .everyWeek:
-            return 7
+        case .never: return 0
+        case .everyDay: return 1
+        case .everyWeek: return 7
+            
         }
+        
     }
     
 }

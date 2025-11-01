@@ -11,6 +11,7 @@ import SwiftData
 @Model
 class TimeBankClass: Identifiable {
     var id = UUID()
+//    var userId: UserClass
     var date: Date
     var iconName: String
     //  iconColor
@@ -18,17 +19,18 @@ class TimeBankClass: Identifiable {
     var green: Double
     var blue: Double
     var alpha: Double
-
     var title: String
     var subtitle: String
     
     init(
+//        userId: UserClass,
         date: Date,
         iconName: String,
         iconColor: Color,
         title: String,
         subtitle: String
     ) {
+//        self.userId = userId
         self.date = date
         self.iconName = iconName
         self.title = title
@@ -49,12 +51,10 @@ class TimeBankClass: Identifiable {
             self.alpha = 1.0
         }
     }
-
+    
     var swiftUIColor: Color {
-        get {
-            return Color(red: red, green: green, blue: blue, opacity: alpha)
-        }
-
+        get {  return Color(red: red, green: green, blue: blue, opacity: alpha) }
+        
         set {
             let uiColor = UIColor(newValue)
             var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
@@ -65,6 +65,9 @@ class TimeBankClass: Identifiable {
                 self.blue = Double(b)
                 self.alpha = Double(a)
             }
+            
         }
+        
     }
+    
 }

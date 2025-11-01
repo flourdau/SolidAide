@@ -11,10 +11,9 @@ import SwiftData
 @Model
 class UserClass: Identifiable {
     var id = UUID()
-    var logIn: String
+    var logIn: String // <= UNIQUE!!!!!
     var password: String
     var timeBank: Int = 3
-
     @Relationship(inverse: \ProfileClass.userId)
     var profileId: ProfileClass?
 

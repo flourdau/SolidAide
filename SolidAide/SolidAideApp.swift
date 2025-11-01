@@ -20,6 +20,7 @@ struct SolidAideApp: App {
                     ServiceClass.self,
                     TimeBankClass.self
                 ])
+
         }
     }
 }

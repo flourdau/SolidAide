@@ -5,8 +5,6 @@
 //  Created by apprenant78 on 28/10/2025.
 //
 
-import Foundation
-
 enum SkillsEnum: String, CaseIterable, Codable {
     case administrative = "Administratif"
     case pets = "Animaux"
@@ -23,7 +21,7 @@ enum SkillsEnum: String, CaseIterable, Codable {
     case carSharing = "Covoiturage"
     case householdTasks = "Tâches ménagères"
     
-    var icon : String {
+    var icon : String {// <== RENAMEME var
         switch self {
         case.administrative: return "printer.fill"
         case.pets: return "pawprint.circle.fill"
