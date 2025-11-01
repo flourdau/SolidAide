@@ -17,7 +17,7 @@ struct SolidAideView: View {
                     Image(systemName: "magnifyingglass")
                 }
             
-            DashboardView()
+            TimeBankView()
                 .tabItem {
                     Text("Tableau de bord")
                     Image(systemName: "square.grid.2x2.fill")

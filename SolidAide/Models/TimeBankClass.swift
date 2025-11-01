@@ -18,6 +18,8 @@ class TimeBankClass: Identifiable {
     var green: Double
     var blue: Double
     var alpha: Double
+    var deposit: Int
+    var withdrawal: Int
 
     var title: String
     var subtitle: String
@@ -26,11 +28,15 @@ class TimeBankClass: Identifiable {
         date: Date,
         iconName: String,
         iconColor: Color,
+        deposit: Int,
+        withdrawal: Int,
         title: String,
         subtitle: String
     ) {
         self.date = date
         self.iconName = iconName
+        self.deposit = deposit
+        self.withdrawal = withdrawal
         self.title = title
         self.subtitle = subtitle
         let uiColor = UIColor(iconColor)

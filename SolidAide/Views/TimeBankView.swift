@@ -59,6 +59,14 @@ import SwiftData
 
 struct TimeBankView: View {
 
+    
+    @Environment(\.modelContext) private var context
+    @Query var users: [UserClass]
+    @Query var profiles: [ProfileClass]
+    @Query var chats: [ChatClass]
+    @Query var services: [ServiceClass]
+    @Query var timeBanks: [TimeBankClass]
+    
     // ── Données du graphique ────────────────────────
     @State private var timeValues: [Int] = [
         3, 2, 5, 7, 6, 5, 4, 3, 5, 7, 6, 5, 4, 3, 5
@@ -68,113 +76,114 @@ struct TimeBankView: View {
    // @State private var entries: [TimeBankClass] = TimeBankClass.sampleEntries
     
     //_______ DataFake provisional (to be commented on in the near future)
-    var entries: [TimeBankClass] {
-        [
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 12, minute: 25).date!,
-            iconName: "hourglass.badge.plus",
-            iconColor: .deepBlue,
-            title: "Bienvenue sur Solid’Aide !",
-            subtitle: "Solde de temps de bienvenue : +\(timeValues[0])h"
-        ),
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
-            iconName: "hourglass.tophalf.filled",
-            iconColor: .warmCoral,
-            title: "Demande de service à Angela pour passer la tondeuse.",
-            subtitle: "Solde de temps dépensé : \(timeValues[1]-(timeValues[0]))h"
-        ),
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
-            iconName: "hourglass.badge.plus",
-            iconColor: .mintGreen,
-            title: "Proposition de service à Ghania pour bricoler.",
-            subtitle: "Solde de temps gagné : +\(timeValues[2]-(timeValues[1]))h"
-        ),
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
-            iconName: "hourglass.badge.plus",
-            iconColor: .mintGreen,
-            title: "Proposition de service à Ghania pour bricoler.",
-            subtitle: "Solde de temps gagné : +\(timeValues[3]-(timeValues[2]))h"
-        ),
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
-            iconName: "hourglass.tophalf.filled",
-            iconColor: .warmCoral,
-            title: "Demande de service à Angela pour passer la tondeuse.",
-            subtitle: "Solde de temps dépensé : \(timeValues[4]-(timeValues[3]))h"
-        ),
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
-            iconName: "hourglass.tophalf.filled",
-            iconColor: .warmCoral,
-            title: "Demande de service à Angela pour passer la tondeuse.",
-            subtitle: "Solde de temps dépensé : \(timeValues[5]-(timeValues[4]))h"
-        ),
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
-            iconName: "hourglass.tophalf.filled",
-            iconColor: .warmCoral,
-            title: "Demande de service à Angela pour passer la tondeuse.",
-            subtitle: "Solde de temps dépensé : \(timeValues[6]-(timeValues[5]))h"
-        ),
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
-            iconName: "hourglass.tophalf.filled",
-            iconColor: .warmCoral,
-            title: "Demande de service à Angela pour passer la tondeuse.",
-            subtitle: "Solde de temps dépensé : \(timeValues[7]-(timeValues[6]))h"
-        ),
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
-            iconName: "hourglass.badge.plus",
-            iconColor: .mintGreen,
-            title: "Proposition de service à Ghania pour bricoler.",
-            subtitle: "Solde de temps gagné : +\(timeValues[8]-(timeValues[7]))h"
-        ),
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
-            iconName: "hourglass.badge.plus",
-            iconColor: .mintGreen,
-            title: "Proposition de service à Ghania pour bricoler.",
-            subtitle: "Solde de temps gagné : +\(timeValues[9]-(timeValues[8]))h"
-        ),
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
-            iconName: "hourglass.tophalf.filled",
-            iconColor: .warmCoral,
-            title: "Demande de service à Angela pour passer la tondeuse.",
-            subtitle: "Solde de temps dépensé : \(timeValues[10]-(timeValues[9]))h"
-        ),
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
-            iconName: "hourglass.tophalf.filled",
-            iconColor: .warmCoral,
-            title: "Demande de service à Angela pour passer la tondeuse.",
-            subtitle: "Solde de temps dépensé : \(timeValues[11]-(timeValues[10]))h"
-        ),
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
-            iconName: "hourglass.tophalf.filled",
-            iconColor: .warmCoral,
-            title: "Demande de service à Angela pour passer la tondeuse.",
-            subtitle: "Solde de temps dépensé : \(timeValues[12]-(timeValues[11]))h"
-        ),
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
-            iconName: "hourglass.tophalf.filled",
-            iconColor: .warmCoral,
-            title: "Demande de service à Angela pour passer la tondeuse.",
-            subtitle: "Solde de temps dépensé : \(timeValues[13]-(timeValues[12]))h"
-        ),
-        TimeBankClass(
-            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
-            iconName: "hourglass.badge.plus",
-            iconColor: .mintGreen,
-            title: "Proposition de service à Ghania pour bricoler.",
-            subtitle: "Solde de temps gagné : +\(timeValues[14]-(timeValues[13]))h")
-    ]}
+//    var entries: [TimeBankClass] {
+//        [
+//            //__________________________à extraire. Vu avec Flo.
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 12, minute: 25).date!,
+//            iconName: "hourglass.badge.plus",
+//            iconColor: .deepBlue,
+//            title: "Bienvenue sur Solid’Aide !",
+//            subtitle: "Solde de temps de bienvenue : +\(timeValues[0])h"
+//        ),
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
+//            iconName: "hourglass.tophalf.filled",
+//            iconColor: .warmCoral,
+//            title: "Demande de service à () pour du ().",
+//            subtitle: "Solde de temps dépensé : \(timeValues[1]-(timeValues[0]))h"
+//        ),
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
+//            iconName: "hourglass.badge.plus",
+//            iconColor: .mintGreen,
+//            title: "Proposition de service à () pour du ().",
+//            subtitle: "Solde de temps gagné : +\(timeValues[2]-(timeValues[1]))h"
+//        ),
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
+//            iconName: "hourglass.badge.plus",
+//            iconColor: .mintGreen,
+//            title: "Proposition de service à Ghania pour bricoler.",
+//            subtitle: "Solde de temps gagné : +\(timeValues[3]-(timeValues[2]))h"
+//        ),
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
+//            iconName: "hourglass.tophalf.filled",
+//            iconColor: .warmCoral,
+//            title: "Demande de service à Angela pour passer la tondeuse.",
+//            subtitle: "Solde de temps dépensé : \(timeValues[4]-(timeValues[3]))h"
+//        ),
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
+//            iconName: "hourglass.tophalf.filled",
+//            iconColor: .warmCoral,
+//            title: "Demande de service à Angela pour passer la tondeuse.",
+//            subtitle: "Solde de temps dépensé : \(timeValues[5]-(timeValues[4]))h"
+//        ),
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
+//            iconName: "hourglass.tophalf.filled",
+//            iconColor: .warmCoral,
+//            title: "Demande de service à Angela pour passer la tondeuse.",
+//            subtitle: "Solde de temps dépensé : \(timeValues[6]-(timeValues[5]))h"
+//        ),
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
+//            iconName: "hourglass.tophalf.filled",
+//            iconColor: .warmCoral,
+//            title: "Demande de service à Angela pour passer la tondeuse.",
+//            subtitle: "Solde de temps dépensé : \(timeValues[7]-(timeValues[6]))h"
+//        ),
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
+//            iconName: "hourglass.badge.plus",
+//            iconColor: .mintGreen,
+//            title: "Proposition de service à Ghania pour bricoler.",
+//            subtitle: "Solde de temps gagné : +\(timeValues[8]-(timeValues[7]))h"
+//        ),
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
+//            iconName: "hourglass.badge.plus",
+//            iconColor: .mintGreen,
+//            title: "Proposition de service à Ghania pour bricoler.",
+//            subtitle: "Solde de temps gagné : +\(timeValues[9]-(timeValues[8]))h"
+//        ),
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
+//            iconName: "hourglass.tophalf.filled",
+//            iconColor: .warmCoral,
+//            title: "Demande de service à Angela pour passer la tondeuse.",
+//            subtitle: "Solde de temps dépensé : \(timeValues[10]-(timeValues[9]))h"
+//        ),
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
+//            iconName: "hourglass.tophalf.filled",
+//            iconColor: .warmCoral,
+//            title: "Demande de service à Angela pour passer la tondeuse.",
+//            subtitle: "Solde de temps dépensé : \(timeValues[11]-(timeValues[10]))h"
+//        ),
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
+//            iconName: "hourglass.tophalf.filled",
+//            iconColor: .warmCoral,
+//            title: "Demande de service à Angela pour passer la tondeuse.",
+//            subtitle: "Solde de temps dépensé : \(timeValues[12]-(timeValues[11]))h"
+//        ),
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
+//            iconName: "hourglass.tophalf.filled",
+//            iconColor: .warmCoral,
+//            title: "Demande de service à Angela pour passer la tondeuse.",
+//            subtitle: "Solde de temps dépensé : \(timeValues[13]-(timeValues[12]))h"
+//        ),
+//        TimeBankClass(
+//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
+//            iconName: "hourglass.badge.plus",
+//            iconColor: .mintGreen,
+//            title: "Proposition de service à Ghania pour bricoler.",
+//            subtitle: "Solde de temps gagné : +\(timeValues[14]-(timeValues[13]))h")
+//    ]}
     var body: some View {
         
         NavigationStack {
@@ -263,7 +272,7 @@ struct TimeBankView: View {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 0) {
                         // spacing = 0 → on gère les espaces avec Divider + padding
-                        ForEach(entries) { entry in
+                        ForEach(timeBanks) { entry in
                             VStack(alignment: .leading, spacing: 6) {
                                 // ---- Icône + texte ----
                                 HStack(alignment: .top, spacing: 8) {
@@ -298,7 +307,7 @@ struct TimeBankView: View {
                             .padding(.horizontal, 4)            // petit espace latéral entre blocs
                             .padding(.vertical, 6)
                             // Séparateur visuel
-                            if entry.id != entries.last?.id {    // pas de trait après le dernier
+                            if entry.id != timeBanks.last?.id {    // pas de trait après le dernier
                                 Divider()
                                     .padding(.horizontal, 12)
                             }
