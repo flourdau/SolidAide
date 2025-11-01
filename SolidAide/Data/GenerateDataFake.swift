@@ -15,41 +15,49 @@ func GenerateDataBaseFunc(context: ModelContext) {
         UserClass(
             logIn: "marie.dupont@email.fr",
             password: "password123",
+            balance: 0,
             timeBank: 15
         ),
         UserClass(
             logIn: "pierre.martin@email.fr",
             password: "password123",
+            balance: 0,
             timeBank: 8
         ),
         UserClass(
             logIn: "sophie.bernard@email.fr",
             password: "password123",
+            balance: 0,
             timeBank: 22
         ),
         UserClass(
             logIn: "lucas.petit@email.fr",
             password: "password123",
+            balance: 0,
             timeBank: 5
         ),
         UserClass(
             logIn: "emma.durand@email.fr",
             password: "password123",
+            balance: 0,
             timeBank: 12
         ),
         UserClass(
             logIn: "thomas.moreau@email.fr",
             password: "password123",
+            balance: 0,
             timeBank: 18
         ),
         UserClass(
             logIn: "julie.laurent@email.fr",
             password: "password123",
+            balance: 0,
             timeBank: 7
         ),
         UserClass(
             logIn: "antoine.simon@email.fr",
             password: "password123",
+            balance: 0,
             timeBank: 25
         )
     ]
