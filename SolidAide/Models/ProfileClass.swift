@@ -10,26 +10,27 @@ import SwiftData
 import MapKit
 
 @Model
-class ProfileClass: Identifiable {
+class ProfileClass: Identifiable {    
+    @Relationship(inverse: \ServiceClass.profileId)
+    var serviceId: [ServiceClass]?
     var id = UUID()
     var userId: UserClass?
     var pseudo: String
     var city: String? = nil
     var birthday: Date? = nil
     var isOnline: Bool? = nil
-    var UserQuality: [UserQualityEnum]?  // <== RENAMEME var + enum
+    var quality: [QualityEnum]?
     var imageURL: String? = nil
     var aboutMe: String? = nil
     // CLLocationCoordinate2D to GPSCoordinateStruct
-    var positionData: GPSCoordinateStruct? = nil  // <== RENAMEME var + enum
-    var userPosition: CLLocationCoordinate2D? {
+    var positionData: GPSCoordinateStruct? = nil
+    var profilePosition: CLLocationCoordinate2D? {
         get {
             if let lat = positionData?.latitude, let lon = positionData?.longitude {
                 return CLLocationCoordinate2D(latitude: lat, longitude: lon)
             }
 
             return nil
-
         }
 
         set { self.positionData = newValue != nil ? GPSCoordinateStruct(coordinate: newValue) : nil }
@@ -50,10 +51,10 @@ class ProfileClass: Identifiable {
         city: String? = nil,
         birthday: Date? = nil,
         isOnline: Bool? = nil,
-        userQuality: [UserQualityEnum]? = nil,
+        quality: [QualityEnum]? = nil,
         imageURL: String? = nil,
         aboutMe: String? = nil,
-        userPosition: CLLocationCoordinate2D? = nil,
+        profilePosition: CLLocationCoordinate2D? = nil,
         skills: [SkillsEnum]? = nil,
         availability: String? = nil,
         contacts: [UserClass]? = nil,
@@ -67,10 +68,10 @@ class ProfileClass: Identifiable {
         self.city = city
         self.birthday = birthday
         self.isOnline = isOnline
-        self.UserQuality = userQuality
+        self.quality = quality
         self.imageURL = imageURL
         self.aboutMe = aboutMe
-        self.userPosition = userPosition
+        self.profilePosition = profilePosition
         self.skills = skills
         self.availability = availability
         self.contacts = contacts

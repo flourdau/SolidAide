@@ -11,8 +11,8 @@ import SwiftData
 @Model
 class ServiceClass: Identifiable {
     var id = UUID()
-    var profilId: ProfileClass  // <== RENAMEME
-    var profilIdHelper: ProfileClass? = nil // <== RENAMEME var + enum
+    var profileId: ProfileClass
+    var profileIdHelper: ProfileClass? = nil
     var skill: SkillsEnum
     var serviceDescription: String
     var city: String
@@ -20,29 +20,28 @@ class ServiceClass: Identifiable {
     var timeSpent: Int
     var startDate: Date
     var serviceRepeat: ServiceRepeatEnum?
-    var requestStatus: RequestStatusEnum// <== RENAMEME var + enum
+    var serviceStatus: ServiceStatusEnum
     var isEvaluationCompleted: Bool = false
     var isFulfilled: Bool = false
     var serviceComment: String? = nil
     
     init(
-        profilId: ProfileClass,// <== RENAMEME var + enum
-        profilIdHelper: ProfileClass? = nil,// <== RENAMEME var + enum
+        profileId: ProfileClass,
+        profileIdHelper: ProfileClass? = nil,
         skill: SkillsEnum,
         serviceDescription: String,
         city: String,
         isFree: Bool,
         timeSpent: Int,
         startDate: Date,
-        requestStatusRawValue: String? = nil,// <== RENAMEME var + enum
         serviceRepeat: ServiceRepeatEnum? = nil,
-        requestStatus: RequestStatusEnum = .awaitingAcceptance,
+        serviceStatus: ServiceStatusEnum = .awaitingAcceptance,
         isEvaluationCompleted: Bool = false,
         isFulfilled: Bool = false,
         serviceComment: String? = nil
     ) {
-        self.profilId = profilId// <== RENAMEME var + enum
-        self.profilIdHelper = profilIdHelper// <== RENAMEME var + enum
+        self.profileId = profileId
+        self.profileIdHelper = profileIdHelper
         self.skill = skill
         self.serviceDescription = serviceDescription
         self.city = city
@@ -50,7 +49,7 @@ class ServiceClass: Identifiable {
         self.timeSpent = timeSpent
         self.startDate = startDate
         self.serviceRepeat = serviceRepeat
-        self.requestStatus = requestStatus// <== RENAMEME var + enum
+        self.serviceStatus = serviceStatus
         self.isEvaluationCompleted = isEvaluationCompleted
         self.isFulfilled = isFulfilled
         self.serviceComment = serviceComment

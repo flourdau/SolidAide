@@ -140,7 +140,7 @@ struct AdminDataBaseView: View {
                                 Text(profile.pseudo)
                                     .font(.headline)
                                 
-                                Text("\(String(profile.userPosition?.latitude ?? 0.0)) - \(String(profile.userPosition?.longitude ?? 0.0))")
+                                Text("\(String(profile.profilePosition?.latitude ?? 0.0)) - \(String(profile.profilePosition?.longitude ?? 0.0))")
                                     .font(.headline)
                             }
                         }
@@ -261,12 +261,27 @@ struct AdminDataBaseView: View {
 }
 
 #Preview {
-    AdminDataBaseView()
-        .modelContainer(for: [
-            UserClass.self,
-            ProfileClass.self,
-            ChatClass.self,
-            ServiceClass.self,
-            TimeBankClass.self
-        ])
+    //    AdminDataBaseView()
+    //        .modelContainer(for: [
+    //            UserClass.self,
+    //            ProfileClass.self,
+    //            ChatClass.self,
+    //            ServiceClass.self,
+    //            TimeBankClass.self
+    //        ])
+    
+    do {
+        
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: UserClass.self, configurations: config)
+        
+        GenerateDataBaseFunc(context: container.mainContext)
+
+        return AdminDataBaseView()
+            .modelContainer(container)
+        
+    } catch {
+        fatalError("Échec de la création du ModelContainer pour la preview : \(error)")
+        
+    }
 }

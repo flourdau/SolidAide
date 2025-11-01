@@ -20,7 +20,8 @@ enum SkillsEnum: String, CaseIterable, Codable {
     case lending = "Prêt d'objets"
     case carSharing = "Covoiturage"
     case householdTasks = "Tâches ménagères"
-    
+    case gardening = "Jardin"
+
     var icon : String {// <== RENAMEME var
         switch self {
         case.administrative: return "printer.fill"
@@ -37,6 +38,7 @@ enum SkillsEnum: String, CaseIterable, Codable {
         case.lending: return "shippingbox.fill"
         case.carSharing: return "car.fill"
         case.householdTasks: return "house.fill"
+        case.gardening: return "leaf.fill"
         }
     }
 }

@@ -11,28 +11,34 @@ import SwiftData
 @Model
 class TimeBankClass: Identifiable {
     var id = UUID()
-//    var userId: UserClass
+    var userId: UserClass
     var date: Date
     var iconName: String
     //  iconColor
     var red: Double
     var green: Double
     var blue: Double
-    var alpha: Double
+    var alpha: Double //
+    var deposit: Int
+    var withdrawal: Int
     var title: String
     var subtitle: String
     
     init(
-//        userId: UserClass,
+        userId: UserClass,
         date: Date,
         iconName: String,
         iconColor: Color,
+        deposit: Int,
+        withdrawal: Int,
         title: String,
         subtitle: String
     ) {
-//        self.userId = userId
+        self.userId = userId
         self.date = date
         self.iconName = iconName
+        self.deposit = deposit
+        self.withdrawal = withdrawal
         self.title = title
         self.subtitle = subtitle
         let uiColor = UIColor(iconColor)

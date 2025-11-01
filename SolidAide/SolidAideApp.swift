@@ -10,6 +10,7 @@ import SwiftData
 
 @main
 struct SolidAideApp: App {
+    
     var body: some Scene {
         WindowGroup {
             SolidAideView()
@@ -20,7 +21,7 @@ struct SolidAideApp: App {
                     ServiceClass.self,
                     TimeBankClass.self
                 ])
-
+            
         }
     }
 }
