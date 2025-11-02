@@ -13,43 +13,68 @@ import SwiftUI
 func GenerateDataBaseFunc(context: ModelContext) {
     //  USERS
     let users: [UserClass] = [
-        UserClass(
+        UserClass(  // 0
             logIn: "marie.dupont@email.fr",
             password: "password123",
             balance: 1
         ),
-        UserClass(
+        UserClass(  // 1
             logIn: "pierre.martin@email.fr",
             password: "password123",
             balance: 5
         ),
-        UserClass(
+        UserClass(  // 2
             logIn: "sophie.bernard@email.fr",
             password: "password123",
             balance: 5
         ),
-        UserClass(
+        UserClass(  // 3
             logIn: "lucas.petit@email.fr",
             password: "password123",
             balance: 5
         ),
-        UserClass(
+        UserClass(  // 4
             logIn: "emma.durand@email.fr",
             password: "password123",
             balance: 5
         ),
-        UserClass(
+        UserClass(  // 5
             logIn: "thomas.moreau@email.fr",
             password: "password123",
             balance: 5
         ),
-        UserClass(
+        UserClass(  // 6
             logIn: "julie.laurent@email.fr",
             password: "password123",
             balance: 5
         ),
-        UserClass(
+        UserClass( // 7
             logIn: "antoine.simon@email.fr",
+            password: "password123",
+            balance: 5
+        ),
+        UserClass(  // 8
+            logIn: "andrei@email.fr",
+            password: "password123",
+            balance: 5
+        ),
+        UserClass(  // 9
+            logIn: "stacy@email.fr",
+            password: "password123",
+            balance: 5
+        ),
+        UserClass(  // 10
+            logIn: "severine@email.fr",
+            password: "password123",
+            balance: 5
+        ),
+        UserClass(  // 11
+            logIn: "edilene@email.fr",
+            password: "password123",
+            balance: 5
+        ),
+        UserClass(  // 12
+            logIn: "florian@email.fr",
             password: "password123",
             balance: 5
         )
@@ -168,6 +193,71 @@ func GenerateDataBaseFunc(context: ModelContext) {
             skills: [.trainingCourses],
             availability: "Lundi-Mercredi-Vendredi: 14h-17h",
             contacts: [users[1], users[4], users[5]]
+        ),
+        ProfileClass(
+            userId: users[8],
+            pseudo: "Florian",
+            city: "Aniche",
+            birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
+            quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
+            imageURL: "image8",
+            aboutMe: "Développeur Swift 🩷",
+            profilePosition: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
+            skills: [.DIY, .digital],
+            availability: "Lundi-Mercredi-Vendredi: 14h-17h",
+            contacts: [users[7], users[8], users[9], users[10], users[11]]
+        ),
+        ProfileClass(
+            userId: users[9],
+            pseudo: "Florian",
+            city: "Aniche",
+            birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
+            quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
+            imageURL: "image8",
+            aboutMe: "Développeur Swift 🩷",
+            profilePosition: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
+            skills: [.DIY, .digital],
+            availability: "Lundi-Mercredi-Vendredi: 14h-17h",
+            contacts: [users[7], users[8], users[9], users[10], users[11]]
+        ),
+        ProfileClass(
+            userId: users[10],
+            pseudo: "Florian",
+            city: "Aniche",
+            birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
+            quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
+            imageURL: "image8",
+            aboutMe: "Développeur Swift 🩷",
+            profilePosition: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
+            skills: [.DIY, .digital],
+            availability: "Lundi-Mercredi-Vendredi: 14h-17h",
+            contacts: [users[7], users[8], users[9], users[10], users[11]]
+        ),
+        ProfileClass(
+            userId: users[11],
+            pseudo: "Florian",
+            city: "Aniche",
+            birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
+            quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
+            imageURL: "image8",
+            aboutMe: "Développeur Swift 🩷",
+            profilePosition: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
+            skills: [.DIY, .digital],
+            availability: "Lundi-Mercredi-Vendredi: 14h-17h",
+            contacts: [users[7], users[8], users[9], users[10], users[11]]
+        ),
+        ProfileClass(
+            userId: users[12],
+            pseudo: "Florian",
+            city: "Aniche",
+            birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
+            quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
+            imageURL: "image8",
+            aboutMe: "Développeur Swift 🩷",
+            profilePosition: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
+            skills: [.DIY, .digital],
+            availability: "Lundi-Mercredi-Vendredi: 14h-17h",
+            contacts: [users[7], users[8], users[9], users[10], users[11]]
         )
     ]
 

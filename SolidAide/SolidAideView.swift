@@ -9,6 +9,12 @@ import SwiftUI
 import SwiftData
 
 struct SolidAideView: View {
+    @Environment(\.modelContext) private var context
+    @Query var users: [UserClass]
+    var userLogged: UserClass {
+        users[12]
+    }
+
     var body: some View {
         TabView() {
             MapView()
@@ -19,7 +25,7 @@ struct SolidAideView: View {
             
             DashboardView()
                 .tabItem {
-                    Text("Tableau de bord")
+                    Text(userLogged.profileId?.pseudo ?? "Tableau de bord")
                     Image(systemName: "square.grid.2x2.fill")
                 }
             
@@ -41,17 +47,14 @@ struct SolidAideView: View {
 }
 
 #Preview {
-    //    SolidAideView()
-    //        .modelContainer(for: [
-    //            UserClass.self,
-    //            ProfileClass.self,
-    //            ChatClass.self,
-    //            ServiceClass.self,
-    //            TimeBankClass.self
-    //        ])
     do {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: UserClass.self, configurations: config)
+        let container = try ModelContainer(for: UserClass.self,
+                                           ProfileClass.self,
+                                           ServiceClass.self,
+                                           ChatClass.self,
+                                           TimeBankClass.self,
+                                           configurations: config)
         
         GenerateDataBaseFunc(context: container.mainContext)
         
