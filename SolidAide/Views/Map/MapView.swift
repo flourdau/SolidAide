@@ -23,14 +23,6 @@ struct MapView: View {
             ZStack {
                 Map(position: $cameraPosition) {
                     ForEach(profiles, id: \.self){ profile in
-                        
-//                        Annotation(profile.pseudo, coordinate: profile.userPosition ?? CLLocationCoordinate2D(latitude: 0, longitude: 0), anchor: .center) {
-//                            Image(systemName: "figure.wave")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(width: 30, height: 30)
-//                                .foregroundStyle(.warmCoral)
-//                        }
                         Annotation(profile.pseudo, coordinate:  CLLocationCoordinate2D(latitude: profile.profilePosition?.latitude ?? 0,longitude: profile.profilePosition?.longitude ?? 0), anchor: .center) {
                             Image(systemName: "figure.wave")
                                 .resizable()
@@ -52,7 +44,7 @@ struct MapView: View {
                     MapScaleView()
                 }
                 .mapStyle(.standard(elevation: .realistic))
-                
+                ButtonAddServiceExtView()
             }
             .navigationTitle("Bienvenue")
             .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Rechercher un service")
