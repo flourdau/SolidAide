@@ -14,6 +14,7 @@ class UserClass: Identifiable {
     var profileId: ProfileClass?
     @Relationship(inverse: \TimeBankClass.userId)
     var timeBankId: [TimeBankClass]?
+
     var id = UUID()
     #Unique<UserClass>([\.logIn])
     var logIn: String

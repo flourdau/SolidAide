@@ -21,15 +21,17 @@ class ServiceFormViewModel {
     var timeSpent: Int = 1
     var startDate: Date = Date()
     var serviceRepeat: ServiceRepeatEnum? = nil
-    
+//    var userSession: UserClass?
+
     /// État de la Logique ---
     var isEditing: Bool
     private var serviceToEdit: ServiceClass?
     
     /// Initialiseur pour (C)REATE (un nouveau service)
-    init() {
+//    init(userSession: UserClass) {
+        init() {
         self.isEditing = false
-        
+//        self.profileId = userSession.profileId
     }
     
     /// Initialiseur pour (U)PDATE (un service existant)
