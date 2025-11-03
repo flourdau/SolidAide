@@ -101,7 +101,7 @@ struct MapView: View {
             
         }
         .sheet(isPresented: $showingAddService) {
-            ServiceEditView(viewModel: ServiceFormViewModel())
+            ServiceEditView(viewModel: ServiceFormViewModel(userSession: userSession.currentUser))
         }
         
     }

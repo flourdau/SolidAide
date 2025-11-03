@@ -4,11 +4,26 @@
 //
 //  Created by apprenant78 on 28/10/2025.
 //
+//
+//  ChatView.swift
+//  SolidAide
+//
+//  Created by apprenant78 on 28/10/2025.
+//
 
 import SwiftUI
 import SwiftData
 
 struct ChatView: View {
+    /*
+     USER FICTIF
+     */
+    @Query(filter: #Predicate<UserClass> { user in
+        user.logIn == "marie.dupont@email.fr"
+    }) var usersFound: [UserClass]
+    @State var userSession: UserSession
+//
+
     @Environment(\.modelContext) private var modelContext
     @Query private var profiles: [ProfileClass]
     @Query private var chats: [ChatClass]
@@ -16,36 +31,47 @@ struct ChatView: View {
     @State private var messageType = "Tous"
     @State private var searchMessages: String = ""
     let status = ["Tous", "Non Lus", "Favoris"]
-
-    var currentUserId: UUID? {
-        profiles.first(where: { $0.pseudo == "Marie D." })?.userId?.id
-    }
         
     var filteredProfiles: [ProfileClass] {
-        switch messageType {
-        case "Tous":
-            return profiles
-        case "Non Lus":
-            return profiles.filter { profile in
-                chats.contains { chat in
-            (chat.sender.id == profile.userId?.id ||            chat.recipient.id == profile.userId?.id) &&
-            chat.isRead == false
+            // user logge de @Query USER FICTIF
+            guard let currentUser = usersFound.first, let myProfile = currentUser.profileId else {
+                return []
+            }
+
+            // Fait la liste des ID des contacts d'user
+            let contactUserIDs = myProfile.contacts?.map { $0.id } ?? []
+            
+            // profils des contacts
+            let contactProfiles = profiles.filter { profile in
+                guard let profileUserId = profile.userId?.id else { return false }
+                return contactUserIDs.contains(profileUserId)
+            }
+
+            switch messageType {
+            case "Tous":
+                return contactProfiles
+
+            case "Non Lus":
+                return contactProfiles.filter { profile in
+                    chats.contains { chat in
+                        chat.sender.id == profile.userId?.id &&
+                        chat.recipient.id == currentUser.id &&
+                        chat.isRead == false
                     }
                 }
-        case "Favoris":
-            // filtre les profiles favoris de l'user
-            guard let currentUserId = currentUserId else { return [] }
+
+            case "Favoris":
+                // prend la liste des ID favoris d'user
+                let favoriteUserIDs = myProfile.favorite?.map { $0.id } ?? []
                 
-            // trouve le profil de l'user
-            guard let myProfile = profiles.first(where: { $0.userId?.id == currentUserId }) else {
-                    return []
+                // filtre la liste des favoris
+                return profiles.filter { profile in
+                    guard let profileUserId = profile.userId?.id else { return false }
+                    return favoriteUserIDs.contains(profileUserId)
                 }
-            // Retroune les users favoris
-            return profiles.filter { profile in
-                myProfile.favorite?.contains(where: { $0.id == profile.userId?.id }) ?? false
-                }
+                
             default:
-                return profiles
+                return contactProfiles
             }
         }
     
@@ -56,7 +82,14 @@ struct ChatView: View {
                 $0.pseudo.localizedCaseInsensitiveContains(searchMessages)}
              }
      }
+
     var body: some View {
+        let _ = DispatchQueue.main.async {
+            if usersFound.first !== userSession.currentUser {
+                userSession.currentUser = usersFound.first
+            }
+        }
+
         NavigationStack {
             VStack(spacing: 0) {
                 Picker("Type", selection: $messageType) {
@@ -126,11 +159,16 @@ struct ChatView: View {
                     }
                 }
             }
-            .navigationTitle("Messagerie")
+            .navigationTitle("Bienvenue  \(userSession.currentUser?.profileId?.pseudo ?? "") ")
+
+//            .navigationTitle("Messagerie")
             .searchable(text: $searchMessages, placement: .navigationBarDrawer(displayMode: .always), prompt: "Rechercher un contact")
         }
     }
-    
+
+    init() {
+        _userSession = State(initialValue: UserSession())
+    }
 }
     
 
@@ -162,3 +200,4 @@ struct ChatView: View {
         fatalError("Échec de la création du ModelContainer pour la preview : \(error)")
     }
 }
+

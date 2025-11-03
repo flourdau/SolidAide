@@ -61,7 +61,7 @@ struct ServiceEditView: View {
 
 
 #Preview {
-    ServiceEditView(viewModel: ServiceFormViewModel())
+    ServiceEditView(viewModel: ServiceFormViewModel(userSession: nil))
         .modelContainer(for: [ServiceClass.self, ProfileClass.self], inMemory: true)
 }
 

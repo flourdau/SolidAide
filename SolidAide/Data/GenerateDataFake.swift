@@ -196,7 +196,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
         ),
         ProfileClass(
             userId: users[8],
-            pseudo: "Florian",
+            pseudo: "Andrei",
             city: "Aniche",
             birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
             quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
@@ -209,7 +209,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
         ),
         ProfileClass(
             userId: users[9],
-            pseudo: "Florian",
+            pseudo: "Stacy",
             city: "Aniche",
             birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
             quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
@@ -222,7 +222,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
         ),
         ProfileClass(
             userId: users[10],
-            pseudo: "Florian",
+            pseudo: "Severine",
             city: "Aniche",
             birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
             quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
@@ -235,7 +235,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
         ),
         ProfileClass(
             userId: users[11],
-            pseudo: "Florian",
+            pseudo: "Edilene",
             city: "Aniche",
             birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
             quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],

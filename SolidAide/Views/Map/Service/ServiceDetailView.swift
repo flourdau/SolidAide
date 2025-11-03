@@ -53,12 +53,9 @@ struct ServiceDetailView: View {
     }
 }
 
-//#Preview {
-//    // Récupère le premier service mocké pour l'afficher
-//    let mockService = try! previewContainer.mainContext.fetch(FetchDescriptor<ServiceClass>()).first!
-//
-//    NavigationStack {
-//        ServiceDetailView(service: mockService)
-//    }
-//    .modelContainer(previewContainer)
-//}
+
+
+#Preview {
+//              ServiceDetailView(service: service)
+
+}
