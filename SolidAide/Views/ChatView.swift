@@ -37,12 +37,12 @@ struct ChatView: View {
             guard let currentUserId = currentUserId else { return [] }
                 
             // trouve le profil de l'user
-            guard let myProfile = profiles.first(where: { $0.userId?.id == currentUserId }) else {  // 👈 FIX: ?.id
+            guard let myProfile = profiles.first(where: { $0.userId?.id == currentUserId }) else {
                     return []
                 }
             // Retroune les users favoris
             return profiles.filter { profile in
-                myProfile.favorite?.contains(where: { $0.id == profile.userId?.id }) ?? false  // 👈 FIX: ?.id
+                myProfile.favorite?.contains(where: { $0.id == profile.userId?.id }) ?? false
                 }
             default:
                 return profiles
@@ -135,15 +135,12 @@ struct ChatView: View {
     
 
 #Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(
-        for: UserClass.self, ProfileClass.self, ChatClass.self, ServiceClass.self, TimeBankClass.self,
-        configurations: config
-    )
-    let context = ModelContext(container)
-    
-    GenerateDataBaseFunc(context: context)
-    
-    return ChatView()
-        .modelContainer(container)
+    ChatView()
+        .modelContainer(for: [
+            UserClass.self,
+            ProfileClass.self,
+            ChatClass.self,
+            ServiceClass.self,
+            TimeBankClass.self
+        ])
 }
