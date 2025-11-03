@@ -9,23 +9,35 @@ import SwiftUI
 import SwiftData
 
 struct SolidAideView: View {
-    @Environment(\.modelContext) private var context
-    @Query var users: [UserClass]
-    var userLogged: UserClass {
-        users[12]
-    }
+    /*
+     USER FICTIF
+     */
+    @Query(filter: #Predicate<UserClass> { user in
+        user.logIn == "florian@email.fr"
+    }) var usersFound: [UserClass]
 
+    @Environment(\.modelContext) private var context
+    @State var userSession: UserSession
+    
     var body: some View {
+        let _ = DispatchQueue.main.async {
+            if usersFound.first !== userSession.currentUser {
+                userSession.currentUser = usersFound.first
+            }
+        }
         TabView() {
             MapView()
                 .tabItem {
                     Text("Rechercher")
                     Image(systemName: "magnifyingglass")
                 }
+                .environment(userSession)
             
-            DashboardView()
+//            DashboardView()
+            TimeBankView()
                 .tabItem {
-                    Text(userLogged.profileId?.pseudo ?? "Tableau de bord")
+                    Text("Tableau de bord")
+                    //                    Text(userLogged.profileId.pseudo)
                     Image(systemName: "square.grid.2x2.fill")
                 }
             
@@ -43,6 +55,11 @@ struct SolidAideView: View {
                 }
             
         }
+    }
+    
+    
+    init() {
+        _userSession = State(initialValue: UserSession())
     }
 }
 
@@ -63,7 +80,6 @@ struct SolidAideView: View {
         
     } catch {
         fatalError("Échec de la création du ModelContainer pour la preview : \(error)")
-        
     }
     
 }

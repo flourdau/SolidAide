@@ -5,18 +5,14 @@
 //  Created by apprenant78 on 02/11/2025.
 //
 
-
 import SwiftUI
 import SwiftData
 
 struct ServiceEditView: View {
-    // Le ViewModel est la source de vérité pour le formulaire
     @State var viewModel: ServiceFormViewModel
-    
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-    
-        @Query private var allProfiles: [ProfileClass]
+//    @Query private var allProfiles: [ProfileClass]
 
     var body: some View {
         NavigationStack {
@@ -65,7 +61,6 @@ struct ServiceEditView: View {
 
 
 #Preview {
-
     ServiceEditView(viewModel: ServiceFormViewModel())
         .modelContainer(for: [ServiceClass.self, ProfileClass.self], inMemory: true)
 }

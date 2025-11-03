@@ -8,10 +8,10 @@
 import SwiftUI
 import SwiftData
 import MapKit
-// FILTRER SURR LA DISTANCE en liste
+// FILTRER SURR LA DISTANCE en liste...
 
 struct MapView: View {
-//    @State private var userLogged:UserClass
+    @Environment(UserSession.self) var sessionUser
     @Environment(\.modelContext) private var context
     @Query(sort: \ServiceClass.startDate, order: .reverse) private var services: [ServiceClass]
     @Query var profiles: [ProfileClass]
@@ -19,10 +19,12 @@ struct MapView: View {
     @State private var searchText = ""
     @State private var cameraPosition: MapCameraPosition = .userLocation(fallback: .automatic)
     let locationManager = CLLocationManager()
+    var messaqeWelcom: String = ""
         
     var body: some View {
-        
+
         NavigationStack {
+
             VStack {
                 Map(position: $cameraPosition) {
                     ForEach(profiles, id: \.self){ profile in
@@ -80,9 +82,13 @@ struct MapView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-
             }
-            .navigationTitle("Bienvenue")
+//            if let user = sessionUser.currentUser {
+                .navigationTitle("Bienvenue  \(sessionUser.currentUser?.profileId?.pseudo ?? "") ")
+//
+//            } else {
+//                .navigationTitle("Bienvenue")
+//            }
             .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Rechercher un service")
 
             ButtonAddServiceExtView(showingAddService: $showingAddService)
@@ -109,27 +115,27 @@ struct MapView: View {
 
 
 
-#Preview {
-//    MapView()
-//        .modelContainer(for: [
-//            UserClass.self,
-//            ProfileClass.self,
-//            ChatClass.self,
-//            ServiceClass.self,
-//            TimeBankClass.self
-//        ])
-    
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: UserClass.self, ServiceClass.self, configurations: config)
-        
-        GenerateDataBaseFunc(context: container.mainContext)
-        
-        return MapView()
-            .modelContainer(container)
-        
-    } catch {
-        fatalError("Échec de la création du ModelContainer pour la preview : \(error)")
-        
-    }
-}
+//#Preview {
+////    MapView()
+////        .modelContainer(for: [
+////            UserClass.self,
+////            ProfileClass.self,
+////            ChatClass.self,
+////            ServiceClass.self,
+////            TimeBankClass.self
+////        ])
+//    
+//    do {
+//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//        let container = try ModelContainer(for: UserClass.self, ServiceClass.self, configurations: config)
+//        
+//        GenerateDataBaseFunc(context: container.mainContext)
+//        
+//        return MapView()
+//            .modelContainer(container)
+//        
+//    } catch {
+//        fatalError("Échec de la création du ModelContainer pour la preview : \(error)")
+//        
+//    }
+//}

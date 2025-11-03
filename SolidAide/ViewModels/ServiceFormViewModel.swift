@@ -11,6 +11,7 @@ import SwiftData
 
 @Observable
 class ServiceFormViewModel {
+    
     /// État du Formulaire --
     var profileId: ProfileClass?
     var skill: SkillsEnum = .digital
