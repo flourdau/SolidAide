@@ -19,12 +19,18 @@ struct SolidAideView: View {
         user.logIn == "florian@email.fr"
     }) var usersFound: [UserClass]
     @AppStorage(kShowAdminTabKey) private var showAdminTab: Bool = false
-
     @Environment(\.modelContext) private var context
     @State var userSession: UserSession
-    
     var body: some View {
+
+//        if (usersFound.count == 0) {
+//            GenerateDataBaseFunc(context: context)
+//        }
+        
+ 
+        
         let _ = DispatchQueue.main.async {
+
             if usersFound.first !== userSession.currentUser {
                 userSession.currentUser = usersFound.first
             }
@@ -66,11 +72,18 @@ struct SolidAideView: View {
                                 }
                         }
             
+            
+        }
+        .onAppear {
+            GenerateDataBaseFunc(context: context)
+
         }
     }
     
     
+    
     init() {
+        
         _userSession = State(initialValue: UserSession())
     }
 }
