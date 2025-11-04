@@ -2,11 +2,7 @@
 //  EvaluationsView.swift
 //  SolidAide
 //
-<<<<<<< HEAD
 //  Created by Andrei Anisimov on 03/11/2025.
-=======
-//  Created by apprenant76 on 04/11/2025.
->>>>>>> Edilene2
 //
 
 import SwiftUI
