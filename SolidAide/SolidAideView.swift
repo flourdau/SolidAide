@@ -33,8 +33,7 @@ struct SolidAideView: View {
                 }
                 .environment(userSession)
             
-//            DashboardView()
-            TimeBankView()
+            DashboardView()
                 .tabItem {
                     Text("Tableau de bord")
                     //                    Text(userLogged.profileId.pseudo)

@@ -39,5 +39,5 @@ struct PrimaryCTAButton: View {
         action: { print("Bouton appuyé") }
     )
     .padding()
-    .previewLayout(.sizeThatFits)
+//    .previewLayout(.sizeThatFits)
 }

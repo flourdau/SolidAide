@@ -15,9 +15,9 @@ struct ProfileDetailView: View {
         VStack(spacing: 16) {
             Text(profile.pseudo)
                 .font(.title2.weight(.semibold))
-            Text(profile.aboutMe)
+            Text(profile.aboutMe ?? "")
                 .foregroundStyle(.secondary)
-            Text(profile.city)
+            Text(profile.city ?? "")
                 .font(.subheadline)
                 .foregroundStyle(.gray)
         }

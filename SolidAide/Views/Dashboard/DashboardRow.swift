@@ -69,6 +69,6 @@ struct DashboardRow<Right: View>: View {
     }
     .padding()
     .background(Color(.systemGroupedBackground))
-    .previewLayout(.sizeThatFits)
+//    .previewLayout(.sizeThatFits)
 }
 

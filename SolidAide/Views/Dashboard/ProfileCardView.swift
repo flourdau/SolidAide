@@ -11,7 +11,7 @@ struct ProfileCardView: View {
     let profile: ProfileClass
     var body: some View {
         HStack(spacing: 14) {
-            ProfileAvatar(imageData: profile.imageData, size: 60)
+            ProfileAvatar()
 
             VStack(alignment: .leading, spacing: 2) {
                 Text("Carte de visite")
