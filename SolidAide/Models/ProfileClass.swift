@@ -24,7 +24,7 @@ class ProfileClass: Identifiable {
         
     }
 
-    var imageURL: String? = nil
+    @Attribute(.externalStorage) var imageData: Data? = nil
     var aboutMe: String? = nil
     var positionData: GPSCoordinateStruct? = nil
     var userPosition: CLLocationCoordinate2D? {
@@ -60,7 +60,7 @@ class ProfileClass: Identifiable {
         city: String? = nil,
         birthday: Date? = nil,
         userQuality: [UserQualityEnum]? = nil,
-        imageURL: String? = nil,
+        imageData: Data? = nil,
         aboutMe: String? = nil,
         userPosition: CLLocationCoordinate2D? = nil,
         skills: [SkillsEnum]? = nil,
@@ -76,7 +76,7 @@ class ProfileClass: Identifiable {
         self.city = city
         self.birthday = birthday
         self.userQualityRawValues = userQuality?.map { $0.rawValue }
-        self.imageURL = imageURL
+        self.imageData = imageData
         self.aboutMe = aboutMe
         self.userPosition = userPosition
         self.skillsRawValues = skills?.map { $0.rawValue }

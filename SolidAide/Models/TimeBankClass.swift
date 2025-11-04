@@ -12,6 +12,9 @@ import SwiftData
 class TimeBankClass: Identifiable {
     var id = UUID()
     var date: Date
+    var minutes: Int
+    var createdAt: Date
+    var details: String?
     var iconName: String
     //  iconColor
     var red: Double
@@ -24,12 +27,18 @@ class TimeBankClass: Identifiable {
     
     init(
         date: Date,
+        minutes: Int,
+        createdAt: Date = .now,
+        details: String? = nil,
         iconName: String,
         iconColor: Color,
         title: String,
         subtitle: String
     ) {
         self.date = date
+        self.minutes = minutes
+        self.createdAt = createdAt
+        self.details = details
         self.iconName = iconName
         self.title = title
         self.subtitle = subtitle
