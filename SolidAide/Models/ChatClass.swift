@@ -21,7 +21,8 @@ class ChatClass: Identifiable {
         dateTime: Date,
         sender: UserClass,
         recipient: UserClass,
-        message: String
+        message: String,
+        isRead: Bool = false
     ) {
         self.dateTime = dateTime
         self.sender = sender

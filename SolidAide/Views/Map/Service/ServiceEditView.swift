@@ -20,7 +20,10 @@ struct ServiceEditView: View {
                 Section("Détails de la demande") {                    
                     Picker("Compétence", selection: $viewModel.skill) {
                         ForEach(SkillsEnum.allCases, id: \.self) { skill in
-                            Text(skill.rawValue).tag(skill)
+                            HStack {
+                                Image(systemName: skill.icon)
+                                Text(skill.rawValue)
+                            }
                         }
                     }
                     
