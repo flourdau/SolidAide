@@ -152,7 +152,7 @@ struct MapView: View {
                 .navigationTitle("Bienvenue  \(userSession.currentUser?.profileId?.pseudo ?? "") ")
                 .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Rechercher un service")
                 NavigationLink {
-                    ServiceEditView(viewModel: ServiceFormViewModel())
+                    ServiceEditView(viewModel: ServiceFormViewModel(userSession: usersFound.first))
                 } label: {
                     HStack{
                         Image(systemName:"hand.raised.fill")

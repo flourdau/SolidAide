@@ -44,23 +44,23 @@ struct DashboardView: View {
             }
         }
         
-        ScrollView {
+        NavigationStack {
             //            VStack(spacing: 16) {
             //                Text("Tableau de bord")
             //                    .font(.title2.weight(.semibold))
             //
-            //                if let p = currentProfile {
-            //                    NavigationLink {
-            //                        ProfileDetailView(profile: p)
-            //                    } label: {
-            //                        ProfileCardView(profile: p)
-            //                    }
-            //                } else {
-            //                    RoundedRectangle(cornerRadius: 14)
-            //                        .fill(Color(.secondarySystemBackground))
-            //                        .overlay(Text("Créer mon profil").padding())
-            //                        .frame(height: 72)
-            //                }
+            if let p = usersFound[0].profileId {
+                                NavigationLink {
+                                    ProfileDetailView(profile: p)
+                                } label: {
+                                    ProfileCardView(profile: p)
+                                }
+                            } else {
+                                RoundedRectangle(cornerRadius: 14)
+                                    .fill(Color(.secondarySystemBackground))
+                                    .overlay(Text("Créer mon profil").padding())
+                                    .frame(height: 72)
+                            }
             //            }
             //            .padding(.horizontal, 16)
             
@@ -96,10 +96,7 @@ struct DashboardView: View {
             NavigationLink { ParrainageView() } label: {
                 DashboardRow(icon: "heart.text.square", title: "Parrainage", muted: true)
             }
-            
-            PrimaryCTAButton(title: "Demande d’aide", icon: "hand.raised.fill") {
-            }
-            .padding(.top, 8)
+ 
         }
         .padding(.horizontal, 16)
         .padding(.bottom, 24)

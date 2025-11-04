@@ -8,13 +8,17 @@
 import SwiftUI
 import SwiftData
 
+public let kShowAdminTabKey = "showAdminTab"
+
 struct SolidAideView: View {
+    
     /*
      USER FICTIF
      */
     @Query(filter: #Predicate<UserClass> { user in
         user.logIn == "florian@email.fr"
     }) var usersFound: [UserClass]
+    @AppStorage(kShowAdminTabKey) private var showAdminTab: Bool = false
 
     @Environment(\.modelContext) private var context
     @State var userSession: UserSession
@@ -54,11 +58,13 @@ struct SolidAideView: View {
                 }
             
             //  ACommenter
-            AdminDataBaseView()
-                .tabItem {
-                    Text("Admin")
-                    Image(systemName: "arrow.2.circlepath.circle")
-                }
+            if showAdminTab {
+                            AdminDataBaseView()
+                                .tabItem {
+                                    Text("Admin")
+                                    Image(systemName: "arrow.2.circlepath.circle")
+                                }
+                        }
             
         }
     }
