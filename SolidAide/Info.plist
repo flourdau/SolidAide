@@ -4,6 +4,11 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>OpenDyslexicMono.otf</string>
+		<string>OpenDyslexicAlta-Regular.otf</string>
+		<string>OpenDyslexicAlta-Italic.otf</string>
+		<string>OpenDyslexicAlta-BoldItalic.otf</string>
+		<string>OpenDyslexicAlta-Bold.otf</string>
 		<string>Luciole-Bold.ttf</string>
 		<string>Luciole-Bold-Italic.ttf</string>
 		<string>Luciole-Regular-Italic.ttf</string>

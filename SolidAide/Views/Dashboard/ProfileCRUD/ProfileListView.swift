@@ -5,6 +5,7 @@
 //  Created by apprenant78 on 04/11/2025.
 //
 
+
 // ProfileListView.swift
 import SwiftUI
 import SwiftData
@@ -64,6 +65,7 @@ struct ProfileListView: View {
 }
 
 #Preview {
+
     // Doit être dans un conteneur SwiftData pour les previews
     let container = try! ModelContainer(for: ProfileClass.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
     return ProfileListView().modelContainer(container)
