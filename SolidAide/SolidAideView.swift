@@ -33,14 +33,20 @@ struct SolidAideView: View {
                 }
                 .environment(userSession)
             
-//            DashboardView()
-            TimeBankView()
+            DashboardView()
                 .tabItem {
                     Text("Tableau de bord")
                     //                    Text(userLogged.profileId.pseudo)
                     Image(systemName: "square.grid.2x2.fill")
                 }
-            
+
+            ProfileListView()
+                .tabItem {
+                    Text("Tableau de bord")
+                    //                    Text(userLogged.profileId.pseudo)
+                    Image(systemName: "square.grid.2x2.fill")
+                }
+
             ChatView()
                 .tabItem {
                     Text("Messagerie")
