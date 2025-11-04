@@ -4,11 +4,15 @@
 //
 //  Created by apprenant78 on 28/10/2025.
 //
-
 import SwiftUI
 import SwiftData
 
 struct ChatView: View {
+    @Query(filter: #Predicate<UserClass> { user in
+        user.logIn == "marie.dupont@email.fr"
+    }) var usersFound: [UserClass]
+    @State var userSession: UserSession
+
     @Environment(\.modelContext) private var modelContext
     @Query private var profiles: [ProfileClass]
     @Query private var chats: [ChatClass]
@@ -16,36 +20,42 @@ struct ChatView: View {
     @State private var messageType = "Tous"
     @State private var searchMessages: String = ""
     let status = ["Tous", "Non Lus", "Favoris"]
-
-    var currentUserId: UUID? {
-        profiles.first(where: { $0.pseudo == "Marie D." })?.userId?.id
-    }
         
     var filteredProfiles: [ProfileClass] {
-        switch messageType {
-        case "Tous":
-            return profiles
-        case "Non Lus":
-            return profiles.filter { profile in
-                chats.contains { chat in
-            (chat.sender.id == profile.userId?.id ||            chat.recipient.id == profile.userId?.id) &&
-            chat.isRead == false
+            guard let currentUser = usersFound.first, let myProfile = currentUser.profileId else {
+                return []
+            }
+
+            let contactUserIDs = myProfile.contacts?.map { $0.id } ?? []
+            
+            let contactProfiles = profiles.filter { profile in
+                guard let profileUserId = profile.userId?.id else { return false }
+                return contactUserIDs.contains(profileUserId)
+            }
+
+            switch messageType {
+            case "Tous":
+                return contactProfiles
+
+            case "Non Lus":
+                return contactProfiles.filter { profile in
+                    chats.contains { chat in
+                        chat.sender.id == profile.userId?.id &&
+                        chat.recipient.id == currentUser.id &&
+                        chat.isRead == false
                     }
                 }
-        case "Favoris":
-            // filtre les profiles favoris de l'user
-            guard let currentUserId = currentUserId else { return [] }
+
+            case "Favoris":
+                let favoriteUserIDs = myProfile.favorite?.map { $0.id } ?? []
                 
-            // trouve le profil de l'user
-            guard let myProfile = profiles.first(where: { $0.userId?.id == currentUserId }) else {
-                    return []
+                return profiles.filter { profile in
+                    guard let profileUserId = profile.userId?.id else { return false }
+                    return favoriteUserIDs.contains(profileUserId)
                 }
-            // Retroune les users favoris
-            return profiles.filter { profile in
-                myProfile.favorite?.contains(where: { $0.id == profile.userId?.id }) ?? false
-                }
+                
             default:
-                return profiles
+                return contactProfiles
             }
         }
     
@@ -56,7 +66,30 @@ struct ChatView: View {
                 $0.pseudo.localizedCaseInsensitiveContains(searchMessages)}
              }
      }
+    
+    // function pour ajuster le message affiché
+    private func getLatestChatWith(_ contactInfo: ProfileClass) -> ChatClass? {
+        guard let currentUserId = usersFound.first?.id,
+              let contactUserId = contactInfo.userId?.id else {
+            return nil
+        }
+        
+        return chats
+            .filter { chat in
+                (chat.sender.id == currentUserId && chat.recipient.id == contactUserId) ||
+                (chat.sender.id == contactUserId && chat.recipient.id == currentUserId)
+            }
+            .sorted(by: { $0.dateTime > $1.dateTime })
+            .first
+    }
+
     var body: some View {
+        let _ = DispatchQueue.main.async {
+            if usersFound.first !== userSession.currentUser {
+                userSession.currentUser = usersFound.first
+            }
+        }
+
         NavigationStack {
             VStack(spacing: 0) {
                 Picker("Type", selection: $messageType) {
@@ -66,84 +99,71 @@ struct ChatView: View {
                   
                 }
                 .pickerStyle(.segmented)
+                .tint(.deepBlue)
                 .padding()
                 
                 Divider()
                 
                 ScrollView {
                     ForEach(searchContact) { contactInfo in
-                        HStack(alignment: .top, spacing: 20) {
-                            ZStack {
-                                Circle()
-                                    .frame(width: 70, height: 70)
-                                    .foregroundStyle(.deepBlue)
-                                Image(contactInfo.imageURL ?? "")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 60, height: 60)
-                                    .clipShape(Circle())
-                            }
-                            
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(contactInfo.pseudo)
-                                    .font(.headline)
+                        NavigationLink {
+                            ConversationView(contactInfo: contactInfo, currentUser: usersFound.first)
+                        } label: {
+                            HStack(alignment: .top, spacing: 20) {
+                                ZStack {
+                                    Circle()
+                                        .frame(width: 70, height: 70)
+                                        .foregroundStyle(.deepBlue)
+                                    Image(contactInfo.imageURL ?? "")
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 60, height: 60)
+                                        .clipShape(Circle())
+                                }
                                 
-                                if let chat = chats
-                                                .filter({
-                                                    $0.sender.id == contactInfo.userId?.id ||          $0.recipient.id == contactInfo.userId?.id                                                })
-                                                .sorted(by: { $0.dateTime > $1.dateTime })
-                                                .first {
-                                                
-                                                Text(chat.message)
-                                                    .italic()
-                                                    .foregroundColor(.gray)
-                                                    .lineLimit(1)
-                                            } else {
-                                                Text("Aucun message")
-                                                    .italic()
-                                                    .foregroundColor(.gray)
-                                            }
-                                        }
-                            
-                            Spacer()
-                            
-                            if let chat = chats
-                                     .filter({
-                                         $0.sender.id == contactInfo.userId?.id ||
-                                         $0.recipient.id == contactInfo.userId?.id
-                                     })
-                                     .sorted(by: { $0.dateTime > $1.dateTime })
-                                     .first {
-                                     
-                                     Text(chat.dateTime, style: .time)
-                                         .font(.caption)
-                                         .foregroundColor(.gray)
-                                 }
-                             }
-                        .padding(10)
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text(contactInfo.pseudo)
+                                        .font(.headline)
+                                    
+                                    if let chat = getLatestChatWith(contactInfo) {
+                                        Text(chat.message)
+                                            .italic()
+                                            .foregroundColor(.gray)
+                                            .lineLimit(1)
+                                    } else {
+                                        Text("Aucun message")
+                                            .italic()
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                                
+                                Spacer()
+                                
+                                if let chat = getLatestChatWith(contactInfo) {
+                                    Text(chat.dateTime, style: .time)
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                            .padding(10)
+                        }
+                        .tint(.primary)
                         
                         Divider()
                     }
                 }
             }
-            .navigationTitle("Messagerie")
+            .navigationTitle("Bienvenue,  \(userSession.currentUser?.profileId?.pseudo ?? "") ")
             .searchable(text: $searchMessages, placement: .navigationBarDrawer(displayMode: .always), prompt: "Rechercher un contact")
         }
     }
-    
+
+    init() {
+        _userSession = State(initialValue: UserSession())
+    }
 }
-    
 
 #Preview {
-//    ChatView()
-//        .modelContainer(for: [
-//            UserClass.self,
-//            ProfileClass.self,
-//            ChatClass.self,
-//            ServiceClass.self,
-//            TimeBankClass.self
-//        ])
-    
     do {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: UserClass.self,
@@ -162,3 +182,4 @@ struct ChatView: View {
         fatalError("Échec de la création du ModelContainer pour la preview : \(error)")
     }
 }
+
