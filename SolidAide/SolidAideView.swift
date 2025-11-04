@@ -16,11 +16,6 @@ struct SolidAideView: View {
         user.logIn == "florian@email.fr"
     }) var usersFound: [UserClass]
 
-//    @Query private var users: [UserClass]
-//
-//    var currentUserId: UUID? {
-//        users.first(where: { $0.pseudo == "florian@email.fr" })
-//    }
     @Environment(\.modelContext) private var context
     @State var userSession: UserSession
     
