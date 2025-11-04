@@ -17,15 +17,16 @@ struct ServiceEditView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Détails de la demande") {                    
+                Section("Détails de la demande") {
                     Picker("Compétence", selection: $viewModel.skill) {
                         ForEach(SkillsEnum.allCases, id: \.self) { skill in
                             HStack {
-                                Image(systemName: skill.icon)
-                                Text(skill.rawValue)
+                            Image(systemName: skill.icon)
+                            Text(skill.rawValue)
                             }
                         }
                     }
+                    
                     
                     TextField("Description", text: $viewModel.serviceDescription, axis: .vertical)
                         .lineLimit(3...)
@@ -64,7 +65,7 @@ struct ServiceEditView: View {
 
 
 #Preview {
-    ServiceEditView(viewModel: ServiceFormViewModel(userSession: nil))
+    ServiceEditView(viewModel: ServiceFormViewModel())
         .modelContainer(for: [ServiceClass.self, ProfileClass.self], inMemory: true)
 }
 
