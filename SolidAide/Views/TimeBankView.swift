@@ -109,7 +109,7 @@ struct TimeBankView: View {
                             Rectangle()
                                 .fill(Color("deepBlue"))
                                 .cornerRadius(15)
-                                .frame(width: 130, height: 30)
+                                .frame(height: 30)
                             HStack{
                                 Image(systemName: "hourglass.badge.eye")
                                     .foregroundStyle(Color.white)
@@ -117,19 +117,17 @@ struct TimeBankView: View {
                                     .foregroundStyle(Color.white)
                                     .applyAppFont(18)
                             }
+                            .padding(.horizontal, 12)
                         }
                     }
                     NavigationLink {
                         SettingsView()
                     } label: {
-                        
-                    
-                        Spacer()
                         ZStack{
                             Rectangle()
                                 .fill(Color("deepBlue"))
                                 .cornerRadius(15)
-                                .frame(width: 130, height: 30)
+                                .frame(height: 30)
                             HStack{
                                 Image(systemName: "gearshape.fill")
                                     .foregroundStyle(Color.white)
@@ -137,6 +135,7 @@ struct TimeBankView: View {
                                     .foregroundStyle(Color.white)
                                     .applyAppFont(18)
                                }
+                            .padding(.horizontal, 12)
                             }
                         }
                 }
