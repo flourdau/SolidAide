@@ -5,9 +5,7 @@
 //  Created by apprenant78 on 28/10/2025.
 //
 
-import Foundation
-
-enum UserQualityEnum: String, CaseIterable, Codable {
+enum QualityEnum: String, CaseIterable, Codable {
     case reliableNeighbour = "Voisin fiable"
     case punctual = "Ponctuel"
     case available = "Disponible"
@@ -17,7 +15,7 @@ enum UserQualityEnum: String, CaseIterable, Codable {
     case efficient = "Efficace"
     case verySupportive = "Très solidaire"
 
-    var emoji: String {
+    var icon: String {
         switch self {
         case .reliableNeighbour: return "figure.wave"
         case .punctual: return "clock.fill"

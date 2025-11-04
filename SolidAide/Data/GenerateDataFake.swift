@@ -8,72 +8,89 @@
 import Foundation
 import SwiftData
 import MapKit
+import SwiftUI
 
 func GenerateDataBaseFunc(context: ModelContext) {
     //  USERS
     let users: [UserClass] = [
-        UserClass(
+        UserClass(  // 0
             logIn: "marie.dupont@email.fr",
             password: "password123",
-            balance: 0,
-            timeBank: 15
+            balance: 1
         ),
-        UserClass(
+        UserClass(  // 1
             logIn: "pierre.martin@email.fr",
             password: "password123",
-            balance: 0,
-            timeBank: 8
+            balance: 5
         ),
-        UserClass(
+        UserClass(  // 2
             logIn: "sophie.bernard@email.fr",
             password: "password123",
-            balance: 0,
-            timeBank: 22
+            balance: 5
         ),
-        UserClass(
+        UserClass(  // 3
             logIn: "lucas.petit@email.fr",
             password: "password123",
-            balance: 0,
-            timeBank: 5
+            balance: 5
         ),
-        UserClass(
+        UserClass(  // 4
             logIn: "emma.durand@email.fr",
             password: "password123",
-            balance: 0,
-            timeBank: 12
+            balance: 5
         ),
-        UserClass(
+        UserClass(  // 5
             logIn: "thomas.moreau@email.fr",
             password: "password123",
-            balance: 0,
-            timeBank: 18
+            balance: 5
         ),
-        UserClass(
+        UserClass(  // 6
             logIn: "julie.laurent@email.fr",
             password: "password123",
-            balance: 0,
-            timeBank: 7
+            balance: 5
         ),
-        UserClass(
+        UserClass( // 7
             logIn: "antoine.simon@email.fr",
             password: "password123",
-            balance: 0,
-            timeBank: 25
+            balance: 5
+        ),
+        UserClass(  // 8
+            logIn: "andrei@email.fr",
+            password: "password123",
+            balance: 5
+        ),
+        UserClass(  // 9
+            logIn: "stacy@email.fr",
+            password: "password123",
+            balance: 5
+        ),
+        UserClass(  // 10
+            logIn: "severine@email.fr",
+            password: "password123",
+            balance: 5
+        ),
+        UserClass(  // 11
+            logIn: "edilene@email.fr",
+            password: "password123",
+            balance: 5
+        ),
+        UserClass(  // 12
+            logIn: "florian@email.fr",
+            password: "password123",
+            balance: 5
         )
     ]
     
     //  PROFILES
     let profiles: [ProfileClass] = [
-
         ProfileClass(
             userId: users[0],
             pseudo: "Marie D.",
             city: "Paris",
             birthday: Calendar.current.date(byAdding: .year, value: -35, to: Date()) ?? Date(),
-            userQuality: [.reliableNeighbour, .punctual, .goodCommunication],
+            quality: [.reliableNeighbour, .punctual, .goodCommunication],
             imageURL: "image1.jpg",
             aboutMe: "Professeure de français, j'adore aider mes voisins et partager mes compétences en cuisine. Disponible en soirée et le week-end.",
-            userPosition: CLLocationCoordinate2D(latitude: 48.896347, longitude: 2.345625),
+            profilePosition: CLLocationCoordinate2D(latitude: 48.896347, longitude: 2.345625),
             skills: [.cooking],
             availability: "Lundi-Vendredi: 18h-21h, Week-end: 9h-18h",
             contacts: [users[2], users[4], users[6]],
@@ -86,10 +103,10 @@ func GenerateDataBaseFunc(context: ModelContext) {
             pseudo: "Pierre M.",
             city: "Paris",
             birthday: Calendar.current.date(byAdding: .year, value: -42, to: Date()) ?? Date(),
-            userQuality: [.efficient, .reliableNeighbour, .activeMember],
+            quality: [.efficient, .reliableNeighbour, .activeMember],
             imageURL: "image2",
             aboutMe: "Bricoleur passionné et retraité. Je propose mes services de bricolage et petits travaux. Très flexible sur les horaires.",
-            userPosition: CLLocationCoordinate2D(latitude: 48.892304, longitude: 2.331346),
+            profilePosition: CLLocationCoordinate2D(latitude: 48.892304, longitude: 2.331346),
             skills: [.DIY],
             availability: "Tous les jours: 8h-20h",
             contacts: [users[3], users[5], users[7]],
@@ -102,10 +119,10 @@ func GenerateDataBaseFunc(context: ModelContext) {
             pseudo: "Sophie B.",
             city: "Paris",
             birthday: Calendar.current.date(byAdding: .year, value: -28, to: Date()) ?? Date(),
-            userQuality: [.patient, .verySupportive, .goodCommunication],
+            quality: [.patient, .verySupportive, .goodCommunication],
             imageURL: "image3",
             aboutMe: "Étudiante en informatique, je peux aider avec les problèmes numériques et donner des cours de soutien scolaire en mathématiques.",
-            userPosition: CLLocationCoordinate2D(latitude: 48.884286, longitude: 2.349548),
+            profilePosition: CLLocationCoordinate2D(latitude: 48.884286, longitude: 2.349548),
             skills: [.digital],
             availability: "Mardi-Jeudi: 14h-19h, Samedi: 10h-16h",
             contacts: [users[0], users[3]],
@@ -117,10 +134,10 @@ func GenerateDataBaseFunc(context: ModelContext) {
             pseudo: "Lucas P.",
             city: "Paris",
             birthday: Calendar.current.date(byAdding: .year, value: -31, to: Date()) ?? Date(),
-            userQuality: [.punctual, .available, .activeMember],
+            quality: [.punctual, .available, .activeMember],
             imageURL: "image4",
             aboutMe: "Propriétaire d'un chien adorable, je promène volontiers les animaux du quartier. Je peux aussi faire du covoiturage.",
-            userPosition: CLLocationCoordinate2D(latitude: 48.898136, longitude: 2.346827),
+            profilePosition: CLLocationCoordinate2D(latitude: 48.898136, longitude: 2.346827),
             skills: [.dogWalk],
             availability: "Matin: 7h-9h, Soir: 18h-20h",
             contacts: [users[1], users[2], users[4], users[6]]
@@ -130,10 +147,10 @@ func GenerateDataBaseFunc(context: ModelContext) {
             pseudo: "Emma D.",
             city: "Paris",
             birthday: Calendar.current.date(byAdding: .year, value: -39, to: Date()) ?? Date(),
-            userQuality: [.goodCommunication, .patient, .verySupportive],
+            quality: [.goodCommunication, .patient, .verySupportive],
             imageURL: "image5",
             aboutMe: "Maman de trois enfants, j'adore cuisiner et faire les courses. Je peux aider avec les tâches administratives également.",
-            userPosition: CLLocationCoordinate2D(latitude: 48.885704, longitude: 2.359410),
+            profilePosition: CLLocationCoordinate2D(latitude: 48.885704, longitude: 2.359410),
             skills: [.shopping],
             availability: "Lundi-Vendredi: 9h-15h",
             contacts: [users[1], users[3], users[5], users[7]]
@@ -143,10 +160,10 @@ func GenerateDataBaseFunc(context: ModelContext) {
             pseudo: "Thomas M.",
             city: "Paris",
             birthday: Calendar.current.date(byAdding: .year, value: -45, to: Date()) ?? Date(),
-            userQuality: [.reliableNeighbour, .efficient, .punctual],
+            quality: [.reliableNeighbour, .efficient, .punctual],
             imageURL: "image6",
             aboutMe: "Expert en déménagement et transport. J'ai un camion et je peux aider pour les gros travaux de déménagement.",
-            userPosition: CLLocationCoordinate2D(latitude: 48.895232, longitude: 2.351775),
+            profilePosition: CLLocationCoordinate2D(latitude: 48.895232, longitude: 2.351775),
             skills: [.moving],
             availability: "Week-end: 8h-19h",
             contacts: [users[1], users[4], users[7]]
@@ -156,10 +173,10 @@ func GenerateDataBaseFunc(context: ModelContext) {
             pseudo: "Julie L.",
             city: "Paris",
             birthday: Calendar.current.date(byAdding: .year, value: -26, to: Date()) ?? Date(),
-            userQuality: [.patient, .goodCommunication, .available],
+            quality: [.patient, .goodCommunication, .available],
             imageURL: "image7",
             aboutMe: "Couturière professionnelle, je propose des retouches et créations sur mesure. Passionnée par mon métier !",
-            userPosition: CLLocationCoordinate2D(latitude: 48.885332, longitude: 2.334209),
+            profilePosition: CLLocationCoordinate2D(latitude: 48.885332, longitude: 2.334209),
             skills: [.sewing],
             availability: "Mercredi-Samedi: 10h-18h",
             contacts: [users[0], users[3]]
@@ -169,13 +186,78 @@ func GenerateDataBaseFunc(context: ModelContext) {
             pseudo: "Antoine S.",
             city: "Paris",
             birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
-            userQuality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
+            quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
             imageURL: "image8",
             aboutMe: "Formateur en bureautique et gestion. Je donne des formations gratuites aux seniors et débutants. Membre actif depuis 2 ans !",
-            userPosition: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
+            profilePosition: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
             skills: [.trainingCourses],
             availability: "Lundi-Mercredi-Vendredi: 14h-17h",
             contacts: [users[1], users[4], users[5]]
+        ),
+        ProfileClass(
+            userId: users[8],
+            pseudo: "Andrei",
+            city: "Aniche",
+            birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
+            quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
+            imageURL: "image8",
+            aboutMe: "Développeur Swift 🩷",
+            profilePosition: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
+            skills: [.DIY, .digital],
+            availability: "Lundi-Mercredi-Vendredi: 14h-17h",
+            contacts: [users[7], users[8], users[9], users[10], users[11]]
+        ),
+        ProfileClass(
+            userId: users[9],
+            pseudo: "Stacy",
+            city: "Aniche",
+            birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
+            quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
+            imageURL: "image8",
+            aboutMe: "Développeur Swift 🩷",
+            profilePosition: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
+            skills: [.DIY, .digital],
+            availability: "Lundi-Mercredi-Vendredi: 14h-17h",
+            contacts: [users[7], users[8], users[9], users[10], users[11]]
+        ),
+        ProfileClass(
+            userId: users[10],
+            pseudo: "Severine",
+            city: "Aniche",
+            birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
+            quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
+            imageURL: "image8",
+            aboutMe: "Développeur Swift 🩷",
+            profilePosition: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
+            skills: [.DIY, .digital],
+            availability: "Lundi-Mercredi-Vendredi: 14h-17h",
+            contacts: [users[7], users[8], users[9], users[10], users[11]]
+        ),
+        ProfileClass(
+            userId: users[11],
+            pseudo: "Edilene",
+            city: "Aniche",
+            birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
+            quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
+            imageURL: "image8",
+            aboutMe: "Développeur Swift 🩷",
+            profilePosition: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
+            skills: [.DIY, .digital],
+            availability: "Lundi-Mercredi-Vendredi: 14h-17h",
+            contacts: [users[7], users[8], users[9], users[10], users[11]]
+        ),
+        ProfileClass(
+            userId: users[12],
+            pseudo: "Florian",
+            city: "Aniche",
+            birthday: Calendar.current.date(byAdding: .year, value: -52, to: Date()) ?? Date(),
+            quality: [.activeMember, .verySupportive, .reliableNeighbour, .efficient],
+            imageURL: "image8",
+            aboutMe: "Développeur Swift 🩷",
+            profilePosition: CLLocationCoordinate2D(latitude: 48.891212, longitude: 2.348629),
+            skills: [.DIY, .digital],
+            availability: "Lundi-Mercredi-Vendredi: 14h-17h",
+            contacts: [users[7], users[8], users[9], users[10], users[11]]
         )
     ]
 
@@ -252,17 +334,17 @@ func GenerateDataBaseFunc(context: ModelContext) {
     //  SERVICES
     let services = [
         ServiceClass(
-            profilId: profiles[0],
+            profileId: profiles[0],
             skill: .cooking,
             serviceDescription: "Cours de cuisine française traditionnelle - Apprenez à préparer un coq au vin et une tarte tatin !",
             city: "Paris",
             isFree: false,
             timeSpent: 3,
-            startDate: Calendar.current.date(byAdding: .month, value: 3, to: Date()) ?? Date()
+            startDate: Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
         ),
         ServiceClass(
-            profilId: profiles[0],
-            skill: .DIY,
+            profileId: profiles[0],
+            skill: .digital,
             serviceDescription: "Réparation de petits meubles et montage IKEA. J'apporte mes outils !",
             city: "Paris",
             isFree: false,
@@ -270,17 +352,17 @@ func GenerateDataBaseFunc(context: ModelContext) {
             startDate: Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
         ),
         ServiceClass(
-            profilId: profiles[2],
-            skill: .digital,
+            profileId: profiles[2],
+            skill: .DIY,
             serviceDescription: "Aide à la configuration d'ordinateur, smartphone, tablette. Installation de logiciels et explications.",
             city: "Paris",
             isFree: false,
             timeSpent: 1,
-            startDate: Date()
+            startDate: Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
         ),
         ServiceClass(
-            profilId: profiles[3],
-            profilIdHelper: profiles[1],
+            profileId: profiles[3],
+            profileIdHelper: profiles[1],
             skill: .dogWalk,
             serviceDescription: "Promenade quotidienne pour votre chien. Je suis habitué aux grands et petits chiens.",
             city: "Paris",
@@ -288,14 +370,14 @@ func GenerateDataBaseFunc(context: ModelContext) {
             timeSpent: 1,
             startDate: Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date(),
             serviceRepeat: .everyDay,
-            requestStatus: .finalized,
+            serviceStatus: .finalized,
             isEvaluationCompleted: true,
             isFulfilled: true,
             serviceComment: "Service excellent ! Lucas est très ponctuel et mon chien l'adore."
         ),
         ServiceClass(
-            profilId: profiles[4],
-            profilIdHelper: profiles[2],
+            profileId: profiles[4],
+            profileIdHelper: profiles[2],
             skill: .shopping,
             serviceDescription: "Courses au supermarché pour personnes à mobilité réduite ou débordées. Je peux livrer chez vous.",
             city: "Paris",
@@ -303,14 +385,14 @@ func GenerateDataBaseFunc(context: ModelContext) {
             timeSpent: 2,
             startDate: Calendar.current.date(byAdding: .day, value: 3, to: Date()) ?? Date(),
             serviceRepeat: .everyWeek,
-            requestStatus: .awaitingAcceptance,
+            serviceStatus: .awaitingAcceptance,
             isEvaluationCompleted: false,
             isFulfilled: false,
             serviceComment: nil
         ),
         ServiceClass(
-            profilId: profiles[5],
-            profilIdHelper: profiles[4],
+            profileId: profiles[5],
+            profileIdHelper: profiles[4],
             skill: .moving,
             serviceDescription: "Déménagement complet avec camion 20m³. Aide au chargement et déchargement.",
             city: "Paris",
@@ -318,14 +400,14 @@ func GenerateDataBaseFunc(context: ModelContext) {
             timeSpent: 6,
             startDate: Calendar.current.date(byAdding: .day, value: 7, to: Date()) ?? Date(),
             serviceRepeat: nil,
-            requestStatus: .approved,
+            serviceStatus: .approved,
             isEvaluationCompleted: false,
             isFulfilled: false,
             serviceComment: nil
         ),
         ServiceClass(
-            profilId: profiles[6],
-            profilIdHelper: profiles[1],
+            profileId: profiles[6],
+            profileIdHelper: profiles[1],
             skill: .sewing,
             serviceDescription: "Retouches de vêtements : ourlets, fermetures éclair, ajustements. Travail soigné garanti !",
             city: "Paris",
@@ -333,14 +415,14 @@ func GenerateDataBaseFunc(context: ModelContext) {
             timeSpent: 1,
             startDate: Calendar.current.date(byAdding: .day, value: 5, to: Date()) ?? Date(),
             serviceRepeat: nil,
-            requestStatus: .awaitingEvaluation,
+            serviceStatus: .awaitingEvaluation,
             isEvaluationCompleted: false,
             isFulfilled: true,
             serviceComment: nil
         ),
         ServiceClass(
-            profilId: profiles[7],
-            profilIdHelper: profiles[2],
+            profileId: profiles[6],
+            profileIdHelper: profiles[2],
             skill: .trainingCourses,
             serviceDescription: "Formation Word, Excel et PowerPoint pour débutants. Séances individuelles adaptées à votre rythme.",
             city: "Paris",
@@ -348,10 +430,10 @@ func GenerateDataBaseFunc(context: ModelContext) {
             timeSpent: 2,
             startDate: Calendar.current.date(byAdding: .day, value: 4, to: Date()) ?? Date(),
             serviceRepeat: ServiceRepeatEnum.everyWeek,
-            requestStatus: RequestStatusEnum.approved
+            serviceStatus: ServiceStatusEnum.approved
         ),
         ServiceClass(
-            profilId: profiles[0],
+            profileId: profiles[0],
             skill: .householdTasks,
             serviceDescription: "Ménage complet : aspirateur, serpillère, dépoussiérage. Produits écologiques fournis.",
             city: "Paris",
@@ -361,8 +443,8 @@ func GenerateDataBaseFunc(context: ModelContext) {
             serviceRepeat: ServiceRepeatEnum.everyWeek
         ),
         ServiceClass(
-            profilId: profiles[2],
-            profilIdHelper: profiles[1],
+            profileId: profiles[2],
+            profileIdHelper: profiles[1],
             skill: .homeworkSupport,
             serviceDescription: "Soutien scolaire en mathématiques niveau collège et lycée. Préparation aux examens.",
             city: "Paris",
@@ -370,13 +452,13 @@ func GenerateDataBaseFunc(context: ModelContext) {
             timeSpent: 2,
             startDate: Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date(),
             serviceRepeat: .everyWeek,
-            requestStatus: .finalized,
+            serviceStatus: .finalized,
             isEvaluationCompleted: true,
             isFulfilled: true,
             serviceComment: "Sophie est excellente pédagogue ! Ma fille a progressé rapidement."
         ),
         ServiceClass(
-            profilId: profiles[1],
+            profileId: profiles[1],
             skill: .lending,
             serviceDescription: "Prêt de perceuse-visseuse sans fil et coffret de mèches. À récupérer chez moi.",
             city: "Paris",
@@ -385,7 +467,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             startDate: Date(),
         ),
         ServiceClass(
-            profilId: profiles[3],
+            profileId: profiles[3],
             skill: .carSharing,
             serviceDescription: "Covoiturage Paris-Lyon ce week-end. 3 places disponibles. Départ samedi 8h.",
             city: "Paris",
@@ -394,7 +476,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             startDate: Calendar.current.date(byAdding: .day, value: 2, to: Date()) ?? Date()
         ),
         ServiceClass(
-            profilId: profiles[4],
+            profileId: profiles[4],
             skill: .administrative,
             serviceDescription: "Aide aux démarches administratives : CAF, impôts, Sécurité sociale. Je vous accompagne dans vos papiers.",
             city: "Paris",
@@ -403,7 +485,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
             startDate: Calendar.current.date(byAdding: .day, value: 8, to: Date()) ?? Date()
         ),
         ServiceClass(
-            profilId: profiles[6],
+            profileId: profiles[6],
             skill: .pets,
             serviceDescription: "Garde de chat à mon domicile pendant vos vacances. J'ai l'habitude des félins !",
             city: "Paris",
@@ -415,32 +497,34 @@ func GenerateDataBaseFunc(context: ModelContext) {
     
     //  TIMEBANK
     let timeBanks: [TimeBankClass] = [
-        
         TimeBankClass(
+            userId:users[0],
             date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 12, minute: 25).date!,
             iconName: "hourglass.badge.plus",
             iconColor: .deepBlue,
             deposit: 1,
-            withdrawal: 1,
+            withdrawal: 0,
             title: "Bienvenue sur Solid’Aide !",
             subtitle: "Solde de temps de bienvenue : +3h"
         ),
         TimeBankClass(
+            userId:users[1],
             date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
             iconName: "hourglass.tophalf.filled",
             iconColor: .mintGreen,
-            deposit: 1,
+            deposit: 0,
             withdrawal: 1,
             title: "Demande d’aide à Angela pour passer la tondeuse.",
             subtitle: "Solde de temps dépensé : -1h"
         ),
         TimeBankClass(
+            userId:users[2],
             date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
             iconName: "hourglass.badge.plus",
             iconColor: .warmCoral,
             deposit: 1,
-            withdrawal: 1,
-            title: "ProuserPosition d’aide à Ghania pour bricoler.",
+            withdrawal: 0,
+            title: "ProprofilePosition d’aide à Ghania pour bricoler.",
             subtitle: "Solde de temps gagné : +3h"
         )
     ]
@@ -448,7 +532,7 @@ func GenerateDataBaseFunc(context: ModelContext) {
     //  LOOPS INSERT DETABASE
     for user in users { context.insert(user) }
     for profile in profiles { context.insert(profile) }
-    for chat in chats { context.insert(chat) }
     for service in services { context.insert(service) }
     for timeBank in timeBanks { context.insert(timeBank) }
+    for chat in chats { context.insert(chat) }
 }
