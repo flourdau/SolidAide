@@ -19,7 +19,7 @@ enum UserQualityEnum: String, CaseIterable, Codable {
 
     var emoji: String {
         switch self {
-        case .reliableNeighbour: return "figure.wave "
+        case .reliableNeighbour: return "figure.wave"
         case .punctual: return "clock.fill"
         case .available: return "star.fill"
         case .patient: return "figure.mind.and.body"

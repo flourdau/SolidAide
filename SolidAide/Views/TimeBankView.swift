@@ -49,6 +49,13 @@ o--o   o  o-o- o-o o--O
 
 
 
+   __
+  / ()  ,_   _  _, _|_  _  _|     |)           ()_|_  _,   _
+ |     /  | |/ / |  |  |/ / |     |/\_|  |     /\ |  / |  /   |  |
+  \___/   |/|_/\/|_/|_/|_/\/|_/    \/  \/|/   /(_)|_/\/|_/\__/ \/|/
+                                        (|                      (|
+ 
+
 
 */
 
@@ -67,15 +74,19 @@ struct TimeBankView: View {
     @Query var services: [ServiceClass]
     @Query var timeBanks: [TimeBankClass]
     
-    // ── Données du graphique ────────────────────────
+/*
+  _____ _                _   _____        _
+ / ____| |              | | |  __ \      | |
+| |    | |__   __ _ _ __| |_| |  | | __ _| |_ __ _
+| |    | '_ \ / _` | '__| __| |  | |/ _` | __/ _` |
+| |____| | | | (_| | |  | |_| |__| | (_| | || (_| |
+ \_____|_| |_|\__,_|_|   \__|_____/ \__,_|\__\__,_|
+ */
     @State private var timeValues: [Int] = [
         3, 2, 5, 7, 6, 5, 4, 3, 5, 7, 6, 5, 4, 3, 5
     ]
 
-    // ── Journal des transactions ─────────────────────
-   // @State private var entries: [TimeBankClass] = TimeBankClass.sampleEntries
-    
-    //_______ DataFake provisional (to be commented on in the near future)
+
 //    var entries: [TimeBankClass] {
 //        [
 //            //__________________________à extraire. Vu avec Flo.
@@ -184,12 +195,21 @@ struct TimeBankView: View {
 //            title: "Proposition de service à Ghania pour bricoler.",
 //            subtitle: "Solde de temps gagné : +\(timeValues[14]-(timeValues[13]))h")
 //    ]}
+    
+    /*
+     ____            _
+    |  _ \          | |
+    | |_) | ___   __| |_   _
+    |  _ < / _ \ / _` | | | |
+    | |_) | (_) | (_| | |_| |
+    |____/ \___/ \__,_|\__, |
+                        __/ |
+                       |___/ 
+     */
     var body: some View {
         
         NavigationStack {
             VStack(spacing: 0) {
-                
-                //___________ Navigation to "SettingView" & "HistoricalTimeView"
                 HStack{
                     NavigationLink {
                         HistoricalTimeView()
@@ -230,8 +250,15 @@ struct TimeBankView: View {
                         }
                 }
                 
-                
-                // ---------- En‑tête ----------
+/*
+  _____ _         _     _
+ / ____| |       | |   | |
+| (___ | |_ _   _| |__ | |__   ___  _ __ _ __
+ \___ \| __| | | | '_ \| '_ \ / _ \| '__| '_ \
+ ____) | |_| |_| | |_) | |_) | (_) | |  | | | |
+|_____/ \__|\__,_|_.__/|_.__/ \___/|_|  |_| |_|
+                                             
+ */
                 ZStack {
                     Rectangle()
                         .frame(width: 300, height: 50)
@@ -241,8 +268,15 @@ struct TimeBankView: View {
                         .lucioleRegular(fontSize: 20)
                 }
                 .padding()
-                
-                // ---------- Graphique ----------
+/*
+  _____ _                _
+ / ____| |              | |
+| |    | |__   __ _ _ __| |_
+| |    | '_ \ / _` | '__| __|
+| |____| | | | (_| | |  | |_
+ \_____|_| |_|\__,_|_|   \__|
+                            
+ */
                 Chart {
                     ForEach(Array(timeValues.enumerated()), id: \.offset) { index, value in
                         LineMark(
@@ -266,48 +300,50 @@ struct TimeBankView: View {
                 .frame(width: 327, height: 100)
                 .background(Color("deepBlue"))
                 .padding(.top, 8)
-                
-                // ---------- Liste scrollable ----------
-                
+/*
+  _____                _ _ _      _     _
+ / ____|              | | | |    (_)   | |
+| (___   ___ _ __ ___ | | | |     _ ___| |_
+ \___ \ / __| '__/ _ \| | | |    | / __| __|
+ ____) | (__| | | (_) | | | |____| \__ \ |_
+|_____/ \___|_|  \___/|_|_|______|_|___/\__|
+                                           
+ */
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 0) {
-                        // spacing = 0 → on gère les espaces avec Divider + padding
+
                         ForEach(timeBanks) { entry in
                             VStack(alignment: .leading, spacing: 6) {
-                                // ---- Icône + texte ----
                                 HStack(alignment: .top, spacing: 8) {
                                     Image(systemName: entry.iconName)
                                         .foregroundColor(entry.swiftUIColor)
                                         .font(.title2)
                                     VStack(alignment: .leading, spacing: 1) {
-                                        // Date + heure
                                         Text(entry.date, style: .date)
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
                                         Text(entry.date, style: .time)
                                             .font(.caption)
                                             .foregroundColor(.secondary)
-                                        // Titre principal
                                         Text(entry.title)
                                             .font(.body)
                                             .foregroundColor(.primary)
-                                        // Sous‑titre (solde, description…)
                                         Text(entry.subtitle)
                                             .font(.footnote)
                                             .foregroundColor(.secondary)
                                     }
                                 }
-                                .padding(.vertical, 8)          // espace interne vertical
-                                .padding(.horizontal, 12)       // espace interne horizontal
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 12)
                                 .background(
                                 RoundedRectangle(cornerRadius: 8)
                                     .fill(Color(.systemBackground).opacity(0.6))
                                 )
                             }
-                            .padding(.horizontal, 4)            // petit espace latéral entre blocs
+                            .padding(.horizontal, 4)
                             .padding(.vertical, 6)
-                            // Séparateur visuel
-                            if entry.id != timeBanks.last?.id {    // pas de trait après le dernier
+                            
+                            if entry.id != timeBanks.last?.id {
                                 Divider()
                                     .padding(.horizontal, 12)
                             }
@@ -322,10 +358,10 @@ struct TimeBankView: View {
                 Spacer()
             }
             .background(Color("deepBlue").opacity(0.05))
-        } // légère nuance de fond
+        }
     }
 
-    // ── Fonctions d’aide au graphique (inchangées) ──
+   
     private func popFirstAndAppend(_ newValue: Int) {
         if !timeValues.isEmpty {
             timeValues.removeFirst()
@@ -334,9 +370,7 @@ struct TimeBankView: View {
     }
 }
 
-// ------------------------------------------------------------
-// MARK: – Preview
-// ------------------------------------------------------------
+
 struct TimeBankView_Previews: PreviewProvider {
     static var previews: some View {
         TimeBankView()

@@ -1,17 +1,10 @@
-//
-//  HistoricalTimeView.swift
-//  SolidAide
-//
-//  Created by Apprenant 78 on 31/10/2025.
-//
-
-
-//
-//  HistoricalTimeView.swift
-//  SolidAide
-//
-//  Created by Apprenant 78 on 30/10/2025.
-//
+/*
+  __
+ / ()  ,_   _  _, _|_  _  _|     |)           ()_|_  _,   _
+|     /  | |/ / |  |  |/ / |     |/\_|  |     /\ |  / |  /   |  |
+ \___/   |/|_/\/|_/|_/|_/\/|_/    \/  \/|/   /(_)|_/\/|_/\__/ \/|/
+                                       (|                      (|
+*/
 import Foundation
 import SwiftData
 import SwiftUI
