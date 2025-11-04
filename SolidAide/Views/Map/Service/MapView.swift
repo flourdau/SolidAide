@@ -25,8 +25,9 @@ struct MapView: View {
     @Query var profiles: [ProfileClass]
     @State var showingAddService = false
     @State private var searchText = ""
-    @State private var cameraPosition: MapCameraPosition = .userLocation(fallback: .automatic)
-    let locationManager = CLLocationManager()
+    @State private var cameraPosition = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.889655, longitude: 2.339581), span: MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08)))
+    //@State private var cameraPosition: MapCameraPosition = .userLocation(fallback: .automatic)
+       let locationManager = CLLocationManager()
     
     private var isShowingMap: Bool {
         viewMode == 0
@@ -34,26 +35,26 @@ struct MapView: View {
     @State private var viewMode: Int = 0
     @State private var selectedSkill: SkillsEnum? = nil
     var filteredServices: [ServiceClass] {
-            var filtered = services
-            
-            // A. Filtrer par Compétence (SkillsEnum)
-            if let skill = selectedSkill {
-                filtered = filtered.filter { $0.skill == skill }
-            }
-
-            // B. Filtrer par Texte de Recherche (sur plusieurs champs)
-            guard !searchText.isEmpty else {
-                return filtered
-            }
-
-            let searchLowercased = searchText.localizedLowercase
-            
-            return filtered.filter { service in
-                return service.serviceDescription.localizedLowercase.contains(searchLowercased) ||
-                       service.city.localizedLowercase.contains(searchLowercased) ||
-                       service.profileId.pseudo.localizedLowercase.contains(searchLowercased)
-            }
+        var filtered = services
+        
+        // A. Filtrer par Compétence (SkillsEnum)
+        if let skill = selectedSkill {
+            filtered = filtered.filter { $0.skill == skill }
         }
+        
+        // B. Filtrer par Texte de Recherche (sur plusieurs champs)
+        guard !searchText.isEmpty else {
+            return filtered
+        }
+        
+        let searchLowercased = searchText.localizedLowercase
+        
+        return filtered.filter { service in
+            return service.serviceDescription.localizedLowercase.contains(searchLowercased) ||
+            service.city.localizedLowercase.contains(searchLowercased) ||
+            service.profileId.pseudo.localizedLowercase.contains(searchLowercased)
+        }
+    }
     
     var body: some View {
         let _ = DispatchQueue.main.async {
@@ -66,7 +67,7 @@ struct MapView: View {
             
             
             ZStack(alignment: .bottom){
-
+                
                 if isShowingMap {
                     Map(position: $cameraPosition) {
                         ForEach(profiles, id: \.self){ profile in
@@ -79,8 +80,19 @@ struct MapView: View {
                             }
                             
                         }
-                        UserAnnotation()
-                        
+                        Annotation(
+                            "Vous êtes ici.",
+                            coordinate: .user,
+                            anchor: .bottom
+                        ) {
+                            Image(systemName: "figure.wave")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .foregroundStyle(Color.mintGreen)
+                        }
+                        .annotationTitles(.visible)
+                        //UserAnnotation()
                     }
                     .onAppear {
                         locationManager.requestWhenInUseAuthorization()
@@ -93,7 +105,7 @@ struct MapView: View {
                         MapScaleView()
                     }
                     .mapStyle(.standard(elevation: .realistic))
-                    .ignoresSafeArea() // 👈 C'est le modificateur magique !
+                    //.ignoresSafeArea()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
                     List {
@@ -126,8 +138,8 @@ struct MapView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     
                 }
-                VStack {
-
+                VStack(spacing: 0) {
+                    
                     Picker("Vue", selection: $viewMode) {
                         Text("Carte").tag(0)
                         Text("Liste").tag(1)
@@ -142,15 +154,21 @@ struct MapView: View {
                 NavigationLink {
                     ServiceEditView(viewModel: ServiceFormViewModel(userSession: usersFound.first))
                 } label: {
-                    Label("Demander \n de l'aide", systemImage: "hand.raised.fill")
-                    //.labelStyle(.titleAndIcon)
-                        .padding(16)
-                        //.padding(.trailing, 8)
-                        .background(.deepBlue)
-                        .foregroundStyle(.white)
-                        .font(.system(size: 15))
-                        .bold()
-                        .clipShape(Capsule())
+                    HStack{
+                        Image(systemName:"hand.raised.fill")
+                        VStack{
+                            Text("Demander")
+                            Text("de l'aide")
+                        }
+                    }
+                    .padding(12)
+                    //.padding(.trailing, 8)
+                    .background(.deepBlue)
+                    .foregroundStyle(.white)
+                    .cornerRadius(32)
+                    .font(.system(size: 20))
+                    .bold()
+                    
                     
                 }
             }
@@ -160,12 +178,6 @@ struct MapView: View {
                 }
                 
             }
-            
-            
-            
-            /*.sheet(isPresented: $showingAddService) {
-             ServiceEditView(viewModel: ServiceFormViewModel())
-             }*/
             
             
         }
@@ -183,9 +195,14 @@ struct MapView: View {
     init() {
         _userSession = State(initialValue: UserSession())
     }
+    
 }
 
-
+extension CLLocationCoordinate2D {
+    static let user = CLLocationCoordinate2D(
+        latitude: 48.889655, longitude: 2.339581
+    )
+}
 
 
 
