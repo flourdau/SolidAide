@@ -31,8 +31,8 @@ struct TagButton: Identifiable, Hashable {
  */
 struct FeedBackButtonsView: View {
 
-    private var qualities: [UserQualityEnum] {
-        UserQualityEnum.allCases
+    private var qualities: [QualityEnum] {
+        QualityEnum.allCases
     }
     @State private var tags: [TagButton] = []
 
@@ -40,7 +40,7 @@ struct FeedBackButtonsView: View {
 
     init() {
         let initialTags = qualities.map { quality in
-            TagButton(title: quality.rawValue, icon: quality.emoji)
+            TagButton(title: quality.rawValue, icon: quality.icon)
         }
         _tags = State(initialValue: initialTags)
     }

@@ -96,7 +96,7 @@ struct ConversationView: View {
         .navigationBarTitleDisplayMode(.inline)
         
         .sheet(isPresented: $showingAddService) {
-            ServiceEditView(viewModel: ServiceFormViewModel())
+            ServiceEditView(viewModel: ServiceFormViewModel(userSession: userSession))
         }
     }
     
