@@ -7,8 +7,14 @@
 
 import SwiftUI
 import SwiftData
-
+public let kShowAdminTabKey = "showAdminTab"
 struct SolidAideView: View {
+    @AppStorage("selectedFont") private var selectedFontRaw = AppFont.system.rawValue
+    /*
+     Show Admin
+     */
+    @AppStorage(kShowAdminTabKey) private var showAdminTab: Bool = false
+
     /*
      USER FICTIF
      */
@@ -46,12 +52,14 @@ struct SolidAideView: View {
                     Image(systemName: "bubble")
                 }
             
-            //  ACommenter
-            AdminDataBaseView()
-                .tabItem {
-                    Text("Admin")
-                    Image(systemName: "arrow.2.circlepath.circle")
-                }
+            //  Only show if called in setting
+            if showAdminTab {
+                AdminDataBaseView()
+                    .tabItem {
+                        Text("Admin")
+                        Image(systemName: "arrow.2.circlepath.circle")
+                    }
+            }
             
         }
     }
