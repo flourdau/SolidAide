@@ -73,6 +73,7 @@ struct TimeBankView: View {
     @Query var chats: [ChatClass]
     @Query var services: [ServiceClass]
     @Query var timeBanks: [TimeBankClass]
+    @AppStorage("selectedFont") private var selectedFontRaw = AppFont.system.rawValue
     
 /*
   _____ _                _   _____        _
@@ -229,7 +230,7 @@ struct TimeBankView: View {
                         }
                     }
                     NavigationLink {
-                        SettingView()
+                        SettingsView()
                     } label: {
                         
                     
@@ -265,7 +266,7 @@ struct TimeBankView: View {
                         .foregroundColor(Color("mintGreen"))
                     Text("Banque du Temps")
                         .foregroundStyle(.white)
-                        .lucioleRegular(fontSize: 20)
+                        .applyAppFont(18)
                 }
                 .padding()
 /*
