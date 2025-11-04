@@ -18,14 +18,18 @@ struct ButtonAddServiceExtView: View {
             Button {
                 showingAddService = true
             } label: {
-                Label("Demander de l'aide", systemImage: "hand.raised.fill")
-                    .labelStyle(.titleAndIcon)
-                    .padding(16)
-                    .padding(.trailing, 8)
+                HStack{
+                    Image(systemName:"hand.raised.fill")
+                    VStack{
+                        Text("Demander")
+                        Text("de l'aide")
+                    }
+                }
+                    .padding(12)
                     .background(.deepBlue)
                     .foregroundStyle(.white)
                     .cornerRadius(32)
-                    .font(.system(size: 24))
+                    .font(.system(size: 18))
                     .bold()
             }
             .background(.warmCoral.opacity(0))
