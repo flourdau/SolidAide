@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import SwiftData
 
+
 @Observable
 class ServiceFormViewModel {
     
@@ -21,6 +22,7 @@ class ServiceFormViewModel {
     var timeSpent: Int = 1
     var startDate: Date = Date()
     var serviceRepeat: ServiceRepeatEnum? = nil
+//    var userSession: UserClass?
     var userSession: UserClass?
 
     /// État de la Logique ---
@@ -28,12 +30,12 @@ class ServiceFormViewModel {
     private var serviceToEdit: ServiceClass?
     
     /// Initialiseur pour (C)REATE (un nouveau service)
-//    init(userSession: UserClass) {
-        init(
-            userSession: UserClass?
-        ) {
+    //    init(userSession: UserClass) {
+    init(
+        userSession: UserClass?
+    ) {
         self.isEditing = false
-            self.profileId = userSession?.profileId
+        self.profileId = userSession?.profileId
     }
     
     /// Initialiseur pour (U)PDATE (un service existant)
@@ -52,6 +54,8 @@ class ServiceFormViewModel {
         self.serviceRepeat = service.serviceRepeat
     }
     
+    
+    
     /// Logique de validation simple
     var canSave: Bool {
         // Un service doit avoir un demandeur (profileId)
@@ -60,8 +64,16 @@ class ServiceFormViewModel {
         // Une ville
         // Un timeSpent
         // Une Date
+        
+        //            id = /*userSession*/.id,
+        //        userSession?.balance = (userSession?.balance ?? 0) - timeSpent
+
+        
+        //        context.insert(newUser)
+        
+        
         // Assez de temps dans le porte monnaie sauf si free....
-//        return skill.rawValue.count > 0 &&
+        //        return skill.rawValue.count > 0 &&
         return !city.trimmingCharacters(in: .whitespaces).isEmpty &&
         timeSpent > 0 &&
         //        startDate != nil &&
@@ -100,9 +112,20 @@ class ServiceFormViewModel {
                 timeSpent: timeSpent,
                 startDate: startDate,
                 serviceRepeat: serviceRepeat
-
+                
             )
-            context.insert(newService)
+
+            do {
+                userSession?.balance = userSession?.balance ?? 0 - timeSpent
+                
+                context.insert(newService)
+
+                try context.save()
+            } catch {
+                // Gérer l'erreur de sauvegarde de manière appropriée
+                print("Échec de la sauvegarde du contexte: \(error.localizedDescription)")
+            }
+
         }
         
     }

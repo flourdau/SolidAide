@@ -16,6 +16,8 @@ struct ProfileDetailView: View {
     @State private var showingEditSheet = false
     
     var body: some View {
+        ProfileCardView(profile: profile)
+
         Form {
             Section("Informations") {
                 Text(profile.pseudo).font(.title)

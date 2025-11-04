@@ -9,7 +9,7 @@ import SwiftData
 
 struct ChatView: View {
     @Query(filter: #Predicate<UserClass> { user in
-        user.logIn == "marie.dupont@email.fr"
+        user.logIn == "severine@email.fr"
     }) var usersFound: [UserClass]
     @State var userSession: UserSession
 
@@ -92,15 +92,17 @@ struct ChatView: View {
 
         NavigationStack {
             VStack(spacing: 0) {
-                Picker("Type", selection: $messageType) {
-                    ForEach(status, id: \.self) {
-                        Text($0)
+                VStack{
+                    Picker("Type", selection: $messageType) {
+                        ForEach(status, id: \.self) {
+                            Text($0)
+                        }
+                        
                     }
-                  
+                    .pickerStyle(.segmented)
+                    .padding()
                 }
-                .pickerStyle(.segmented)
-                .tint(.deepBlue)
-                .padding()
+                .background(.deepBlue.opacity(0.1))
                 
                 Divider()
                 

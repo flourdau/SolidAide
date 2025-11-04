@@ -16,7 +16,8 @@ struct DashboardView: View {
         user.logIn == "severine@email.fr"
     }) var usersFound: [UserClass]
     @State var userSession: UserSession
-    
+    @State var showingAddService = false
+
     
     @Environment(\.modelContext) private var context
     //    @Environment(CurrentProfileModel.self) private var profileModel
@@ -36,6 +37,7 @@ struct DashboardView: View {
     //        let total = timeBank.reduce(0) { $0 + $1.deltaMinutes }
     //        return total.timeBankDisplay.replacingOccurrences(of: "+", with: "")
     //    }
+    // let profileInfo: ProfileClass
     
     var body: some View {
         let _ = DispatchQueue.main.async {
@@ -43,24 +45,24 @@ struct DashboardView: View {
                 userSession.currentUser = usersFound.first
             }
         }
-        
+
         NavigationStack {
             //            VStack(spacing: 16) {
             //                Text("Tableau de bord")
             //                    .font(.title2.weight(.semibold))
             //
             if let p = usersFound[0].profileId {
-                                NavigationLink {
-                                    ProfileDetailView(profile: p)
-                                } label: {
-                                    ProfileCardView(profile: p)
-                                }
-                            } else {
-                                RoundedRectangle(cornerRadius: 14)
-                                    .fill(Color(.secondarySystemBackground))
-                                    .overlay(Text("Créer mon profil").padding())
-                                    .frame(height: 72)
-                            }
+                NavigationLink {
+                    ProfileDetailView(profile: p)
+                } label: {
+                    ProfileCardView(profile: p)
+                }
+            } else {
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(Color(.secondarySystemBackground))
+                    .overlay(Text("Créer mon profil").padding())
+                    .frame(height: 72)
+            }
             //            }
             //            .padding(.horizontal, 16)
             
@@ -96,30 +98,23 @@ struct DashboardView: View {
             NavigationLink { ParrainageView() } label: {
                 DashboardRow(icon: "heart.text.square", title: "Parrainage", muted: true)
             }
- 
+
+            ButtonAddServiceExtView(showingAddService: $showingAddService)
+
+        }
+        .sheet(isPresented: $showingAddService) {
+            ServiceEditView(viewModel: ServiceFormViewModel(userSession: usersFound[0]))
         }
         .padding(.horizontal, 16)
         .padding(.bottom, 24)
     }
+
     
     init() {
         _userSession = State(initialValue: UserSession())
+
     }
 }
-
-//extension Int {
-//    var timeBankDisplay: String {
-//        let sign = self >= 0 ? "+" : "−"
-//        let m = abs(self), h = m / 60, mm = m % 60
-//        return mm == 0 ? "\(sign)\(h)h" : "\(sign)\(h)h\(String(format: "%02d", mm))"
-//    }
-//}
-//extension TimeBankClass {
-//    var deltaHumanReadable: String {
-//        minutes.timeBankDisplay
-//    }
-//}
-
 
 #Preview {
     do {

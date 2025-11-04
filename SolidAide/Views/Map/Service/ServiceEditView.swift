@@ -12,10 +12,12 @@ struct ServiceEditView: View {
     @State var viewModel: ServiceFormViewModel
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-//    @Query private var allProfiles: [ProfileClass]
+    @State var showingAlert = false
+
+    //    @Query private var allProfiles: [ProfileClass]
 
     var body: some View {
-        NavigationStack {
+                NavigationStack {
             Form {
                 Section("Détails de la demande") {                    
                     Picker("Compétence", selection: $viewModel.skill) {
@@ -52,10 +54,26 @@ struct ServiceEditView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Enregistrer") {
                         /// (C)REATE / (U)PDATE Action
-                        viewModel.save(context: context)
-                        dismiss()
+//                        viewModel.save(context: context)
+//                        dismiss()
+                        showingAlert = true
                     }
                     .disabled(!viewModel.canSave)
+                    .alert(isPresented: $showingAlert) {
+                        Alert(
+                            title: Text("Supprimer !"),
+                            message: Text("Etes-vous sûr de vouloir supprimer "),
+                            primaryButton: .destructive(Text("Supprimer")) {
+                                viewModel.save(context: context)
+                                dismiss()
+                            },
+                            secondaryButton: .cancel(
+                                Text("Annuler")
+//                                dismiss()
+        
+                            )
+                        )
+                    }
                 }
             }
         }
