@@ -63,3 +63,38 @@ struct ProfileAnnotationView: View {
     }
 }
 
+
+
+// MARK: – Mock model for preview
+extension ProfileAnnotationView {
+    /// Quick mock data used only for SwiftUI previews.
+    static var mock: ProfileClass {
+        // Replace these arguments with whatever your real initializer requires.
+        ProfileClass(
+            pseudo: "Jean Dupont",
+            city: "Paris",
+            birthday: Date(timeIntervalSince1970: 631152000), // 1990‑01‑01
+            aboutMe: "Développeur passionné par SwiftUI et l’IA.",
+            profilePosition: nil   // ou ProfilePosition(latitude: 48.8566, longitude: 2.3522)
+        )
+    }
+}
+
+// MARK: – Classic preview provider (works on all supported Xcode versions)
+struct ProfileAnnotationView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationStack {               // Needed because you use `.navigationTitle`
+            ProfileDetailView(profile: .mock)
+        }
+        .previewDevice("iPhone 15")
+    }
+}
+
+/*
+ // If you’re on Xcode 15.3+ you can also use the newer #Preview macro:
+ #Preview {
+     NavigationStack {
+         ProfileDetailView(profile: .mock)
+     }
+ }
+ */
