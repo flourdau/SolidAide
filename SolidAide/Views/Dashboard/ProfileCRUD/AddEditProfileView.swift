@@ -1,35 +1,22 @@
-//
-//  AddEditProfileView.swift
-//  SolidAide
-//
-//  Created by apprenant78 on 04/11/2025.
-//
-
-// AddEditProfileView.swift
 import SwiftUI
+import SwiftData
 
 struct AddEditProfileView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    
-    // Le ViewModel gère l'état du formulaire
-    @State private var viewModel: ProfileViewModel
-    
-    // Détermine le titre de la vue
-    private var navigationTitle: String
-    
-    // Initialiseur pour le mode "Création"
+    @StateObject private var viewModel: ProfileViewModel
+    private let navTitle: String
+
     init() {
-        _viewModel = State(initialValue: ProfileViewModel())
-        navigationTitle = "Nouveau Profil"
+        _viewModel = StateObject(wrappedValue: ProfileViewModel())
+        navTitle = "Nouveau Profil"
     }
-    
-    // Initialiseur pour le mode "Modification"
+
     init(profile: ProfileClass) {
-        _viewModel = State(initialValue: ProfileViewModel(profile: profile))
-        navigationTitle = "Modifier le Profil"
+        _viewModel = StateObject(wrappedValue: ProfileViewModel(profile: profile))
+        navTitle = "Modifier le Profil"
     }
-    
+
     var body: some View {
         NavigationStack {
             Form {
@@ -39,7 +26,12 @@ struct AddEditProfileView: View {
                     TextField("À propos de moi", text: $viewModel.aboutMe)
                     DatePicker("Anniversaire", selection: $viewModel.birthday, displayedComponents: .date)
                 }
-                
+
+                Section("Compétences") {
+                    SkillSelector(selected: $viewModel.selectedSkills, editable: true)
+                        .frame(height: 130)
+                }
+
                 Section("Localisation (Optionnel)") {
                     TextField("Latitude", text: $viewModel.latitudeString)
                         .keyboardType(.decimalPad)
@@ -47,26 +39,19 @@ struct AddEditProfileView: View {
                         .keyboardType(.decimalPad)
                 }
             }
-            .navigationTitle(navigationTitle)
+            .navigationTitle(navTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Annuler") {
-                        dismiss()
-                    }
+                    Button("Annuler") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Sauvegarder") {
-                        // Le ViewModel gère la logique de création ou de MAJ
-                        viewModel.save(context: modelContext)
+                        viewModel.save(to: modelContext)
                         dismiss()
                     }
                 }
             }
         }
     }
-}
-
-#Preview {
-    AddEditProfileView()
 }
