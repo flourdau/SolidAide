@@ -18,7 +18,8 @@ struct MapView: View {
         user.logIn == "severine@email.fr"
     }) var usersFound: [UserClass]
     @State var userSession: UserSession
-    
+
+
     @Environment(\.modelContext) private var context
     @Query(sort: \ServiceClass.startDate, order: .reverse) private var services: [ServiceClass]
     //@Query private var services: [ServiceClass]
@@ -28,6 +29,7 @@ struct MapView: View {
     @State private var cameraPosition = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.889655, longitude: 2.339581), span: MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08)))
     //@State private var cameraPosition: MapCameraPosition = .userLocation(fallback: .automatic)
     let locationManager = CLLocationManager()
+    @State var isToggle: Bool = false
     
     private var isShowingMap: Bool {
         viewMode == 0
@@ -69,8 +71,15 @@ struct MapView: View {
             ZStack(alignment: .bottom){
                 
                 if isShowingMap {
+
                     Map(position: $cameraPosition) {
+//                        var tab: [Bool] = []
+                        
                         ForEach(profiles, id: \.self){ profile in
+
+                            
+                            
+
                             Annotation(profile.pseudo, coordinate:  CLLocationCoordinate2D(latitude: profile.profilePosition?.latitude ?? 0,longitude: profile.profilePosition?.longitude ?? 0), anchor: .center) {
                                 //                                Image(systemName: "figure.wave")
                                 //                                    .resizable()
@@ -78,24 +87,13 @@ struct MapView: View {
                                 //                                    .frame(width: 30, height: 30)
                                 //                                    .foregroundStyle(.warmCoral)
                                 
-                                
-                                Button {
 
-                                } label: {
-                                    HStack{
-//                                        Text(
-                                        Image(systemName: "figure.wave")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 30, height: 30)
-                                            .foregroundStyle(.warmCoral)
-                                        
-                                    }
+                                ProfileAnnotationView(profile: profile)
+                                    .frame(width: 200, height: 100)
+                                
                                     
-                                }
                             }
-                            
-                            
+//                            .annotationTitles(.visible)
                             
                             
                         }
