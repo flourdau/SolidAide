@@ -31,7 +31,7 @@ struct DashboardRow<Right: View>: View {
             Image(systemName: icon)
                 .font(.title3)
                 .frame(width: 28, height: 28, alignment: .center)
-                .foregroundStyle(.primary)
+                .foregroundStyle(.warmCoral)
             Text(title)
                 .font(.body.weight(.medium))
                 .foregroundStyle(muted ? .secondary : .primary)

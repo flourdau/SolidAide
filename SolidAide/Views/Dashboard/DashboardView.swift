@@ -57,6 +57,7 @@ struct DashboardView: View {
                 } label: {
                     ProfileCardView(profile: p)
                 }
+                .tint(.black)
             } else {
                 RoundedRectangle(cornerRadius: 14)
                     .fill(Color(.secondarySystemBackground))
@@ -74,39 +75,48 @@ struct DashboardView: View {
                     title: "Banque de temps",
                     //                    trailing: Text(timeDeltaText).foregroundStyle(.green)
 //                    trailing: Text("TEST").foregroundStyle(.green)
-                    trailing: Text(String("\(usersFound[0].balance)")).foregroundStyle(.green)
-
+                    trailing: Text(String("\(usersFound[0].balance) heures")).foregroundStyle(.mintGreen)
+                        
                 )
+                .tint(.black)
             }
             
             NavigationLink { ServicesOffertsView() } label: {
                 DashboardRow(icon: "hand.raised", title: "Services proposés")
+                    .tint(.black)
             }
             
             NavigationLink { DemandesView() } label: {
                 DashboardRow(icon: "hand.wave", title: "Demandes de service")
+                    .tint(.black)
             }
             
             NavigationLink { NotificationsView() } label: {
                 DashboardRow(icon: "bell", title: "Notifications")
+                    .tint(.black)
             }
             
             NavigationLink { EvaluationsView() } label: {
                 DashboardRow(icon: "star", title: "Evaluations")
+                    .tint(.black)
             }
             
             NavigationLink { ParrainageView() } label: {
                 DashboardRow(icon: "heart.text.square", title: "Parrainage", muted: true)
+                    .tint(.black)
             }
 
-            ButtonAddServiceExtView(showingAddService: $showingAddService)
-
+            VStack {
+                Spacer()
+                ButtonAddServiceExtView(showingAddService: $showingAddService)
+            }
+            .navigationTitle("Tableau de bord")
         }
         .sheet(isPresented: $showingAddService) {
             ServiceEditView(viewModel: ServiceFormViewModel(userSession: usersFound[0]))
         }
         .padding(.horizontal, 16)
-        .padding(.bottom, 24)
+        //.padding(.bottom, 24)
     }
 
     
@@ -114,6 +124,7 @@ struct DashboardView: View {
         _userSession = State(initialValue: UserSession())
 
     }
+        
 }
 
 #Preview {

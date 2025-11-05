@@ -13,7 +13,7 @@ struct ButtonAddServiceExtView: View {
     
     var body: some View {
         HStack {
-            Spacer()
+            //Spacer()
             
             Button {
                 showingAddService = true

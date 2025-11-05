@@ -165,29 +165,20 @@ struct MapView: View {
                     .pickerStyle(.segmented)
                     .padding(.horizontal)
                     Spacer()
+                    VStack {
+                       // Spacer()
+                        ButtonAddServiceExtView(showingAddService: $showingAddService)
+                    }
                 }
                 .navigationTitle("Bienvenue  \(userSession.currentUser?.profileId?.pseudo ?? "") ")
                 .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Rechercher un service")
-                NavigationLink {
-                    ServiceEditView(viewModel: ServiceFormViewModel(userSession: usersFound.first))
-                } label: {
-                    HStack{
-                        Image(systemName:"hand.raised.fill")
-                        VStack{
-                            Text("Demander")
-                            Text("de l'aide")
-                        }
-                    }
-                    .padding(12)
-                    //.padding(.trailing, 8)
-                    .background(.deepBlue)
-                    .foregroundStyle(.white)
-                    .cornerRadius(32)
-                    .font(.system(size: 20))
-                    .bold()
-                    
-                    
-                }
+       
+                
+                .background(.warmCoral.opacity(0))
+                //.padding(.bottom, 24)
+            }
+            .sheet(isPresented: $showingAddService) {
+                ServiceEditView(viewModel: ServiceFormViewModel(userSession: usersFound[0]))
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
