@@ -128,7 +128,7 @@ struct MapView: View {
                     List {
                         
                         ForEach(services) { service in
-                            NavigationLink(destination: ServiceDetailView(service: service)) {
+                            NavigationLink(destination: ServiceDetailView(service: service, user: usersFound[0])) {
                                 HStack {
                                     Image(systemName: service.skill.icon)
                                         .foregroundColor(.blue)
