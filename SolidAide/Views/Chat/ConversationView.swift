@@ -34,6 +34,7 @@ struct ConversationView: View {
     }
     
     var body: some View {
+        NavigationStack {
         VStack(spacing: 0) {
             HStack {
                 ZStack {
@@ -71,11 +72,28 @@ struct ConversationView: View {
                             isCurrentUser: message.sender.id == currentUserId
                         )
                     }
-                   
+                   Spacer()
                 }
                 .padding()
             }
-                       
+        }
+            HStack{
+                Spacer()
+                NavigationLink{
+                    FeedBackView()
+                } label:{
+                    HStack{
+                        Image(systemName:"pencil.and.list.clipboard")
+                        Text("Évaluer le service !")
+                    }
+                    .padding(12)
+                    .background(.goldenYellow)
+                    .foregroundStyle(.black)
+                    .cornerRadius(32)
+                    .font(.system(size: 18))
+                    .bold()
+                }
+            }
             // clavier
             HStack(spacing: 12) {
                 TextField("Écrire un message...", text: $messageText)
