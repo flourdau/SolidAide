@@ -7,11 +7,14 @@
 
 // Fichier: ServiceDetailView.swift
 import SwiftUI
+import SwiftData
 
 struct ServiceDetailView: View {
     @Bindable var service: ServiceClass
+    @Bindable var user: UserClass
     @State private var showingEditSheet = false
-
+    @State private var showingAcceptService = false
+    
     var body: some View {
         Form {
             Section("Détails du Service") {
@@ -37,12 +40,19 @@ struct ServiceDetailView: View {
                     Text(comment)
                 }
             }
+            
+            if (service.profileId.userId != user) {
+                ButtonAcceptServiceView(showingAddService: $showingAcceptService)
+            }
         }
         .navigationTitle("Détail du Service")
         .toolbar {
             ToolbarItem {
-                Button("Modifier") {
-                    showingEditSheet = true
+                if (service.profileId.userId != user) {
+                    
+                    Button("Modifier") {
+                        showingEditSheet = true
+                    }
                 }
             }
         }
@@ -51,6 +61,7 @@ struct ServiceDetailView: View {
             ServiceEditView(viewModel: ServiceFormViewModel(service: service))
         }
     }
+
 }
 
 
