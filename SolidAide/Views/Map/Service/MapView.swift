@@ -145,13 +145,17 @@ struct MapView: View {
                                             .foregroundColor(.secondary)
                                         
                                     }
+                                  
                                     
                                 }
                                 
                             }
+                        
                         }
                         .onDelete(perform: deleteService) // (D)ELETE
                     }
+                
+                    .padding(.top, 48)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     
                 }
