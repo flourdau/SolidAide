@@ -10,7 +10,7 @@ import SwiftUI
 struct ProfileCardView: View {
     let profile: ProfileClass
     var size: CGFloat = 72
-    var ringColor: Color = .blue
+    var ringColor: Color = .deepBlue
     var ringWidth: CGFloat = 3
     
     var body: some View {
@@ -58,3 +58,10 @@ struct ProfileCardView: View {
         .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(.separator), lineWidth: 0.4))
     }
 }
+
+
+
+
+
+
+
