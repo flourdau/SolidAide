@@ -33,6 +33,7 @@ struct ProfileDetailView: View {
             }
             
             Section("Localisation") {
+                
 //                if let pos = profile.profilePosition {
 //                    LabeledContent("Latitude", value: String(pos.latitude))
 //                    LabeledContent("Longitude", value: String(pos.longitude))
