@@ -19,10 +19,14 @@ struct ButtonAddServiceExtView: View {
             } label: {
                 HStack{
                     Image(systemName:"hand.raised.fill")
+                        .padding(.trailing, 8)
+
                     VStack{
                         Text("Demander")
                         Text("de l'aide")
                     }
+                    .padding(.trailing, 8)
+
                 }
                 .padding(12)
                 .background(.deepBlue)
@@ -30,6 +34,7 @@ struct ButtonAddServiceExtView: View {
                 .cornerRadius(32)
                 .font(.system(size: 18))
                 .bold()
+                
             }
             .background(.warmCoral.opacity(0))
             .padding(.bottom, 24)
@@ -37,7 +42,6 @@ struct ButtonAddServiceExtView: View {
         }
         .padding(.horizontal,24)
         .background(.green.opacity(0))
-        
     }
 }
 
