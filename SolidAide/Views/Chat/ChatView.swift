@@ -155,7 +155,7 @@ struct ChatView: View {
                     }
                 }
             }
-            .navigationTitle("Bienvenue,  \(userSession.currentUser?.profileId?.pseudo ?? "") ")
+            .navigationTitle("Messagerie")
             .searchable(text: $searchMessages, placement: .navigationBarDrawer(displayMode: .always), prompt: "Rechercher un contact")
         }
     }

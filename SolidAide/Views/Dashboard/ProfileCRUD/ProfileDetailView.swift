@@ -20,19 +20,19 @@ struct ProfileDetailView: View {
 
         Form {
             Section("Informations") {
-                Text(profile.pseudo).font(.title)
+//                Text(profile.pseudo).font(.title)
                 LabeledContent("Ville", value: profile.city ?? "N/A")
                 
-                if let birthday = profile.birthday {
-                    LabeledContent("Anniversaire", value: birthday, format: .dateTime.day().month().year())
-                }
+//                if let birthday = profile.birthday {
+//                    LabeledContent("Anniversaire", value: birthday, format: .dateTime.day().month().year())
+//                }
                 
                 if let aboutMe = profile.aboutMe, !aboutMe.isEmpty {
                     Text(aboutMe)
                 }
             }
             
-            Section("Localisation") {
+//            Section("Localisation") {
                 
 //                if let pos = profile.profilePosition {
 //                    LabeledContent("Latitude", value: String(pos.latitude))
@@ -40,7 +40,7 @@ struct ProfileDetailView: View {
 //                } else {
 //                    Text("Localisation non définie.")
 //                }
-            }
+//            }
             
             // On pourrait ajouter d'autres sections pour les listes (skills, contacts, etc.)
         }

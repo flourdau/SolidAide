@@ -61,9 +61,9 @@ struct ServiceEditView: View {
                     .disabled(!viewModel.canSave)
                     .alert(isPresented: $showingAlert) {
                         Alert(
-                            title: Text("Valider !"),
+                            title: Text("Utiliser \(viewModel.timeSpent)h ?"),
                             message: Text("Êtes-vous sûr d’utilser \(viewModel.timeSpent)h de votre banque de temp?"),
-                            primaryButton: .destructive(Text("Supprimer")) {
+                            primaryButton: .destructive(Text("Valider")) {
                                 viewModel.save(context: context)
                                 dismiss()
                             },

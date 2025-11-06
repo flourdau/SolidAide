@@ -81,25 +81,25 @@ struct DashboardView: View {
                 .tint(.black)
             }
             
-            NavigationLink { ServicesOffertsView() } label: {
-                DashboardRow(icon: "hand.raised", title: "Services proposés")
-                    .tint(.black)
-            }
+//            NavigationLink { ServicesOffertsView() } label: {
+//                DashboardRow(icon: "hand.raised", title: "Services proposés")
+//                    .tint(.black)
+//            }
             
             NavigationLink { DemandesView() } label: {
                 DashboardRow(icon: "hand.wave", title: "Demandes de service")
                     .tint(.black)
             }
             
-            NavigationLink { NotificationsView() } label: {
-                DashboardRow(icon: "bell", title: "Notifications")
-                    .tint(.black)
-            }
+//            NavigationLink { NotificationsView() } label: {
+//                DashboardRow(icon: "bell", title: "Notifications")
+//                    .tint(.black)
+//            }
             
-            NavigationLink { EvaluationsView() } label: {
-                DashboardRow(icon: "star", title: "Evaluations")
-                    .tint(.black)
-            }
+//            NavigationLink { EvaluationsView() } label: {
+//                DashboardRow(icon: "star", title: "Evaluations")
+//                    .tint(.black)
+//            }
             
             NavigationLink { ParrainageView() } label: {
                 DashboardRow(icon: "heart.text.square", title: "Parrainage", muted: true)

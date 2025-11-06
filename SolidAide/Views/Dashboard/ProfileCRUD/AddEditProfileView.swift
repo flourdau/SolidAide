@@ -40,12 +40,12 @@ struct AddEditProfileView: View {
                     DatePicker("Anniversaire", selection: $viewModel.birthday, displayedComponents: .date)
                 }
                 
-                Section("Localisation (Optionnel)") {
-                    TextField("Latitude", text: $viewModel.latitudeString)
-                        .keyboardType(.decimalPad)
-                    TextField("Longitude", text: $viewModel.longitudeString)
-                        .keyboardType(.decimalPad)
-                }
+//                Section("Localisation (Optionnel)") {
+//                    TextField("Latitude", text: $viewModel.latitudeString)
+//                        .keyboardType(.decimalPad)
+//                    TextField("Longitude", text: $viewModel.longitudeString)
+//                        .keyboardType(.decimalPad)
+//                }
             }
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)

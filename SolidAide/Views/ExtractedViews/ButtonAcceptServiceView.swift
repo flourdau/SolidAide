@@ -12,8 +12,6 @@ struct ButtonAcceptServiceView: View {
     @Environment(\.dismiss) var dismiss
     var body: some View {
         HStack {
-//            Spacer()
-            
             Button {
                 showingAddService = true
                 dismiss()
@@ -25,19 +23,30 @@ struct ButtonAcceptServiceView: View {
                             .padding(.trailing, 12)
                     }
                 }
-                    .padding(12)
-                    .background(.warmCoral)
-                    .foregroundStyle(.white)
-                    .cornerRadius(32)
-                    .font(.system(size: 18))
-                    .bold()
+                .padding(12)
+                .background(.warmCoral)
+                .foregroundStyle(.white)
+                .cornerRadius(32)
+                .font(.system(size: 18))
+                .bold()
             }
-            .background(.warmCoral.opacity(0))
             .padding(.bottom, 24)
-            
+            .alert(isPresented: $showingAddService) {
+                Alert(
+                    title: Text("Débiter 1h !"),
+                    message: Text("Êtes-vous sûr de vouloir débiter 1h de la personne à qui vous avez rendu service?"),
+                    primaryButton: .destructive(Text("Débiter")) {
+                        dismiss()
+                    },
+                    secondaryButton: .cancel(
+                        Text("Annuler")
+//                                dismiss()
+
+                    )
+                )
+            }
         }
         .padding(.horizontal,24)
-        .background(.green.opacity(0))
         
     }
 }

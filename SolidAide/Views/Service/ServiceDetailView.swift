@@ -49,7 +49,6 @@ struct ServiceDetailView: View {
         .toolbar {
             ToolbarItem {
                 if (service.profileId.userId != user) {
-                    
                     Button("Modifier") {
                         showingEditSheet = true
                     }
