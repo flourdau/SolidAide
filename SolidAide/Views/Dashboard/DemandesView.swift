@@ -53,6 +53,8 @@ struct DemandesView: View {
         }
         .navigationTitle("Mes demandes")
         ButtonAddServiceExtView(showingAddService: $showingAddService)
+            .padding(.bottom, 20)
+
     }
     
     /// Action (D)ELETE
