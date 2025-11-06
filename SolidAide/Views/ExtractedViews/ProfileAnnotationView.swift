@@ -47,22 +47,38 @@ struct ProfileAnnotationView: View {
                                 user: usersFound[0]
                             )
                         ) {
-                            // Le texte de la bulle conserve le même style que précédemment
-                            Text(service.serviceDescription)
-                                .frame(maxWidth: .infinity)
-                                .padding(12)
-                                .foregroundColor(.white)
-                                .background(
-                                    Color(.mintGreen.opacity(0.95)),
-                                    in: UnevenRoundedRectangle(
-                                        topLeadingRadius: 16,
-                                        bottomLeadingRadius: 16,
-                                        bottomTrailingRadius: 0,
-                                        topTrailingRadius: 16)
-                                )
-                        }
-                        // On enlève le soulignement du lien pour qu’il ressemble à du texte normal
-                        .buttonStyle(.plain)
+                            HStack {
+  
+                                // Le texte de la bulle conserve le même style que précédemment
+                                Text(service.serviceDescription)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(12)
+                                    .foregroundColor(.white)
+                                    .background(
+                                        Color(.mintGreen.opacity(0.95)),
+                                        in: UnevenRoundedRectangle(
+                                            topLeadingRadius: 16,
+                                            bottomLeadingRadius: 16,
+                                            bottomTrailingRadius: 0,
+                                            topTrailingRadius: 16)
+                                    )
+                                Image(systemName: service.skill.icon)
+                                    .bold()
+                                    .padding(8)
+                                    .font(.system(size: 16))                                    .foregroundColor(.black)
+                                    .background(
+                                        Color(.goldenYellow.opacity(0.95)),
+                                        in: UnevenRoundedRectangle(
+                                            topLeadingRadius: 16,
+                                            bottomLeadingRadius: 16,
+                                            bottomTrailingRadius: 0,
+                                            topTrailingRadius: 16)
+                                    )
+                                    .offset(x:-32, y:-24)
+                            }
+                            // On enlève le soulignement du lien pour qu’il ressemble à du texte normal
+                           
+                        } .buttonStyle(.plain)
                     } else {
                         // Aucun service associé → on garde le texte « Info » par défaut
                         Text("Info")
