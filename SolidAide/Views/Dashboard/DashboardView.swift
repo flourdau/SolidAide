@@ -85,6 +85,7 @@ struct DashboardView: View {
             VStack {
                 Spacer()
                 ButtonAddServiceExtView(showingAddService: $showingAddService)
+                    .padding(.bottom, 20)
             }
             .navigationTitle("Tableau de bord")
         }
