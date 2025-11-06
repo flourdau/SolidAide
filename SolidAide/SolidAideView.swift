@@ -54,19 +54,21 @@ struct SolidAideView: View {
                 }
             
             //  ACommenter
-//            if showAdminTab {
+            if showAdminTab {
                 AdminDataBaseView()
                     .tabItem {
                         Text("Admin")
                         Image(systemName: "arrow.2.circlepath.circle")
                     }
-//            }
+            }
             
             
         }
-//        .onAppear {
-//            GenerateDataBaseFunc(context: context)
-//        }
+        .onAppear {
+            if (usersFound.count == 0) {
+                GenerateDataBaseFunc(context: context)
+            }
+        }
     }
     
     

@@ -13,6 +13,7 @@ struct ConversationView: View {
     @Query private var allChats: [ChatClass]
     @State var showingAddService = false
     @State private var messageText = ""
+    @FocusState private var isInputFocused: Bool
     
     let contactInfo: ProfileClass
     let currentUser: UserClass?
@@ -99,6 +100,7 @@ struct ConversationView: View {
                 TextField("Écrire un message...", text: $messageText)
                     .textFieldStyle(.roundedBorder)
                     .padding(.leading, 8)
+                    .focused($isInputFocused)
                 
                 Button(action: sendMessage) {
                     Image(systemName: "paperplane.circle.fill")
@@ -110,6 +112,14 @@ struct ConversationView: View {
             }
             .padding(.vertical, 8)
             .background(Color(.deepBlue.opacity(0.1)))
+            .onAppear {
+                // 🚀 Déclenchement du focus
+                // Vous pouvez ajouter un petit délai pour être sûr que la vue est prête,
+                // surtout si elle apparaît après une navigation ou une transition.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    isInputFocused = true
+                }
+            }
         }
         .navigationBarTitleDisplayMode(.inline)
         

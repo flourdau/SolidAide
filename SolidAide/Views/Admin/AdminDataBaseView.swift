@@ -16,7 +16,8 @@ struct AdminDataBaseView: View {
     @Query var chats: [ChatClass]
     @Query var services: [ServiceClass]
     @Query var timeBanks: [TimeBankClass]
-    
+    @AppStorage(kShowAdminTabKey) private var showAdminTab: Bool = false
+
     func ResetDataBaseUserFunc(context: ModelContext) {
         do {
             let fetchDescriptor = FetchDescriptor<UserClass>()
@@ -231,7 +232,8 @@ struct AdminDataBaseView: View {
                 
                 
             }
-            
+            .onDisappear { showAdminTab = false }
+
             //  BUTTONS
             HStack {
                 Button("Générer") {

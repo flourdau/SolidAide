@@ -18,9 +18,10 @@ struct FeedBackView: View {
                                            
 */
     @State private var commentSelection: Bool = true
-    @State private var comment: String = "Merci de partager vos impressions"
+    @State private var comment: String = ""
     @State private var hasEditedComment = false
     @Environment(\.dismiss) var dismiss
+    @FocusState private var isInputFocused: Bool
 
 /*
   _____                    __
@@ -64,20 +65,53 @@ struct FeedBackView: View {
                 Text("Si non, souhaitez‑vous ajouter un commentaire :")
                     .font(.subheadline)
                 
-                TextEditor(text: $comment)
-                    .foregroundColor(hasEditedComment ? .primary : .secondary)
-                    .frame(width: 300, height: 200)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.gray.opacity(0.4), lineWidth: 1)
-                    )
-                    .padding(.top, 4)
-                    .onTapGesture {
-                        if !hasEditedComment {
-                            comment = ""
-                            hasEditedComment = true
+//                TextEditor(text: $comment)
+//                    .foregroundColor(hasEditedComment ? .primary : .secondary)
+//                    .frame(width: 300, height: 200)
+//                    .overlay(
+//                        RoundedRectangle(cornerRadius: 8)
+//                            .stroke(Color.gray.opacity(0.4), lineWidth: 1)
+//                    )
+//                    .padding(.top, 4)
+                
+                
+                ZStack(alignment: .topLeading) { // Important pour aligner le placeholder en haut à gauche
+                            
+                            // 2. Le Text (Placeholder) : Affiché SEULEMENT si la variable 'contenu' est vide
+                            if comment.isEmpty {
+                                VStack {
+                                    Text("Saisissez votre note ou commentaire ici...") // Votre texte indicatif
+                                        .foregroundColor(.gray)
+                                        .padding(.top, 8)  // Ajustement pour correspondre au début du texte
+                                        .padding(.leading, 5) // Ajustement pour correspondre au début du texte
+                                    Spacer()
+                                }
+                            }
+
+                            // 3. Le TextEditor : Il est toujours présent
+                            TextEditor(text: $comment)
+                                .opacity(comment.isEmpty ? 0.8 : 1) // Rendre le TextEditor légèrement transparent si le placeholder est visible pour améliorer l'effet
                         }
-                    }
+                        .frame(height: 200) // Définir une hauteur pour le TextEditor
+                        .border(Color.gray)
+                        .padding(.horizontal, 24)// (Optionnel) Ajout d'une bordure pour visualiser la zone de saisie
+                    
+                
+//                TextEditor(/*"Merci de partager vos impressions",*/ text: $comment)
+//                    
+////                    .frame(width: 300, height: 200)
+////                    .textFieldStyle(.roundedBorder)
+////                    .padding(.leading, 8)
+//                    .focused($isInputFocused)
+//                                    .foregroundColor(hasEditedComment ? .primary : .secondary)
+//                                    .frame(width: 300, height: 200)
+//                                    .overlay(
+//                                        RoundedRectangle(cornerRadius: 8)
+//                                            .stroke(Color.gray.opacity(0.4), lineWidth: 1)
+//                                    )
+//                                    .padding(.top, 4)
+                
+                
             }
             Spacer()
 /*
@@ -117,6 +151,14 @@ struct FeedBackView: View {
                                 .cornerRadius(8)
                         }
                         .padding([.horizontal, .bottom], 16)
+        }
+        .onAppear {
+            // 🚀 Déclenchement du focus
+            // Vous pouvez ajouter un petit délai pour être sûr que la vue est prête,
+            // surtout si elle apparaît après une navigation ou une transition.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                isInputFocused = true
+            }
         }
     }
 }

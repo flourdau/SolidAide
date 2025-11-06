@@ -47,6 +47,26 @@ struct DashboardView: View {
         }
 
         NavigationStack {
+            NavigationLink {
+                SettingsView()
+            } label: {
+                ZStack{
+                    Rectangle()
+                        .fill(Color("deepBlue")).opacity(0.8)
+                        .cornerRadius(15)
+                        .frame(height: 30)
+                    HStack{
+                        Image(systemName: "gearshape.fill")
+                            .foregroundStyle(Color.white)
+                        Text("Paramètres")
+                            .foregroundStyle(Color.white)
+                            .applyAppFont(18)
+                       }
+                    .padding(.horizontal, 12)
+                    }
+                }
+
+
             //            VStack(spacing: 16) {
             //                Text("Tableau de bord")
             //                    .font(.title2.weight(.semibold))
