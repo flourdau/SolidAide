@@ -1,42 +1,31 @@
-//
-//  ProfileListView.swift
-//  SolidAide
-//
-//  Created by apprenant78 on 04/11/2025.
-//
-
-
-// ProfileListView.swift
 import SwiftUI
 import SwiftData
 
 struct ProfileListView: View {
-    // 1. Accès au ModelContext pour les CUD
+    @EnvironmentObject private var userSession: UserSession
     @Environment(\.modelContext) private var modelContext
-    
-    // 2. READ (Lecture) : @Query récupère et écoute les profils
+
     @Query(sort: \ProfileClass.pseudo) private var profiles: [ProfileClass]
-    
-    // 3. État pour afficher la feuille (sheet) d'ajout
+
     @State private var showingAddSheet = false
-    
+
     var body: some View {
         NavigationStack {
             List {
                 ForEach(profiles) { profile in
-                    // Navigation vers la vue de détail
                     NavigationLink(value: profile) {
                         VStack(alignment: .leading) {
                             Text(profile.pseudo).font(.headline)
-                            Text(profile.city ?? "Ville non définie").font(.subheadline)
+                            Text(profile.city ?? "Ville non définie")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
                         }
                     }
                 }
-                .onDelete(perform: deleteProfiles) // 4. DELETE (Suppression)
+                .onDelete(perform: deleteProfiles)
             }
             .navigationTitle("Profils")
             .navigationDestination(for: ProfileClass.self) { profile in
-                // Destination pour la vue de détail
                 ProfileDetailView(profile: profile)
             }
             .toolbar {
@@ -49,13 +38,11 @@ struct ProfileListView: View {
                 }
             }
             .sheet(isPresented: $showingAddSheet) {
-                // 5. CREATE (Création) : Ouvre le formulaire en mode "création"
                 AddEditProfileView()
             }
         }
     }
-    
-    // Fonction pour la suppression
+
     private func deleteProfiles(at offsets: IndexSet) {
         for index in offsets {
             let profile = profiles[index]
@@ -65,11 +52,13 @@ struct ProfileListView: View {
 }
 
 #Preview {
-
-    // Doit être dans un conteneur SwiftData pour les previews
-    let container = try! ModelContainer(for: ProfileClass.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-    return ProfileListView().modelContainer(container)
-}
-#Preview {
-    ProfileListView()
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: ProfileClass.self, configurations: config)
+        return ProfileListView()
+            .modelContainer(container)
+            .environmentObject(UserSession())
+    } catch {
+        fatalError("Failed to create preview container: \(error)")
+    }
 }

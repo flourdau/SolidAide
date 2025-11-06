@@ -1,107 +1,115 @@
-//
-//  MapView.swift
-//  SolidAide
-//
-//  Created by apprenant78 on 28/10/2025.
-//
-
 import SwiftUI
 import SwiftData
 import MapKit
-// FILTRER SURR LA DISTANCE en liste...
 
+// ---------------------------------------------------------------
+// Extension qui fournit une coordonnée « user » utilisable dans
+// l’annotation Map. Elle doit être visible avant l’usage dans la vue.
+// ---------------------------------------------------------------
+extension CLLocationCoordinate2D {
+    /// Position fictive de l’utilisateur (peut être adaptée dynamiquement)
+    static let user = CLLocationCoordinate2D(latitude: 48.889655,
+                                            longitude: 2.339581)
+}
+
+// =================================================================
+// MapView – carte + liste des services
+// =================================================================
 struct MapView: View {
-    /*
-     USER FICTIF
-     */
-    @Query(filter: #Predicate<UserClass> { user in
-        user.logIn == "severine@email.fr"
-    }) var usersFound: [UserClass]
-    @State var userSession: UserSession
+    // -----------------------------------------------------------------
+    // 1️⃣  Adresse e‑mail stockée (définie dans SolidAideApp)
+    // -----------------------------------------------------------------
+    @AppStorage("loggedInEmail") private var loggedInEmail: String = ""
 
+    // -----------------------------------------------------------------
+    // 2️⃣  Données SwiftData
+    // -----------------------------------------------------------------
+    @Query private var usersFound: [UserClass]                 // Tous les comptes
+    @Query(sort: \ServiceClass.startDate, order: .reverse) private var services: [ServiceClass] // Services triés
+    @Query private var profiles: [ProfileClass]               // Tous les profils (annotations)
 
+    // -----------------------------------------------------------------
+    // 3️⃣  États UI
+    // -----------------------------------------------------------------
+    @EnvironmentObject private var userSession: UserSession
     @Environment(\.modelContext) private var context
-    @Query(sort: \ServiceClass.startDate, order: .reverse) private var services: [ServiceClass]
-    //@Query private var services: [ServiceClass]
-    @Query var profiles: [ProfileClass]
-    @State var showingAddService = false
+
+    @State private var showingAddService = false
     @State private var searchText = ""
-    @State private var cameraPosition = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.889655, longitude: 2.339581), span: MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08)))
-    //@State private var cameraPosition: MapCameraPosition = .userLocation(fallback: .automatic)
-    let locationManager = CLLocationManager()
-    @State var isToggle: Bool = false
-    
-    private var isShowingMap: Bool {
-        viewMode == 0
+    @State private var cameraPosition = MapCameraPosition.region(
+        MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: 48.889655,
+                                          longitude: 2.339581),
+            span:   MKCoordinateSpan(latitudeDelta: 0.08,
+                                      longitudeDelta: 0.08)
+        )
+    )
+    @State private var viewMode = 0                     // 0 = Carte, 1 = Liste
+    @State private var selectedSkill: SkillsEnum? = nil // Filtre par compétence
+
+    // -----------------------------------------------------------------
+    // 4️⃣  Utilisateur courant (déduit de l’e‑mail stocké)
+    // -----------------------------------------------------------------
+    private var currentUser: UserClass? {
+        usersFound.first { $0.logIn == loggedInEmail }
     }
-    @State private var viewMode: Int = 0
-    @State private var selectedSkill: SkillsEnum? = nil
-    var filteredServices: [ServiceClass] {
-        var filtered = services
-        
-        // A. Filtrer par Compétence (SkillsEnum)
+
+    // -----------------------------------------------------------------
+    // 5️⃣  Filtrage des services (skill + recherche texte)
+    // -----------------------------------------------------------------
+    private var filteredServices: [ServiceClass] {
+        var result = services
+
+        // Filtre par compétence sélectionnée
         if let skill = selectedSkill {
-            filtered = filtered.filter { $0.skill == skill }
+            result = result.filter { $0.skill == skill }
         }
-        
-        // B. Filtrer par Texte de Recherche (sur plusieurs champs)
-        guard !searchText.isEmpty else {
-            return filtered
-        }
-        
-        let searchLowercased = searchText.localizedLowercase
-        
-        return filtered.filter { service in
-            return service.serviceDescription.localizedLowercase.contains(searchLowercased) ||
-            service.city.localizedLowercase.contains(searchLowercased) ||
-            service.profileId.pseudo.localizedLowercase.contains(searchLowercased)
+
+        // Filtre texte libre
+        guard !searchText.isEmpty else { return result }
+        let lower = searchText.lowercased()
+        return result.filter {
+            $0.serviceDescription.lowercased().contains(lower) ||
+            $0.city.lowercased().contains(lower) ||
+            $0.profileId.pseudo.lowercased().contains(lower)
         }
     }
-    
+
+    // -----------------------------------------------------------------
+    // 6️⃣  Corps de la vue
+    // -----------------------------------------------------------------
     var body: some View {
+        // Synchroniser la session globale dès que l’on connaît l’utilisateur
         let _ = DispatchQueue.main.async {
-            if usersFound.first !== userSession.currentUser {
-                userSession.currentUser = usersFound.first
+            if let u = currentUser, userSession.currentUser?.id != u.id {
+                userSession.currentUser = u
             }
         }
-        
+
         NavigationStack {
-            
-            
-            ZStack(alignment: .bottom){
-                
-                if isShowingMap {
-
+            ZStack(alignment: .bottom) {
+                // ---------------------------------------------------------
+                // 6.1️⃣  Mode Carte
+                // ---------------------------------------------------------
+                if viewMode == 0 {
                     Map(position: $cameraPosition) {
-//                        var tab: [Bool] = []
-                        
-                        ForEach(profiles, id: \.self){ profile in
-
-                            
-                            
-
-                            Annotation(profile.pseudo, coordinate:  CLLocationCoordinate2D(latitude: profile.profilePosition?.latitude ?? 0,longitude: profile.profilePosition?.longitude ?? 0), anchor: .center) {
-                                //                                Image(systemName: "figure.wave")
-                                //                                    .resizable()
-                                //                                    .scaledToFit()
-                                //                                    .frame(width: 30, height: 30)
-                                //                                    .foregroundStyle(.warmCoral)
-                                
-
+                        // ---- Annotations des profils ----
+                        ForEach(profiles, id: \.self) { profile in
+                            Annotation(
+                                profile.pseudo,
+                                coordinate: CLLocationCoordinate2D(
+                                    latitude: profile.profilePosition?.latitude ?? 0,
+                                    longitude: profile.profilePosition?.longitude ?? 0
+                                ),
+                                anchor: .center
+                            ) {
                                 ProfileAnnotationView(profile: profile)
                                     .frame(width: 200, height: 100)
-                                
-                                    
                             }
-//                            .annotationTitles(.visible)
-                            
-                            
                         }
-                        Annotation(
-                            "Vous êtes ici.",
-                            coordinate: .user,
-                            anchor: .bottom
-                        ) {
+
+                        // ---- Position de l'utilisateur (icône fixe) ----
+                        Annotation("Vous êtes ici.", coordinate: .user, anchor: .bottom) {
                             Image(systemName: "figure.wave")
                                 .resizable()
                                 .scaledToFit()
@@ -109,11 +117,10 @@ struct MapView: View {
                                 .foregroundStyle(Color.mintGreen)
                         }
                         .annotationTitles(.visible)
-                        //UserAnnotation()
                     }
                     .onAppear {
-                        locationManager.requestWhenInUseAuthorization()
-                        
+                        // Demander la permission de localisation dès l’ouverture
+                        CLLocationManager().requestWhenInUseAuthorization()
                     }
                     .mapControls {
                         MapUserLocationButton()
@@ -122,127 +129,112 @@ struct MapView: View {
                         MapScaleView()
                     }
                     .mapStyle(.standard(elevation: .realistic))
-                    //.ignoresSafeArea()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                // ---------------------------------------------------------
+                // 6.2️⃣  Mode Liste
+                // ---------------------------------------------------------
                 } else {
                     List {
-                        
-                        ForEach(services) { service in
-                            NavigationLink(destination: ServiceDetailView(service: service, user: usersFound[0])) {
-                                HStack {
+                        ForEach(filteredServices) { service in
+                            NavigationLink {
+                                ServiceDetailView(service: service,
+                                                  user: currentUser ?? usersFound.first!)
+                            } label: {
+                                HStack(spacing: 12) {
                                     Image(systemName: service.skill.icon)
                                         .foregroundColor(.blue)
-                                    
-                                    VStack(alignment: .leading) {
-                                        Text(service.skill.rawValue).font(.headline)
-                                        
+
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(service.skill.rawValue)
+                                            .font(.headline)
+
                                         Text(service.serviceDescription)
                                             .font(.subheadline)
                                             .lineLimit(1)
-                                        
-                                        Text("Demandé par: \(service.profileId.pseudo) | \(service.city)")
+
+                                        Text("Demandé par : \(service.profileId.pseudo) • \(service.city)")
                                             .font(.caption)
                                             .foregroundColor(.secondary)
-                                        
                                     }
-                                  
-                                    
                                 }
-                                
                             }
-                        
                         }
-                        .onDelete(perform: deleteService) // (D)ELETE
+                        .onDelete(perform: deleteService)
                     }
-                
+                    .listStyle(.plain)
                     .padding(.top, 48)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    
                 }
+
+                // ---------------------------------------------------------
+                // 6.3️⃣  Contrôles communs (picker + bouton d’ajout)
+                // ---------------------------------------------------------
                 VStack(spacing: 0) {
-                    
                     Picker("Vue", selection: $viewMode) {
                         Text("Carte").tag(0)
                         Text("Liste").tag(1)
                     }
-                    
                     .pickerStyle(.segmented)
                     .padding(.horizontal)
+
                     Spacer()
-                    VStack {
-                       // Spacer()
-                        ButtonAddServiceExtView(showingAddService: $showingAddService)
-                    }
+
+                    ButtonAddServiceExtView(showingAddService: $showingAddService)
                 }
                 .navigationTitle("Bienvenue  \(userSession.currentUser?.profileId?.pseudo ?? "") ")
-                .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Rechercher un service")
-       
-                
-                .background(.warmCoral.opacity(0))
-                //.padding(.bottom, 24)
-            }
+                .searchable(text: $searchText,
+                            placement: .navigationBarDrawer,
+                            prompt: "Rechercher un service")
+            }   // └─ ZStack
             .sheet(isPresented: $showingAddService) {
-                ServiceEditView(viewModel: ServiceFormViewModel(userSession: usersFound[0]))
+                ServiceEditView(viewModel: ServiceFormViewModel(userSession: currentUser))
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    
-                }
-                
-            }
-            
-            
-        }
+        }   // └─ NavigationStack
     }
-    
-    /// Action (D)ELETE
+
+    // -----------------------------------------------------------------
+    // 7️⃣  Suppression d’un service (appelée depuis la liste)
+    // -----------------------------------------------------------------
     private func deleteService(at offsets: IndexSet) {
         for index in offsets {
             let service = services[index]
             context.delete(service)
         }
-        
+        try? context.save()
     }
-    
-    init() {
-        _userSession = State(initialValue: UserSession())
-    }
-    
 }
 
-extension CLLocationCoordinate2D {
-    static let user = CLLocationCoordinate2D(
-        latitude: 48.889655, longitude: 2.339581
-    )
-}
-
-
-
-
-
-
-#Preview {
-    ////    MapView()
-    ////        .modelContainer(for: [
-    ////            UserClass.self,
-    ////            ProfileClass.self,
-    ////            ChatClass.self,
-    ////            ServiceClass.self,
-    ////            TimeBankClass.self
-    ////        ])
-    
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: UserClass.self, ServiceClass.self, configurations: config)
-        
-        GenerateDataBaseFunc(context: container.mainContext)
-        
-        return MapView()
-            .modelContainer(container)
-        
-    } catch {
-        fatalError("Échec de la création du ModelContainer pour la preview : \(error)")
-        
-    }
-    
-}
+// =================================================================
+// PREVIEW – container complet (mémoire uniquement) pour éviter les
+// erreurs “Missing model container for type …”
+// =================================================================
+//#Preview {
+//    do {
+//        // Configuration en mémoire uniquement (utile pour les previews)
+//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//
+//        // Toutes les entités utilisées dans MapView doivent être présentes
+//        let container = try ModelContainer(
+//            for: [
+//                UserClass.self,
+//                ProfileClass.self,
+//                ServiceClass.self,
+//                ChatClass.self,
+//                TimeBankClass.self
+//            ],
+//            configurations: config
+//        )
+//
+//        // Peupler la base avec les données factices
+//        GenerateDataBaseFunc(context: container.mainContext)
+//
+//        // Simuler un utilisateur déjà connecté
+//        UserDefaults.standard.set("severine@email.fr", forKey: "loggedInEmail")
+//
+//        return MapView()
+//            .modelContainer(container)
+//            .environmentObject(UserSession())
+//    } catch {
+//        fatalError("Impossible de créer le ModelContainer de preview : \(error)")
+//    }
+//}

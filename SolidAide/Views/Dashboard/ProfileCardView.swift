@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProfileCardView: View {
+    @EnvironmentObject private var userSession: UserSession
     let profile: ProfileClass
     var size: CGFloat = 72
     var ringColor: Color = .deepBlue

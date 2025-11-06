@@ -66,7 +66,7 @@ import SwiftData
 
 struct TimeBankView: View {
 
-    
+    @EnvironmentObject private var userSession: UserSession
     @Environment(\.modelContext) private var context
     @Query var users: [UserClass]
     @Query var profiles: [ProfileClass]

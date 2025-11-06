@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ProfileDetailView: View {
+    @EnvironmentObject private var userSession: UserSession
     // Le profil à afficher (reçu de la liste)
     let profile: ProfileClass
     

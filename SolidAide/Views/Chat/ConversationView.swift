@@ -1,40 +1,39 @@
-//
-//  ConversationView.swift
-//  SolidAide
-//
-//  Created by apprenant76 on 31/10/2025.
-//
 import SwiftUI
 import SwiftData
 
 struct ConversationView: View {
+    @EnvironmentObject private var userSession: UserSession
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \ServiceClass.startDate, order: .reverse) private var services: [ServiceClass]
     @Query private var allChats: [ChatClass]
-    @State var showingAddService = false
-    @State private var messageText = ""
-    
-    let contactInfo: ProfileClass
-    let currentUser: UserClass?
+    @Query private var users: [UserClass]
 
-    var currentUserId: UUID? {
-        currentUser?.id
+    @State private var showingAddService = false
+    @State private var messageText = ""
+
+    let contactInfo: ProfileClass
+
+    private var currentUser: UserClass? {
+        guard let email = UserDefaults.standard.string(forKey: "loggedInEmail") else { return nil }
+        return users.first { $0.logIn == email }
     }
 
-    var conversationMessages: [ChatClass] {
-        guard let contactUserId = contactInfo.userId?.id else { return [] }
-        guard let currentUserId = currentUserId else { return [] }
-        
+    private var currentUserId: UUID? { currentUser?.id }
+
+    private var conversationMessages: [ChatClass] {
+        guard let contactId = contactInfo.userId?.id,
+              let currentId = currentUserId else { return [] }
+
         return allChats
             .filter { chat in
-                (chat.sender.id == currentUserId && chat.recipient.id == contactUserId) ||
-                (chat.sender.id == contactUserId && chat.recipient.id == currentUserId)
+                (chat.sender.id == currentId && chat.recipient.id == contactId) ||
+                (chat.sender.id == contactId && chat.recipient.id == currentId)
             }
-            .sorted(by: { $0.dateTime < $1.dateTime })
+            .sorted { $0.dateTime < $1.dateTime }
     }
-    
+
     var body: some View {
         VStack(spacing: 0) {
+            // Header
             HStack {
                 ZStack {
                     Circle()
@@ -46,7 +45,6 @@ struct ConversationView: View {
                         .frame(width: 55, height: 55)
                         .clipShape(Circle())
                 }
-                
                 VStack(alignment: .leading) {
                     Text(contactInfo.pseudo)
                         .font(.headline)
@@ -55,33 +53,29 @@ struct ConversationView: View {
                         .font(.caption)
                         .foregroundColor(.green)
                 }
-                
                 Spacer()
                 ButtonAddServiceExtView(showingAddService: $showingAddService)
-                
             }
             .padding()
             .background(Color(.deepBlue.opacity(0.1)))
-            
+
+            // Messages
             ScrollView {
                 VStack(spacing: 12) {
                     ForEach(conversationMessages) { message in
-                        MessageBubble(
-                            message: message,
-                            isCurrentUser: message.sender.id == currentUserId
-                        )
+                        MessageBubble(message: message,
+                                      isCurrentUser: message.sender.id == currentUserId)
                     }
-                   
                 }
                 .padding()
             }
-                       
-            // clavier
+
+            // Composer
             HStack(spacing: 12) {
                 TextField("Écrire un message...", text: $messageText)
                     .textFieldStyle(.roundedBorder)
                     .padding(.leading, 8)
-                
+
                 Button(action: sendMessage) {
                     Image(systemName: "paperplane.circle.fill")
                         .font(.system(size: 32))
@@ -94,50 +88,41 @@ struct ConversationView: View {
             .background(Color(.deepBlue.opacity(0.1)))
         }
         .navigationBarTitleDisplayMode(.inline)
-        
         .sheet(isPresented: $showingAddService) {
             ServiceEditView(viewModel: ServiceFormViewModel(userSession: currentUser))
         }
+        .onAppear { markUnreadMessagesAsRead() }
     }
-    
-    // function pour envoyer des messages
+
     private func sendMessage() {
         guard !messageText.trimmingCharacters(in: .whitespaces).isEmpty,
               let currentUser = currentUser,
-              let contactUser = contactInfo.userId else {
-            return
-        }
-        
+              let contactUser = contactInfo.userId else { return }
+
         let newMessage = ChatClass(
             dateTime: Date(),
             sender: currentUser,
             recipient: contactUser,
             message: messageText
         )
-        
         modelContext.insert(newMessage)
         try? modelContext.save()
-        
         messageText = ""
     }
-}
 
-#Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(
-        for: UserClass.self, ProfileClass.self, ChatClass.self, ServiceClass.self, TimeBankClass.self,
-        configurations: config
-    )
-    let context = ModelContext(container)
-    
-    GenerateDataBaseFunc(context: context)
-    
-    let descriptor = FetchDescriptor<ProfileClass>()
-    let profiles = try! context.fetch(descriptor)
-    
-    let userDescriptor = FetchDescriptor<UserClass>()
-    let users = try! context.fetch(userDescriptor)
-    
-    return ConversationView(contactInfo: profiles[0], currentUser: users[2])
-        .modelContainer(container)
+    private func markUnreadMessagesAsRead() {
+        guard let contactId = contactInfo.userId?.id,
+              let currentId = currentUserId else { return }
+
+        let unread = allChats.filter { chat in
+            chat.sender.id == contactId &&
+            chat.recipient.id == currentId &&
+            !chat.isRead
+        }
+
+        guard !unread.isEmpty else { return }
+
+        for chat in unread { chat.isRead = true }
+        try? modelContext.save()
+    }
 }

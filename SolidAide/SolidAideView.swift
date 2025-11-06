@@ -1,99 +1,69 @@
-//
-//  ContentView.swift
-//  SolidAide
-//
-//  Created by apprenant78 on 27/10/2025.
-//
-
 import SwiftUI
 import SwiftData
 
 public let kShowAdminTabKey = "showAdminTab"
 
 struct SolidAideView: View {
-    
-    /*
-     USER FICTIF
-     */
-    @Query(filter: #Predicate<UserClass> { user in
-        user.logIn == "florian@email.fr"
-    }) var usersFound: [UserClass]
     @AppStorage(kShowAdminTabKey) private var showAdminTab: Bool = false
-    @Environment(\.modelContext) private var context
-    @State var userSession: UserSession
+    @EnvironmentObject private var userSession: UserSession
+    @Query(sort: \UserClass.logIn) private var usersFound: [UserClass]
+
     var body: some View {
-        
-        
-        
-        let _ = DispatchQueue.main.async {
-            
-            if usersFound.first !== userSession.currentUser {
-                userSession.currentUser = usersFound.first
-            }
-        }
-        TabView() {
-            MapView()
-                .tabItem {
-                    Text("Rechercher")
-                    Image(systemName: "magnifyingglass")
-                }
-                .environment(userSession)
-            
-            DashboardView()
-                .tabItem {
-                    Text("Tableau de bord")
-                    //                    Text(userLogged.profileId.pseudo)
-                    Image(systemName: "square.grid.2x2.fill")
-                }
-            
-            
-            ChatView()
-                .tabItem {
-                    Text("Messagerie")
-                    Image(systemName: "bubble")
-                }
-            
-            //  ACommenter
-            if showAdminTab {
-                AdminDataBaseView()
-                    .tabItem {
-                        Text("Admin")
-                        Image(systemName: "arrow.2.circlepath.circle")
+        let currentUser = usersFound.first { $0.logIn == UserDefaults.standard.string(forKey: "loggedInEmail") }
+
+        Group {
+            if let user = currentUser {
+                TabView {
+                    MapView()
+                        .tabItem {
+                            Text("Rechercher")
+                            Image(systemName: "magnifyingglass")
+                        }
+                        .environmentObject(userSession)
+
+                    DashboardView()
+                        .tabItem {
+                            Text("Tableau de bord")
+                            Image(systemName: "square.grid.2x2.fill")
+                        }
+
+                    ChatView()
+                        .tabItem {
+                            Text("Messagerie")
+                            Image(systemName: "bubble")
+                        }
+
+                    if showAdminTab {
+                        AdminDataBaseView()
+                            .tabItem {
+                                Text("Admin")
+                                Image(systemName: "arrow.2.circlepath.circle")
+                            }
                     }
+                }
+                .onAppear {
+                    if userSession.currentUser == nil {
+                        userSession.currentUser = user
+                    }
+                }
+            } else {
+                VStack(spacing: 20) {
+                    Image(systemName: "exclamationmark.triangle")
+                        .font(.largeTitle)
+                        .foregroundColor(.red)
+
+                    Text("Aucun compte utilisateur trouvé.")
+                        .font(.headline)
+
+                    Text("""
+                         Vérifiez que l’adresse e‑mail enregistrée (« \(UserDefaults.standard.string(forKey: "loggedInEmail") ?? "‑") ») \
+                         correspond à un utilisateur présent dans le seed de données.
+                         """)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.secondary)
+                }
+                .padding()
             }
-            
-            
-        }
-        .onAppear {
-            GenerateDataBaseFunc(context: context)
         }
     }
-    
-    
-    
-    init() {
-
-        _userSession = State(initialValue: UserSession())
-    }
-}
-
-#Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: UserClass.self,
-                                           ProfileClass.self,
-                                           ServiceClass.self,
-                                           ChatClass.self,
-                                           TimeBankClass.self,
-                                           configurations: config)
-        
-        GenerateDataBaseFunc(context: container.mainContext)
-        
-        return SolidAideView()
-            .modelContainer(container)
-        
-    } catch {
-        fatalError("Échec de la création du ModelContainer pour la preview : \(error)")
-    }
-    
 }

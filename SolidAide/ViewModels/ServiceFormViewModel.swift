@@ -1,19 +1,11 @@
-//
-//  ServiceFormViewModel.swift
-//  SolidAide
-//
-//  Created by apprenant78 on 02/11/2025.
-//
-
 import Foundation
 import SwiftUI
 import SwiftData
-
+import Observation
 
 @Observable
-class ServiceFormViewModel {
-    
-    /// État du Formulaire --
+final class ServiceFormViewModel {
+    // MARK: - Données du formulaire
     var profileId: ProfileClass?
     var skill: SkillsEnum = .digital
     var serviceDescription: String = ""
@@ -22,28 +14,23 @@ class ServiceFormViewModel {
     var timeSpent: Int = 1
     var startDate: Date = Date()
     var serviceRepeat: ServiceRepeatEnum? = nil
-//    var userSession: UserClass?
     var userSession: UserClass?
 
-    /// État de la Logique ---
+    // MARK: - Logique interne
     var isEditing: Bool
     private var serviceToEdit: ServiceClass?
-    
-    /// Initialiseur pour (C)REATE (un nouveau service)
-    //    init(userSession: UserClass) {
-    init(
-        userSession: UserClass?
-    ) {
+
+    // MARK: - Initialisateurs
+    init(userSession: UserClass?) {
         self.isEditing = false
+        self.userSession = userSession
         self.profileId = userSession?.profileId
     }
-    
-    /// Initialiseur pour (U)PDATE (un service existant)
+
     init(service: ServiceClass) {
         self.isEditing = true
         self.serviceToEdit = service
-        
-        /// Pré-remplir le formulaire avec les données du service
+
         self.profileId = service.profileId
         self.skill = service.skill
         self.serviceDescription = service.serviceDescription
@@ -53,45 +40,22 @@ class ServiceFormViewModel {
         self.startDate = service.startDate
         self.serviceRepeat = service.serviceRepeat
     }
-    
-    
-    
-    /// Logique de validation simple
-    var canSave: Bool {
-        // Un service doit avoir un demandeur (profileId)
-        // et une description non vide.
-        // UN SKILL!!!
-        // Une ville
-        // Un timeSpent
-        // Une Date
-        
-        //            id = /*userSession*/.id,
-        //        userSession?.balance = (userSession?.balance ?? 0) - timeSpent
 
-        
-        //        context.insert(newUser)
-        
-        
-        // Assez de temps dans le porte monnaie sauf si free....
-        //        return skill.rawValue.count > 0 &&
+    // MARK: - Validation
+    var canSave: Bool {
+        guard let _ = profileId else { return false }
         return !city.trimmingCharacters(in: .whitespaces).isEmpty &&
-        timeSpent > 0 &&
-        //        startDate != nil &&
-        !serviceDescription.trimmingCharacters(in: .whitespaces).isEmpty
+               timeSpent > 0 &&
+               !serviceDescription.trimmingCharacters(in: .whitespaces).isEmpty
     }
-    
-    /// Action d'edit (Create & Update)
+
+    // MARK: - Persistance
     func save(context: ModelContext) {
-        /// Validation
-        guard canSave, let profileId = profileId else {
-            print("Erreur: Impossible de sauvegarder, données manquantes.")
-            return
-        }
-        
+        guard canSave, let profile = profileId else { return }
+
         if isEditing {
-            /// (U)PDATE
             guard let service = serviceToEdit else { return }
-            service.profileId = profileId
+            service.profileId = profile
             service.skill = skill
             service.serviceDescription = serviceDescription
             service.city = city
@@ -99,12 +63,9 @@ class ServiceFormViewModel {
             service.timeSpent = timeSpent
             service.startDate = startDate
             service.serviceRepeat = serviceRepeat
-            
-        }
-        else {
-            /// (C)REATE
+        } else {
             let newService = ServiceClass(
-                profileId: profileId,
+                profileId: profile,
                 skill: skill,
                 serviceDescription: serviceDescription,
                 city: city,
@@ -112,21 +73,19 @@ class ServiceFormViewModel {
                 timeSpent: timeSpent,
                 startDate: startDate,
                 serviceRepeat: serviceRepeat
-                
             )
 
-            do {
-                userSession?.balance = userSession?.balance ?? 0 - timeSpent
-                
-                context.insert(newService)
-
-                try context.save()
-            } catch {
-                // Gérer l'erreur de sauvegarde de manière appropriée
-                print("Échec de la sauvegarde du contexte: \(error.localizedDescription)")
+            if let user = userSession {
+                user.balance = (user.balance) - timeSpent
             }
 
+            context.insert(newService)
+
+            do {
+                try context.save()
+            } catch {
+                print("❗️ Erreur lors de la sauvegarde du service : \(error)")
+            }
         }
-        
     }
 }

@@ -1,187 +1,234 @@
-//
-//  ChatView.swift
-//  SolidAide
-//
-//  Created by apprenant78 on 28/10/2025.
-//
 import SwiftUI
 import SwiftData
 
+// ---------------------------------------------------------------
+// MARK: – Helpers (outside the view body)
+// ---------------------------------------------------------------
+fileprivate func resolveCurrentUser(
+    session: UserSession,
+    users: [UserClass],
+    loggedInEmail: String
+) -> UserClass? {
+    session.currentUser ?? users.first { $0.logIn == loggedInEmail }
+}
+
+// Returns the most recent chat between two users.
+fileprivate func latestChat(
+    between userId: UUID,
+    and contactId: UUID,
+    in chats: [ChatClass]
+) -> ChatClass? {
+    chats
+        .filter {
+            ($0.sender.id == userId && $0.recipient.id == contactId) ||
+            ($0.sender.id == contactId && $0.recipient.id == userId)
+        }
+        .max(by: { $0.dateTime < $1.dateTime })
+}
+
+// ---------------------------------------------------------------
+// MARK: – ChatView
+// ---------------------------------------------------------------
 struct ChatView: View {
-    @Query(filter: #Predicate<UserClass> { user in
-        user.logIn == "severine@email.fr"
-    }) var usersFound: [UserClass]
-    @State var userSession: UserSession
+    @AppStorage("loggedInEmail") private var loggedInEmail: String = ""
 
-    @Environment(\.modelContext) private var modelContext
+    @Query private var usersFound: [UserClass]
     @Query private var profiles: [ProfileClass]
-    @Query private var chats: [ChatClass]
-    
+
+    // All chats – we’ll filter manually because we need the current user id.
+    @Query private var allChats: [ChatClass]
+
+    @EnvironmentObject private var userSession: UserSession
+    @Environment(\.modelContext) private var modelContext
+
     @State private var messageType = "Tous"
-    @State private var searchMessages: String = ""
-    let status = ["Tous", "Non Lus", "Favoris"]
-        
-    var filteredProfiles: [ProfileClass] {
-            guard let currentUser = usersFound.first, let myProfile = currentUser.profileId else {
-                return []
-            }
+    @State private var searchText = ""
 
-            let contactUserIDs = myProfile.contacts?.map { $0.id } ?? []
-            
-            let contactProfiles = profiles.filter { profile in
-                guard let profileUserId = profile.userId?.id else { return false }
-                return contactUserIDs.contains(profileUserId)
-            }
+    private let status = ["Tous", "Non Lus", "Favoris"]
 
-            switch messageType {
-            case "Tous":
-                return contactProfiles
-
-            case "Non Lus":
-                return contactProfiles.filter { profile in
-                    chats.contains { chat in
-                        chat.sender.id == profile.userId?.id &&
-                        chat.recipient.id == currentUser.id &&
-                        chat.isRead == false
-                    }
-                }
-
-            case "Favoris":
-                let favoriteUserIDs = myProfile.favorite?.map { $0.id } ?? []
-                
-                return profiles.filter { profile in
-                    guard let profileUserId = profile.userId?.id else { return false }
-                    return favoriteUserIDs.contains(profileUserId)
-                }
-                
-            default:
-                return contactProfiles
-            }
-        }
-    
-    private var searchContact: [ProfileClass]{
-         if searchMessages.isEmpty {
-             return filteredProfiles} else{
-                 return filteredProfiles.filter {
-                $0.pseudo.localizedCaseInsensitiveContains(searchMessages)}
-             }
-     }
-    
-    // function pour ajuster le message affiché
-    private func getLatestChatWith(_ contactInfo: ProfileClass) -> ChatClass? {
-        guard let currentUserId = usersFound.first?.id,
-              let contactUserId = contactInfo.userId?.id else {
-            return nil
-        }
-        
-        return chats
-            .filter { chat in
-                (chat.sender.id == currentUserId && chat.recipient.id == contactUserId) ||
-                (chat.sender.id == contactUserId && chat.recipient.id == currentUserId)
-            }
-            .sorted(by: { $0.dateTime > $1.dateTime })
-            .first
+    // -----------------------------------------------------------------
+    // Current user (taken from the shared session or fallback)
+    // -----------------------------------------------------------------
+    private var currentUser: UserClass? {
+        resolveCurrentUser(session: userSession,
+                           users: usersFound,
+                           loggedInEmail: loggedInEmail)
     }
 
-    var body: some View {
-        let _ = DispatchQueue.main.async {
-            if usersFound.first !== userSession.currentUser {
-                userSession.currentUser = usersFound.first
+    // -----------------------------------------------------------------
+    // Contacts that belong to the current user (derived from profile)
+    // -----------------------------------------------------------------
+    private var myProfile: ProfileClass? {
+        currentUser?.profileId
+    }
+
+    private var contactIDs: Set<UUID> {
+        guard let contacts = myProfile?.contacts else { return [] }
+        return Set(contacts.map { $0.id })
+    }
+
+    private var favoriteIDs: Set<UUID> {
+        guard let favs = myProfile?.favorite else { return [] }
+        return Set(favs.map { $0.id })
+    }
+
+    // -----------------------------------------------------------------
+    // Base list of contacts (only those that are in the user's contact list)
+    // -----------------------------------------------------------------
+    private var baseContacts: [ProfileClass] {
+        profiles.filter { profile in
+            guard let uid = profile.userId?.id else { return false }
+            return contactIDs.contains(uid)
+        }
+    }
+
+    // -----------------------------------------------------------------
+    // Chats that are unread (used for the “Non Lus” tab)
+    // -----------------------------------------------------------------
+    private var nonReadContactIDs: Set<UUID> {
+        guard let uid = currentUser?.id else { return [] }
+        var ids = Set<UUID>()
+        for chat in allChats where !chat.isRead {
+            if chat.sender.id == uid {
+                ids.insert(chat.recipient.id)
+            } else if chat.recipient.id == uid {
+                ids.insert(chat.sender.id)
             }
         }
+        return ids
+    }
 
+    // -----------------------------------------------------------------
+    // Filtered contacts according to the selected segment
+    // -----------------------------------------------------------------
+    private var filteredContacts: [ProfileClass] {
+        switch messageType {
+        case "Tous":
+            return baseContacts
+        case "Non Lus":
+            return baseContacts.filter {
+                guard let uid = $0.userId?.id else { return false }
+                return nonReadContactIDs.contains(uid)
+            }
+        case "Favoris":
+            return baseContacts.filter {
+                guard let uid = $0.userId?.id else { return false }
+                return favoriteIDs.contains(uid)
+            }
+        default:
+            return baseContacts
+        }
+    }
+
+    // -----------------------------------------------------------------
+    // Apply the free‑text search
+    // -----------------------------------------------------------------
+    private var displayedContacts: [ProfileClass] {
+        guard !searchText.isEmpty else { return filteredContacts }
+        return filteredContacts.filter {
+            $0.pseudo.localizedCaseInsensitiveContains(searchText)
+        }
+    }
+
+    // -----------------------------------------------------------------
+    // Body – UI composition only
+    // -----------------------------------------------------------------
+    var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                VStack{
-                    Picker("Type", selection: $messageType) {
-                        ForEach(status, id: \.self) {
-                            Text($0)
-                        }
-                        
-                    }
-                    .pickerStyle(.segmented)
-                    .padding()
+                Picker("Type", selection: $messageType) {
+                    ForEach(status, id: \.self) { Text($0) }
                 }
-                .background(.deepBlue.opacity(0.1))
-                
+                .pickerStyle(.segmented)
+                .padding()
+
                 Divider()
-                
+
                 ScrollView {
-                    ForEach(searchContact) { contactInfo in
+                    let list = displayedContacts
+                    ForEach(list) { contact in
                         NavigationLink {
-                            ConversationView(contactInfo: contactInfo, currentUser: usersFound.first)
+                            ConversationView(contactInfo: contact)
                         } label: {
-                            HStack(alignment: .top, spacing: 20) {
-                                ZStack {
-                                    Circle()
-                                        .frame(width: 70, height: 70)
-                                        .foregroundStyle(.deepBlue)
-                                    Image(contactInfo.imageURL ?? "")
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 60, height: 60)
-                                        .clipShape(Circle())
-                                }
-                                
-                                VStack(alignment: .leading, spacing: 5) {
-                                    Text(contactInfo.pseudo)
-                                        .font(.headline)
-                                    
-                                    if let chat = getLatestChatWith(contactInfo) {
-                                        Text(chat.message)
-                                            .italic()
-                                            .foregroundColor(.gray)
-                                            .lineLimit(1)
-                                    } else {
-                                        Text("Aucun message")
-                                            .italic()
-                                            .foregroundColor(.gray)
-                                    }
-                                }
-                                
-                                Spacer()
-                                
-                                if let chat = getLatestChatWith(contactInfo) {
-                                    Text(chat.dateTime, style: .time)
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                }
-                            }
-                            .padding(10)
+                            ContactRow(
+                                contact: contact,
+                                latestChat: latestChat(
+                                    between: currentUser?.id ?? UUID(),
+                                    and: contact.userId?.id ?? UUID(),
+                                    in: allChats)
+                            )
                         }
                         .tint(.primary)
-                        
+
                         Divider()
                     }
                 }
             }
-            .navigationTitle("Bienvenue,  \(userSession.currentUser?.profileId?.pseudo ?? "") ")
-            .searchable(text: $searchMessages, placement: .navigationBarDrawer(displayMode: .always), prompt: "Rechercher un contact")
+            .navigationTitle(
+                "Bienvenue, \(userSession.currentUser?.profileId?.pseudo ?? "") "
+            )
+            .searchable(text: $searchText,
+                        placement: .navigationBarDrawer(displayMode: .always),
+                        prompt: "Rechercher un contact")
+        }
+        .onAppear {
+            // Ensure the shared session is populated (fallback to stored email)
+            if let fallback = usersFound.first(where: { $0.logIn == loggedInEmail }),
+               userSession.currentUser?.id != fallback.id {
+                userSession.currentUser = fallback
+            }
         }
     }
-
-    init() {
-        _userSession = State(initialValue: UserSession())
-    }
 }
 
-#Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: UserClass.self,
-                                           ProfileClass.self,
-                                           ServiceClass.self,
-                                           ChatClass.self,
-                                           TimeBankClass.self,
-                                           configurations: config)
-        
-        GenerateDataBaseFunc(context: container.mainContext)
-        
-        return ChatView()
-            .modelContainer(container)
-        
-    } catch {
-        fatalError("Échec de la création du ModelContainer pour la preview : \(error)")
+// ---------------------------------------------------------------
+// MARK: – Row view used inside the scroll view
+// ---------------------------------------------------------------
+private struct ContactRow: View {
+    let contact: ProfileClass
+    let latestChat: ChatClass?
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 20) {
+            // Avatar
+            ZStack {
+                Circle()
+                    .frame(width: 70, height: 70)
+                    .foregroundStyle(.deepBlue)
+
+                Image(contact.imageURL ?? "")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 60, height: 60)
+                    .clipShape(Circle())
+            }
+
+            // Textual info
+            VStack(alignment: .leading, spacing: 5) {
+                Text(contact.pseudo)
+                    .font(.headline)
+
+                if let chat = latestChat {
+                    Text(chat.message)
+                        .italic()
+                        .foregroundColor(.gray)
+                        .lineLimit(1)
+                } else {
+                    Text("Aucun message")
+                        .italic()
+                        .foregroundColor(.gray)
+                }
+            }
+
+            Spacer()
+
+            // Time of the latest message (if any)
+            if let chat = latestChat {
+                Text(chat.dateTime, style: .time)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+        }
+        .padding(10)
     }
 }
-

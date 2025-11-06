@@ -1,144 +1,111 @@
-//
-//  DashboardView.swift
-//  SolidAide
-//
-//  Created by apprenant78 on 28/10/2025.
-//
-
 import SwiftUI
 import SwiftData
 
 struct DashboardView: View {
-    /*
-     USER FICTIF
-     */
-    @Query(filter: #Predicate<UserClass> { user in
-        user.logIn == "severine@email.fr"
-    }) var usersFound: [UserClass]
-    @State var userSession: UserSession
-    @State var showingAddService = false
+    @AppStorage("loggedInEmail") private var loggedInEmail: String = ""
 
-    
+    @Query(sort: \UserClass.logIn) private var usersFound: [UserClass]
+
+    @EnvironmentObject private var userSession: UserSession
+
+    @State private var showingAddService = false
     @Environment(\.modelContext) private var context
-    //    @Environment(CurrentProfileModel.self) private var profileModel
+
     @Query(sort: \ProfileClass.pseudo) private var profiles: [ProfileClass]
-    //    @Query(sort: \TimeBankClass.updatedAt, order: .reverse) var timeBank: [TimeBankClass]
-    //    init() {}
-    //    private var currentProfile: ProfileClass? { profileModel.profile ?? profiles.first }
-    //    private var timeDeltaText: String {
-    //        let limit = Date().addingTimeInterval(-24*3600)
-    //        let deltaMinutes = timeBank
-    //            .filter { $0.updatedAt >= limit }
-    //            .reduce(0) { $0 + $1.deltaMinutes }
-    //        return "\(deltaMinutes.timeBankDisplay) depuis 24 heures"
-    //    }
-    
-    //    private var totalText: String {
-    //        let total = timeBank.reduce(0) { $0 + $1.deltaMinutes }
-    //        return total.timeBankDisplay.replacingOccurrences(of: "+", with: "")
-    //    }
-    // let profileInfo: ProfileClass
-    
+
     var body: some View {
-        let _ = DispatchQueue.main.async {
-            if usersFound.first !== userSession.currentUser {
-                userSession.currentUser = usersFound.first
-            }
-        }
+        let currentUser = usersFound.first { $0.logIn == loggedInEmail }
 
-        NavigationStack {
-            //            VStack(spacing: 16) {
-            //                Text("Tableau de bord")
-            //                    .font(.title2.weight(.semibold))
-            //
-            if let p = usersFound[0].profileId {
-                NavigationLink {
-                    ProfileDetailView(profile: p)
-                } label: {
-                    ProfileCardView(profile: p)
+        Group {
+            if let user = currentUser {
+                NavigationStack {
+                    // ---------- PROFIL CARD ----------
+                    if let profile = user.profileId {
+                        NavigationLink {
+                            ProfileDetailView(profile: profile)
+                        } label: {
+                            ProfileCardView(profile: profile)
+                        }
+                        .tint(.black)
+                    } else {
+                        RoundedRectangle(cornerRadius: 14)
+                            .fill(Color(.secondarySystemBackground))
+                            .overlay(Text("Créer mon profil").padding())
+                            .frame(height: 72)
+                    }
+
+                    // ---------- BANQUE DE TEMPS ----------
+                    NavigationLink {
+                        TimeBankView()
+                    } label: {
+                        DashboardRow(
+                            icon: "clock.badge.checkmark",
+                            title: "Banque de temps",
+                            trailing: Text("\(user.balance) heures")
+                                .foregroundStyle(.mintGreen)
+                        )
+                        .tint(.black)
+                    }
+
+                    // ---------- AUTRES LIENS ----------
+                    NavigationLink { ServicesOffertsView() } label: {
+                        DashboardRow(icon: "hand.raised", title: "Services proposés")
+                            .tint(.black)
+                    }
+
+                    // ---- NOUVEAU LIEN : LISTE DES DEMANDES DE SERVICE ----
+                    NavigationLink {
+                        ServiceListView()          // ← vue qui liste les services
+                    } label: {
+                        DashboardRow(icon: "hand.wave", title: "Demandes de service")
+                            .tint(.black)
+                    }
+
+                    NavigationLink { NotificationsView() } label: {
+                        DashboardRow(icon: "bell", title: "Notifications")
+                            .tint(.black)
+                    }
+
+                    NavigationLink { EvaluationsView() } label: {
+                        DashboardRow(icon: "star", title: "Évaluations")
+                            .tint(.black)
+                    }
+
+                    NavigationLink { ParrainageView() } label: {
+                        DashboardRow(icon: "heart.text.square", title: "Parrainage", muted: true)
+                            .tint(.black)
+                    }
+
+                    // ---------- BOUTON « Demander de l’aide » ----------
+                    VStack {
+                        Spacer()
+                        ButtonAddServiceExtView(showingAddService: $showingAddService)
+                    }
+                    .navigationTitle("Tableau de bord")
                 }
-                .tint(.black)
+                .sheet(isPresented: $showingAddService) {
+                    ServiceEditView(viewModel: ServiceFormViewModel(userSession: user))
+                }
+                .padding(.horizontal, 16)
+
             } else {
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(Color(.secondarySystemBackground))
-                    .overlay(Text("Créer mon profil").padding())
-                    .frame(height: 72)
-            }
-            //            }
-            //            .padding(.horizontal, 16)
-            
-            NavigationLink {
-                TimeBankView()
-            } label: {
-                DashboardRow(
-                    icon: "clock.badge.checkmark",
-                    title: "Banque de temps",
-                    //                    trailing: Text(timeDeltaText).foregroundStyle(.green)
-//                    trailing: Text("TEST").foregroundStyle(.green)
-                    trailing: Text(String("\(usersFound[0].balance) heures")).foregroundStyle(.mintGreen)
-                        
-                )
-                .tint(.black)
-            }
-            
-            NavigationLink { ServicesOffertsView() } label: {
-                DashboardRow(icon: "hand.raised", title: "Services proposés")
-                    .tint(.black)
-            }
-            
-            NavigationLink { DemandesView() } label: {
-                DashboardRow(icon: "hand.wave", title: "Demandes de service")
-                    .tint(.black)
-            }
-            
-            NavigationLink { NotificationsView() } label: {
-                DashboardRow(icon: "bell", title: "Notifications")
-                    .tint(.black)
-            }
-            
-            NavigationLink { EvaluationsView() } label: {
-                DashboardRow(icon: "star", title: "Evaluations")
-                    .tint(.black)
-            }
-            
-            NavigationLink { ParrainageView() } label: {
-                DashboardRow(icon: "heart.text.square", title: "Parrainage", muted: true)
-                    .tint(.black)
-            }
+                VStack(spacing: 20) {
+                    Image(systemName: "exclamationmark.triangle")
+                        .font(.largeTitle)
+                        .foregroundColor(.red)
 
-            VStack {
-                Spacer()
-                ButtonAddServiceExtView(showingAddService: $showingAddService)
+                    Text("Aucun compte utilisateur trouvé.")
+                        .font(.headline)
+
+                    Text("""
+                         Vérifiez que l’adresse e‑mail enregistrée (« \(loggedInEmail) ») \
+                         correspond à un utilisateur présent dans le seed de données.
+                         """)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.secondary)
+                }
+                .padding()
             }
-            .navigationTitle("Tableau de bord")
         }
-        .sheet(isPresented: $showingAddService) {
-            ServiceEditView(viewModel: ServiceFormViewModel(userSession: usersFound[0]))
-        }
-        .padding(.horizontal, 16)
-        //.padding(.bottom, 24)
-    }
-
-    
-    init() {
-        _userSession = State(initialValue: UserSession())
-
-    }
-        
-}
-
-#Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: UserClass.self, ServiceClass.self, configurations: config)
-        
-        GenerateDataBaseFunc(context: container.mainContext)
-        
-        return DashboardView()
-            .modelContainer(container)
-        
-    } catch {
-        fatalError("Échec de la création du ModelContainer pour la preview : \(error)")
-        
     }
 }

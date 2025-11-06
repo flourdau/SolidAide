@@ -381,7 +381,7 @@ let users: [UserClass] = [
         
         // Andrei & Séverine
         ChatClass(dateTime: Calendar.current.date(byAdding: .hour, value: -10, to: Date()) ?? Date(), sender: users[10], recipient: users[8], message: "Andrei, tu peux m'aider à débugger mon app ?", isRead: true),
-        ChatClass(dateTime: Calendar.current.date(byAdding: .hour, value: -9, to: Date()) ?? Date(), sender: users[8], recipient: users[10], message: "Bien sûr Séverine ! Envoie-moi le code 👨🏼‍💻", isRead: true),
+        ChatClass(dateTime: Calendar.current.date(byAdding: .hour, value: -9, to: Date()) ?? Date(), sender: users[8], recipient: users[10], message: "Bien sûr Séverine ! Envoie-moi le code 👨🏼‍💻", isRead: false),
         
         // Andrei & Edilene
         ChatClass(dateTime: Calendar.current.date(byAdding: .minute, value: -200, to: Date()) ?? Date(), sender: users[8], recipient: users[11], message: "Edilene, tu veux coder ensemble ce weekend ?", isRead: true),
@@ -404,11 +404,11 @@ let users: [UserClass] = [
         
         // Séverine & Edilene
         ChatClass(dateTime: Calendar.current.date(byAdding: .hour, value: -5, to: Date()) ?? Date(), sender: users[10], recipient: users[11], message: "Edilene, on révise ensemble pour le cours de maths ?", isRead: true),
-        ChatClass(dateTime: Calendar.current.date(byAdding: .hour, value: -4, to: Date()) ?? Date(), sender: users[11], recipient: users[10], message: "Oui ! J'adore les maths ! Demain soir ?", isRead: true),
+        ChatClass(dateTime: Calendar.current.date(byAdding: .hour, value: -4, to: Date()) ?? Date(), sender: users[11], recipient: users[10], message: "Oui ! J'adore les maths ! Demain soir ?", isRead: false),
         
         // Séverine & Florian
         ChatClass(dateTime: Calendar.current.date(byAdding: .day, value: -6, to: Date()) ?? Date(), sender: users[12], recipient: users[10], message: "Séverine, tu veux faire du covoiturage pour aller au meetup ?", isRead: true),
-        ChatClass(dateTime: Calendar.current.date(byAdding: .day, value: -6, to: Date()) ?? Date(), sender: users[10], recipient: users[12], message: "Super idée ! On se retrouve où ?", isRead: true),
+        ChatClass(dateTime: Calendar.current.date(byAdding: .day, value: -6, to: Date()) ?? Date(), sender: users[10], recipient: users[12], message: "Super idée ! On se retrouve où ?", isRead: false),
         
         // Edilene & Florian
         ChatClass(dateTime: Calendar.current.date(byAdding: .minute, value: -10, to: Date()) ?? Date(), sender: users[11], recipient: users[12], message: "Florian, merci pour le coup de main avec mon code ! 🙏", isRead: false),
@@ -513,7 +513,7 @@ let users: [UserClass] = [
                 deposit: 0,
                 withdrawal: 1,
                 title: "Demande de service à Angela pour du passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
+                subtitle: "Solde de temps dépensé : -1h"
             ),
             TimeBankClass(
                 userId:users[0],
@@ -523,7 +523,7 @@ let users: [UserClass] = [
                 deposit: 3,
                 withdrawal: 0,
                 title: "Proposition de service à Ghania pour bricoler.",
-                subtitle: "Solde de temps gagné : +3h",
+                subtitle: "Solde de temps gagné : +3h"
                 
             ),
             TimeBankClass(
@@ -534,7 +534,7 @@ let users: [UserClass] = [
                 deposit: 2,
                 withdrawal: 0,
                 title: "Proposition de service à Ghania pour bricoler.",
-                subtitle: "Solde de temps gagné : +2h",
+                subtitle: "Solde de temps gagné : +2h"
                 
             ),
             TimeBankClass(
@@ -545,7 +545,7 @@ let users: [UserClass] = [
                 deposit: 0,
                 withdrawal: 1,
                 title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
+                subtitle: "Solde de temps dépensé : -1h"
                 
             ),
             TimeBankClass(
@@ -556,7 +556,7 @@ let users: [UserClass] = [
                 deposit: 0,
                 withdrawal: 1,
                 title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
+                subtitle: "Solde de temps dépensé : -1h"
                 
             ),
             TimeBankClass(
@@ -567,7 +567,7 @@ let users: [UserClass] = [
                 deposit: 0,
                 withdrawal: 1,
                 title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
+                subtitle: "Solde de temps dépensé : -1h"
                 
             ),
             TimeBankClass(
@@ -578,7 +578,7 @@ let users: [UserClass] = [
                 deposit: 0,
                 withdrawal: 1,
                 title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
+                subtitle: "Solde de temps dépensé : -1h"
                 
             ),
             TimeBankClass(
@@ -589,7 +589,7 @@ let users: [UserClass] = [
                 deposit: 2,
                 withdrawal: 0,
                 title: "Proposition de service à Ghania pour bricoler.",
-                subtitle: "Solde de temps gagné : +2h",
+                subtitle: "Solde de temps gagné : +2h"
                 
             ),
             TimeBankClass(
@@ -600,7 +600,7 @@ let users: [UserClass] = [
                 deposit: 2,
                 withdrawal: 0,
                 title: "Proposition de service à Ghania pour bricoler.",
-                subtitle: "Solde de temps gagné : +2h",
+                subtitle: "Solde de temps gagné : +2h"
                 
             ),
             TimeBankClass(
@@ -611,7 +611,7 @@ let users: [UserClass] = [
                 deposit: 0,
                 withdrawal: 1,
                 title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
+                subtitle: "Solde de temps dépensé : -1h"
                 
             ),
             TimeBankClass(
@@ -622,7 +622,7 @@ let users: [UserClass] = [
                 deposit: 0,
                 withdrawal: 1,
                 title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
+                subtitle: "Solde de temps dépensé : -1h"
             ),
             TimeBankClass(
                 userId:users[0],
@@ -632,7 +632,7 @@ let users: [UserClass] = [
                 deposit: 0,
                 withdrawal: 1,
                 title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
+                subtitle: "Solde de temps dépensé : -1h"
             ),
             TimeBankClass(
                 userId:users[0],
@@ -642,7 +642,7 @@ let users: [UserClass] = [
                 deposit: 0,
                 withdrawal: 1,
                 title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
+                subtitle: "Solde de temps dépensé : -1h"
                 
             ),
             TimeBankClass(
@@ -653,7 +653,7 @@ let users: [UserClass] = [
                 deposit: 2,
                 withdrawal: 0,
                 title: "Proposition de service à Ghania pour bricoler.",
-                subtitle: "Solde de temps gagné : +2h",
+                subtitle: "Solde de temps gagné : +2h"
             )
         ]
     //  LOOPS INSERT DETABASE
