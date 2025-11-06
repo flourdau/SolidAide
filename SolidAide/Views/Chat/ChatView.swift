@@ -11,7 +11,8 @@ struct ChatView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(filter: #Predicate<UserClass> { user in
         user.logIn == "severine@email.fr"
-    }) var usersFound: [UserClass]
+    })
+    var usersFound: [UserClass]
     @Query private var profiles: [ProfileClass]
     @Query private var chats: [ChatClass]
     @State private var messageType = "Tous"
@@ -100,7 +101,7 @@ struct ChatView: View {
                 ScrollView {
                     ForEach(searchContact) { contactInfo in
                         NavigationLink {
-                            ConversationView(contactInfo: contactInfo, currentUser: usersFound.first)
+                            ConversationView(contactInfo: contactInfo, currentUser: usersFound[0])
                         } label: {
                             HStack(alignment: .top, spacing: 20) {
                                 ZStack {
