@@ -20,6 +20,8 @@ struct FeedBackView: View {
     @State private var commentSelection: Bool = true
     @State private var comment: String = "Merci de partager vos impressions"
     @State private var hasEditedComment = false
+    @Environment(\.dismiss) var dismiss
+
 /*
   _____                    __
  / ____|                  / _|                   _
@@ -104,6 +106,7 @@ struct FeedBackView: View {
 */
                         Button(action: {
                             saveFeedback()
+                            dismiss()
                         }) {
                             Text("Envoyer")
                                 .fontWeight(.semibold)

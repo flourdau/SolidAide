@@ -186,7 +186,7 @@ struct MapView: View {
                                     }
                                 }
                             }
-                            .onDelete(perform: deleteService)
+//                            .onDelete(perform: deleteService)
                         }
                     }
                     .padding(.top, 48) // Gardé votre padding
