@@ -13,7 +13,6 @@ struct ButtonAddServiceExtView: View {
     
     var body: some View {
         HStack {
-            //Spacer()
             
             Button {
                 showingAddService = true
@@ -25,12 +24,12 @@ struct ButtonAddServiceExtView: View {
                         Text("de l'aide")
                     }
                 }
-                    .padding(12)
-                    .background(.deepBlue)
-                    .foregroundStyle(.white)
-                    .cornerRadius(32)
-                    .font(.system(size: 18))
-                    .bold()
+                .padding(12)
+                .background(.deepBlue)
+                .foregroundStyle(.white)
+                .cornerRadius(32)
+                .font(.system(size: 18))
+                .bold()
             }
             .background(.warmCoral.opacity(0))
             .padding(.bottom, 24)

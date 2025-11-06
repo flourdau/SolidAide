@@ -14,7 +14,7 @@ enum QualityEnum: String, CaseIterable, Codable {
     case activeMember = "Membre actif"
     case efficient = "Efficace"
     case verySupportive = "Très solidaire"
-
+    
     var icon: String {
         switch self {
         case .reliableNeighbour: return "figure.wave"

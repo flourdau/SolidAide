@@ -17,11 +17,11 @@ struct ConversationView: View {
     
     let contactInfo: ProfileClass
     let currentUser: UserClass?
-
+    
     var currentUserId: UUID? {
         currentUser?.id
     }
-
+    
     var conversationMessages: [ChatClass] {
         guard let contactUserId = contactInfo.userId?.id else { return [] }
         guard let currentUserId = currentUserId else { return [] }
@@ -36,48 +36,48 @@ struct ConversationView: View {
     
     var body: some View {
         NavigationStack {
-        VStack(spacing: 0) {
-            HStack {
-                ZStack {
-                    Circle()
-                        .frame(width: 65, height: 65)
-                        .foregroundStyle(.deepBlue)
-                    Image(contactInfo.imageURL ?? "")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 55, height: 55)
-                        .clipShape(Circle())
-                }
-                
-                VStack(alignment: .leading) {
-                    Text(contactInfo.pseudo)
-                        .font(.headline)
-                        .bold()
-                    Text("En ligne")
-                        .font(.caption)
-                        .foregroundColor(.green)
-                }
-                
-                Spacer()
-                ButtonAddServiceExtView(showingAddService: $showingAddService)
-                
-            }
-            .padding()
-            .background(Color(.deepBlue.opacity(0.1)))
-            
-            ScrollView {
-                VStack(spacing: 12) {
-                    ForEach(conversationMessages) { message in
-                        MessageBubble(
-                            message: message,
-                            isCurrentUser: message.sender.id == currentUserId
-                        )
+            VStack(spacing: 0) {
+                HStack {
+                    ZStack {
+                        Circle()
+                            .frame(width: 65, height: 65)
+                            .foregroundStyle(.deepBlue)
+                        Image(contactInfo.imageURL ?? "")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 55, height: 55)
+                            .clipShape(Circle())
                     }
-                   Spacer()
+                    
+                    VStack(alignment: .leading) {
+                        Text(contactInfo.pseudo)
+                            .font(.headline)
+                            .bold()
+                        Text("En ligne")
+                            .font(.caption)
+                            .foregroundColor(.green)
+                    }
+                    
+                    Spacer()
+                    ButtonAddServiceExtView(showingAddService: $showingAddService)
+                    
                 }
                 .padding()
+                .background(Color(.deepBlue.opacity(0.1)))
+                
+                ScrollView {
+                    VStack(spacing: 12) {
+                        ForEach(conversationMessages) { message in
+                            MessageBubble(
+                                message: message,
+                                isCurrentUser: message.sender.id == currentUserId
+                            )
+                        }
+                        Spacer()
+                    }
+                    .padding()
+                }
             }
-        }
             HStack{
                 Spacer()
                 NavigationLink{
@@ -113,9 +113,6 @@ struct ConversationView: View {
             .padding(.vertical, 8)
             .background(Color(.deepBlue.opacity(0.1)))
             .onAppear {
-                // 🚀 Déclenchement du focus
-                // Vous pouvez ajouter un petit délai pour être sûr que la vue est prête,
-                // surtout si elle apparaît après une navigation ou une transition.
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     isInputFocused = true
                 }

@@ -17,27 +17,7 @@ struct DashboardView: View {
     }) var usersFound: [UserClass]
     @State var userSession: UserSession
     @State var showingAddService = false
-
-    
     @Environment(\.modelContext) private var context
-    //    @Environment(CurrentProfileModel.self) private var profileModel
-    @Query(sort: \ProfileClass.pseudo) private var profiles: [ProfileClass]
-    //    @Query(sort: \TimeBankClass.updatedAt, order: .reverse) var timeBank: [TimeBankClass]
-    //    init() {}
-    //    private var currentProfile: ProfileClass? { profileModel.profile ?? profiles.first }
-    //    private var timeDeltaText: String {
-    //        let limit = Date().addingTimeInterval(-24*3600)
-    //        let deltaMinutes = timeBank
-    //            .filter { $0.updatedAt >= limit }
-    //            .reduce(0) { $0 + $1.deltaMinutes }
-    //        return "\(deltaMinutes.timeBankDisplay) depuis 24 heures"
-    //    }
-    
-    //    private var totalText: String {
-    //        let total = timeBank.reduce(0) { $0 + $1.deltaMinutes }
-    //        return total.timeBankDisplay.replacingOccurrences(of: "+", with: "")
-    //    }
-    // let profileInfo: ProfileClass
     
     var body: some View {
         let _ = DispatchQueue.main.async {
@@ -45,7 +25,7 @@ struct DashboardView: View {
                 userSession.currentUser = usersFound.first
             }
         }
-
+        
         NavigationStack {
             NavigationLink {
                 SettingsView()
@@ -61,16 +41,11 @@ struct DashboardView: View {
                         Text("Paramètres")
                             .foregroundStyle(Color.white)
                             .applyAppFont(18)
-                       }
-                    .padding(.horizontal, 12)
                     }
+                    .padding(.horizontal, 12)
                 }
-
-
-            //            VStack(spacing: 16) {
-            //                Text("Tableau de bord")
-            //                    .font(.title2.weight(.semibold))
-            //
+            }
+            
             if let p = usersFound[0].profileId {
                 NavigationLink {
                     ProfileDetailView(profile: p)
@@ -84,8 +59,6 @@ struct DashboardView: View {
                     .overlay(Text("Créer mon profil").padding())
                     .frame(height: 72)
             }
-            //            }
-            //            .padding(.horizontal, 16)
             
             NavigationLink {
                 TimeBankView()
@@ -93,39 +66,22 @@ struct DashboardView: View {
                 DashboardRow(
                     icon: "clock.badge.checkmark",
                     title: "Banque de temps",
-                    //                    trailing: Text(timeDeltaText).foregroundStyle(.green)
-//                    trailing: Text("TEST").foregroundStyle(.green)
                     trailing: Text(String("\(usersFound[0].balance) heures")).foregroundStyle(.mintGreen)
-                        
+                    
                 )
                 .tint(.black)
             }
-            
-//            NavigationLink { ServicesOffertsView() } label: {
-//                DashboardRow(icon: "hand.raised", title: "Services proposés")
-//                    .tint(.black)
-//            }
             
             NavigationLink { DemandesView() } label: {
                 DashboardRow(icon: "hand.wave", title: "Demandes de service")
                     .tint(.black)
             }
             
-//            NavigationLink { NotificationsView() } label: {
-//                DashboardRow(icon: "bell", title: "Notifications")
-//                    .tint(.black)
-//            }
-            
-//            NavigationLink { EvaluationsView() } label: {
-//                DashboardRow(icon: "star", title: "Evaluations")
-//                    .tint(.black)
-//            }
-            
             NavigationLink { ParrainageView() } label: {
                 DashboardRow(icon: "heart.text.square", title: "Parrainage", muted: true)
                     .tint(.black)
             }
-
+            
             VStack {
                 Spacer()
                 ButtonAddServiceExtView(showingAddService: $showingAddService)
@@ -136,15 +92,14 @@ struct DashboardView: View {
             ServiceEditView(viewModel: ServiceFormViewModel(userSession: usersFound[0]))
         }
         .padding(.horizontal, 16)
-        //.padding(.bottom, 24)
     }
-
+    
     
     init() {
         _userSession = State(initialValue: UserSession())
-
-    }
         
+    }
+    
 }
 
 #Preview {

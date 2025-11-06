@@ -11,7 +11,6 @@ import SwiftData
 public let kShowAdminTabKey = "showAdminTab"
 
 struct SolidAideView: View {
-    
     /*
      USER FICTIF
      */
@@ -21,9 +20,8 @@ struct SolidAideView: View {
     @AppStorage(kShowAdminTabKey) private var showAdminTab: Bool = false
     @Environment(\.modelContext) private var context
     @State var userSession: UserSession
+    
     var body: some View {
-        
-        
         
         let _ = DispatchQueue.main.async {
             
@@ -62,7 +60,6 @@ struct SolidAideView: View {
                     }
             }
             
-            
         }
         .onAppear {
             if (usersFound.count == 0) {
@@ -74,7 +71,7 @@ struct SolidAideView: View {
     
     
     init() {
-
+        
         _userSession = State(initialValue: UserSession())
     }
 }

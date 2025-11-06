@@ -29,12 +29,12 @@ class ProfileClass: Identifiable {
             if let lat = positionData?.latitude, let lon = positionData?.longitude {
                 return CLLocationCoordinate2D(latitude: lat, longitude: lon)
             }
-
+            
             return nil
         }
-
+        
         set { self.positionData = newValue != nil ? GPSCoordinateStruct(coordinate: newValue) : nil }
-
+        
     }
     //
     var skills: [SkillsEnum]? = nil
@@ -44,7 +44,7 @@ class ProfileClass: Identifiable {
     var chats: [ChatClass]? = nil
     var helper: [UserClass]? = nil
     var beneficiary: [UserClass]? = nil
-
+    
     init(
         userId: UserClass? = nil,
         pseudo: String,

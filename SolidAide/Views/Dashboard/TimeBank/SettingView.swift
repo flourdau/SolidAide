@@ -4,18 +4,16 @@ enum AppFont: String, CaseIterable, Identifiable {
     case system   = "System"
     case luciole  = "Luciole"
     case openDys  = "OpenDyslexic"
-
+    
     var id: String { rawValue }
 }
 
 struct SettingsView: View {
-//    @EnvironmentObject private var userSession: UserSession
     @AppStorage(kShowAdminTabKey) private var showAdminTab: Bool = false
-
     @AppStorage("selectedFont") private var selectedFontRaw = AppFont.system.rawValue
     @State private var tapCount = 0
     @State private var lastTapDate = Date()
-
+    
     // -----------------------------------------------------------------
     // MARK: – Font binding
     // -----------------------------------------------------------------
@@ -25,7 +23,7 @@ struct SettingsView: View {
             set: { newValue in selectedFontRaw = newValue.rawValue }
         )
     }
-
+    
     // -----------------------------------------------------------------
     // MARK: – Secret tap (développeur)
     // -----------------------------------------------------------------
@@ -43,7 +41,7 @@ struct SettingsView: View {
             tapCount = 0
         }
     }
-
+    
     // -----------------------------------------------------------------
     // MARK: – UI
     // -----------------------------------------------------------------
@@ -55,41 +53,37 @@ struct SettingsView: View {
                     // 1️⃣  Sélecteur de police
                     // -------------------------------------------------
                     Section(header: Text("Police d’affichage")
-                                .font(.headline)
-                                .foregroundColor(.primary)) {
-                        Picker("Choisissez votre police", selection: selectedFont) {
-                            ForEach(AppFont.allCases) { font in
-                                Text(font.rawValue).tag(font)
+                        .font(.headline)
+                        .foregroundColor(.primary)) {
+                            Picker("Choisissez votre police", selection: selectedFont) {
+                                ForEach(AppFont.allCases) { font in
+                                    Text(font.rawValue).tag(font)
+                                }
                             }
+                            .pickerStyle(SegmentedPickerStyle())
+                            .padding(.horizontal)
                         }
-                        .pickerStyle(SegmentedPickerStyle())
-                        .padding(.horizontal)
-                    }
-
+                    
                     // -------------------------------------------------
                     // 2️⃣  Faux paramètres courants
                     // -------------------------------------------------
                     Section(header: Text("Paramètres généraux")
-                                .font(.headline)
-                                .foregroundColor(.primary)) {
-                        VStack(alignment: .leading, spacing: 16) {
-                            // Chaque ligne ressemble à une cellule de réglage
-                            SettingRow(icon: "bell.fill", title: "Notifications")
-                            SettingRow(icon: "lock.fill", title: "Sécurité")
-                            SettingRow(icon: "globe", title: "Langue")
-                            SettingRow(icon: "moon.fill", title: "Mode sombre")
-                            SettingRow(icon: "person.crop.circle", title: "Compte")
-                            SettingRow(icon: "cloud.fill", title: "Sauvegarde iCloud")
-                            SettingRow(icon: "hand.tap.fill", title: "Gestes")
-                            SettingRow(icon: "gearshape.2.fill", title: "Avancé")
-                            // Ajoutez autant de lignes que vous le souhaitez pour forcer le scroll
-//                            ForEach(0..<10) { _ in
-//                                SettingRow(icon: "circle.grid.2x2.fill", title: "Option supplémentaire")
-//                            }
+                        .font(.headline)
+                        .foregroundColor(.primary)) {
+                            VStack(alignment: .leading, spacing: 16) {
+                                // Chaque ligne ressemble à une cellule de réglage
+                                SettingRow(icon: "bell.fill", title: "Notifications")
+                                SettingRow(icon: "lock.fill", title: "Sécurité")
+                                SettingRow(icon: "globe", title: "Langue")
+                                SettingRow(icon: "moon.fill", title: "Mode sombre")
+                                SettingRow(icon: "person.crop.circle", title: "Compte")
+                                SettingRow(icon: "cloud.fill", title: "Sauvegarde iCloud")
+                                SettingRow(icon: "hand.tap.fill", title: "Gestes")
+                                SettingRow(icon: "gearshape.2.fill", title: "Avancé")
+                            }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
-                    }
-
+                    
                     // -------------------------------------------------
                     // 3️⃣  Options Développeureuse (tout en bas)
                     // -------------------------------------------------
@@ -109,7 +103,7 @@ struct SettingsView: View {
                     }
                     .padding(.horizontal)
                 }
-                .padding(.vertical, 32)          // espace en haut et en bas du scroll
+                .padding(.vertical, 32)
             }
             .navigationTitle("Paramètres")
             .applyAppFont(24)
@@ -125,24 +119,23 @@ struct SettingsView: View {
 private struct SettingRow: View {
     let icon: String
     let title: String
-
+    
     var body: some View {
         HStack {
             Image(systemName: icon)
                 .foregroundColor(.deepBlue)
                 .frame(width: 24, height: 24)
-
+            
             Text(title)
                 .foregroundColor(.primary)
-
+            
             Spacer()
-
+            
             Image(systemName: "chevron.right")
                 .foregroundColor(.secondary)
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            // Ici vous pourriez naviguer vers la sous‑page correspondante.
         }
     }
 }
@@ -153,6 +146,5 @@ private struct SettingRow: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
-//            .environmentObject(UserSession())
     }
 }

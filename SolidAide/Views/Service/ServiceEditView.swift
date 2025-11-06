@@ -13,11 +13,9 @@ struct ServiceEditView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     @State var showingAlert = false
-
-    //    @Query private var allProfiles: [ProfileClass]
-
+    
     var body: some View {
-                NavigationStack {
+        NavigationStack {
             Form {
                 Section("Détails de la demande") {                    
                     Picker("Compétence", selection: $viewModel.skill) {
@@ -31,19 +29,19 @@ struct ServiceEditView: View {
                     
                     TextField("Description", text: $viewModel.serviceDescription, axis: .vertical)
                         .lineLimit(3...)
-
+                    
                     TextField("Ville", text: $viewModel.city)
-
+                    
                 }
-
+                
                 Section("Conditions") {
                     Toggle("Gratuit", isOn: $viewModel.isFree)
                     
                     Stepper("Temps (heures): \(viewModel.timeSpent)", value: $viewModel.timeSpent, in: 1...24, step: 1)
-
+                    
                     DatePicker("Date de début", selection: $viewModel.startDate, displayedComponents: [.date, .hourAndMinute])
                 }
-
+                
             }
             .navigationTitle(viewModel.isEditing ? "Modifier la demande" : "Nouvel Demande")
             .navigationBarTitleDisplayMode(.inline)
@@ -53,9 +51,6 @@ struct ServiceEditView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Enregistrer") {
-                        /// (C)REATE / (U)PDATE Action
-//                        viewModel.save(context: context)
-//                        dismiss()
                         showingAlert = true
                     }
                     .disabled(!viewModel.canSave)
@@ -68,9 +63,7 @@ struct ServiceEditView: View {
                                 dismiss()
                             },
                             secondaryButton: .cancel(
-                                Text("Annuler")
-//                                dismiss()
-        
+                                Text("Annuler")        
                             )
                         )
                     }

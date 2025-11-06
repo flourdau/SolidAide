@@ -11,7 +11,7 @@ enum ServiceStatusEnum : String, CaseIterable, Codable {
     case executed = "Effectuée"
     case awaitingEvaluation = "En attente d’évaluation"
     case finalized = "Finalisée"
-
+    
     var icon: String {
         switch self {
         case .awaitingAcceptance: return "clock"

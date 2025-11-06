@@ -10,7 +10,7 @@ import SwiftUI
 @Observable
 final class UserSession {
     var currentUser: UserClass?
-
+    
     init(user: UserClass? = nil) {
         self.currentUser = user
     }

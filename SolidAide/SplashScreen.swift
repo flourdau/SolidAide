@@ -11,13 +11,13 @@ struct SplashScreen: View {
     // Animation simple : le logo apparaît, grossit légèrement puis disparaît
     @State private var scale: CGFloat = 0.6
     @State private var opacity: Double = 0.0
-
+    
     var body: some View {
         ZStack {
             // Fond uni (noir ou blanc, à vous de choisir)
             Color.goldenYellow
                 .ignoresSafeArea()
-
+            
             // Logo – ici on utilise exactement le nom de votre image Asset : "AppIcon"
             Image("LogoSolidAide")
                 .resizable()
@@ -32,7 +32,7 @@ struct SplashScreen: View {
                 self.scale = 1.0
                 self.opacity = 1.0
             }
-
+            
             // 2️⃣  Après 1.5 s, on fait disparaître le logo
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 withAnimation(.easeIn(duration: 0.4)) {

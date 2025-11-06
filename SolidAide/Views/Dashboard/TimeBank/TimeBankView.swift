@@ -1,63 +1,63 @@
 
 /*
-
-
-   ____     ___    ___  ___   _    __
-  / __/__  / (_)__/ ( )/ _ | (_)__/ /__
- _\ \/ _ \/ / / _  /|// __ |/ / _  / -_)
-/___/\___/_/_/\_,_/  /_/ |_/_/\_,_/\__/
-                                      
-
-
-
-
-  O          o
- / \         |
-o---oo-o   o-O o-o o-o o  o
-|   ||  | |  | |   |-' |  |
-o   oo  o  o-o o   o-o o--O
-                          |
-                       o--o
-o--o    o   o
-|       | o |
-O-o   o-O   | o-o o-o  o-o
-|    |  | | | |-' |  | |-'
-o--o  o-o | o o-o o  o o-o
-
-
-o--o o
-|    |         o
-O-o  | o-o o-o    oo o-o
-|    | | | |   | | | |  |
-o    o o-o o   | o-o-o  o
-
-
- o-o
-|                   o
- o-o  o   o o-o o-o   o-o  o-o
-    |  \ /  |-' |   | |  | |-'
-o--o    o   o-o o   | o  o o-o
-
- o-o   o
-|      |
- o-o  -o-  oo  o-o o  o
-    |  |  | | |    |  |
-o--o   o  o-o- o-o o--O
-                      |
-                   o--o
-
-
-
-
-   __
-  / ()  ,_   _  _, _|_  _  _|     |)           ()_|_  _,   _
- |     /  | |/ / |  |  |/ / |     |/\_|  |     /\ |  / |  /   |  |
-  \___/   |/|_/\/|_/|_/|_/\/|_/    \/  \/|/   /(_)|_/\/|_/\__/ \/|/
-                                        (|                      (|
  
-
-
-*/
+ 
+ ____     ___    ___  ___   _    __
+ / __/__  / (_)__/ ( )/ _ | (_)__/ /__
+ _\ \/ _ \/ / / _  /|// __ |/ / _  / -_)
+ /___/\___/_/_/\_,_/  /_/ |_/_/\_,_/\__/
+ 
+ 
+ 
+ 
+ 
+ O          o
+ / \         |
+ o---oo-o   o-O o-o o-o o  o
+ |   ||  | |  | |   |-' |  |
+ o   oo  o  o-o o   o-o o--O
+ |
+ o--o
+ o--o    o   o
+ |       | o |
+ O-o   o-O   | o-o o-o  o-o
+ |    |  | | | |-' |  | |-'
+ o--o  o-o | o o-o o  o o-o
+ 
+ 
+ o--o o
+ |    |         o
+ O-o  | o-o o-o    oo o-o
+ |    | | | |   | | | |  |
+ o    o o-o o   | o-o-o  o
+ 
+ 
+ o-o
+ |                   o
+ o-o  o   o o-o o-o   o-o  o-o
+ |  \ /  |-' |   | |  | |-'
+ o--o    o   o-o o   | o  o o-o
+ 
+ o-o   o
+ |      |
+ o-o  -o-  oo  o-o o  o
+ |  |  | | |    |  |
+ o--o   o  o-o- o-o o--O
+ |
+ o--o
+ 
+ 
+ 
+ 
+ __
+ / ()  ,_   _  _, _|_  _  _|     |)           ()_|_  _,   _
+ |     /  | |/ / |  |  |/ / |     |/\_|  |     /\ |  / |  /   |  |
+ \___/   |/|_/\/|_/|_/|_/\/|_/    \/  \/|/   /(_)|_/\/|_/\__/ \/|/
+ (|                      (|
+ 
+ 
+ 
+ */
 
 
 import SwiftUI
@@ -65,7 +65,7 @@ import Charts
 import SwiftData
 
 struct TimeBankView: View {
-
+    
     
     @Environment(\.modelContext) private var context
     @Query var users: [UserClass]
@@ -75,27 +75,27 @@ struct TimeBankView: View {
     @Query var timeBanks: [TimeBankClass]
     @AppStorage("selectedFont") private var selectedFontRaw = AppFont.system.rawValue
     
-/*
-  _____ _                _   _____        _
- / ____| |              | | |  __ \      | |
-| |    | |__   __ _ _ __| |_| |  | | __ _| |_ __ _
-| |    | '_ \ / _` | '__| __| |  | |/ _` | __/ _` |
-| |____| | | | (_| | |  | |_| |__| | (_| | || (_| |
- \_____|_| |_|\__,_|_|   \__|_____/ \__,_|\__\__,_|
- */
+    /*
+     _____ _                _   _____        _
+     / ____| |              | | |  __ \      | |
+     | |    | |__   __ _ _ __| |_| |  | | __ _| |_ __ _
+     | |    | '_ \ / _` | '__| __| |  | |/ _` | __/ _` |
+     | |____| | | | (_| | |  | |_| |__| | (_| | || (_| |
+     \_____|_| |_|\__,_|_|   \__|_____/ \__,_|\__\__,_|
+     */
     @State public var timeValues: [Int] = [
         3, 2, 5, 7, 6, 5, 4, 3, 5, 7, 6, 5, 4, 3, 5
     ]
-   
+    
     /*
      ____            _
-    |  _ \          | |
-    | |_) | ___   __| |_   _
-    |  _ < / _ \ / _` | | | |
-    | |_) | (_) | (_| | |_| |
-    |____/ \___/ \__,_|\__, |
-                        __/ |
-                       |___/
+     |  _ \          | |
+     | |_) | ___   __| |_   _
+     |  _ < / _ \ / _` | | | |
+     | |_) | (_) | (_| | |_| |
+     |____/ \___/ \__,_|\__, |
+     __/ |
+     |___/
      */
     var body: some View {
         
@@ -122,15 +122,15 @@ struct TimeBankView: View {
                     }
                 }
                 
-/*
-  _____ _         _     _
- / ____| |       | |   | |
-| (___ | |_ _   _| |__ | |__   ___  _ __ _ __
- \___ \| __| | | | '_ \| '_ \ / _ \| '__| '_ \
- ____) | |_| |_| | |_) | |_) | (_) | |  | | | |
-|_____/ \__|\__,_|_.__/|_.__/ \___/|_|  |_| |_|
-                                             
- */
+                /*
+                 _____ _         _     _
+                 / ____| |       | |   | |
+                 | (___ | |_ _   _| |__ | |__   ___  _ __ _ __
+                 \___ \| __| | | | '_ \| '_ \ / _ \| '__| '_ \
+                 ____) | |_| |_| | |_) | |_) | (_) | |  | | | |
+                 |_____/ \__|\__,_|_.__/|_.__/ \___/|_|  |_| |_|
+                 
+                 */
                 ZStack {
                     Rectangle()
                         .frame(width: 300, height: 50)
@@ -140,15 +140,15 @@ struct TimeBankView: View {
                         .applyAppFont(18)
                 }
                 .padding()
-/*
-  _____ _                _
- / ____| |              | |
-| |    | |__   __ _ _ __| |_
-| |    | '_ \ / _` | '__| __|
-| |____| | | | (_| | |  | |_
- \_____|_| |_|\__,_|_|   \__|
-                            
- */
+                /*
+                 _____ _                _
+                 / ____| |              | |
+                 | |    | |__   __ _ _ __| |_
+                 | |    | '_ \ / _` | '__| __|
+                 | |____| | | | (_| | |  | |_
+                 \_____|_| |_|\__,_|_|   \__|
+                 
+                 */
                 Chart {
                     ForEach(Array(timeValues.enumerated()), id: \.offset) { index, value in
                         LineMark(
@@ -172,18 +172,18 @@ struct TimeBankView: View {
                 .frame(width: 327, height: 100)
                 .background(Color("deepBlue"))
                 .padding(.top, 8)
-/*
-  _____                _ _ _      _     _
- / ____|              | | | |    (_)   | |
-| (___   ___ _ __ ___ | | | |     _ ___| |_
- \___ \ / __| '__/ _ \| | | |    | / __| __|
- ____) | (__| | | (_) | | | |____| \__ \ |_
-|_____/ \___|_|  \___/|_|_|______|_|___/\__|
-                                           
- */
+                /*
+                 _____                _ _ _      _     _
+                 / ____|              | | | |    (_)   | |
+                 | (___   ___ _ __ ___ | | | |     _ ___| |_
+                 \___ \ / __| '__/ _ \| | | |    | / __| __|
+                 ____) | (__| | | (_) | | | |____| \__ \ |_
+                 |_____/ \___|_|  \___/|_|_|______|_|___/\__|
+                 
+                 */
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 0) {
-
+                        
                         ForEach(timeBanks.sorted { $0.date < $1.date }) { entry in
                             VStack(alignment: .leading, spacing: 6) {
                                 HStack(alignment: .top, spacing: 8) {
@@ -208,8 +208,8 @@ struct TimeBankView: View {
                                 .padding(.vertical, 8)
                                 .padding(.horizontal, 12)
                                 .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color(.systemBackground).opacity(0.6))
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color(.systemBackground).opacity(0.6))
                                 )
                             }
                             .padding(.horizontal, 4)
@@ -233,8 +233,8 @@ struct TimeBankView: View {
             .background(Color("deepBlue").opacity(0.05))
         }
     }
-
-   
+    
+    
     private func popFirstAndAppend(_ newValue: Int) {
         if !timeValues.isEmpty {
             timeValues.removeFirst()

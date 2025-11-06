@@ -22,15 +22,13 @@ class ServiceFormViewModel {
     var timeSpent: Int = 1
     var startDate: Date = Date()
     var serviceRepeat: ServiceRepeatEnum? = nil
-//    var userSession: UserClass?
     var userSession: UserClass?
-
+    
     /// État de la Logique ---
     var isEditing: Bool
     private var serviceToEdit: ServiceClass?
     
     /// Initialiseur pour (C)REATE (un nouveau service)
-    //    init(userSession: UserClass) {
     init(
         userSession: UserClass?
     ) {
@@ -65,18 +63,8 @@ class ServiceFormViewModel {
         // Un timeSpent
         // Une Date
         
-        //            id = /*userSession*/.id,
-        //        userSession?.balance = (userSession?.balance ?? 0) - timeSpent
-
-        
-        //        context.insert(newUser)
-        
-        
-        // Assez de temps dans le porte monnaie sauf si free....
-        //        return skill.rawValue.count > 0 &&
         return !city.trimmingCharacters(in: .whitespaces).isEmpty &&
         timeSpent > 0 &&
-        //        startDate != nil &&
         !serviceDescription.trimmingCharacters(in: .whitespaces).isEmpty
     }
     
@@ -114,18 +102,18 @@ class ServiceFormViewModel {
                 serviceRepeat: serviceRepeat
                 
             )
-
+            
             do {
                 userSession?.balance = userSession?.balance ?? 0 - timeSpent
                 
                 context.insert(newService)
-
+                
                 try context.save()
             } catch {
                 // Gérer l'erreur de sauvegarde de manière appropriée
                 print("Échec de la sauvegarde du contexte: \(error.localizedDescription)")
             }
-
+            
         }
         
     }

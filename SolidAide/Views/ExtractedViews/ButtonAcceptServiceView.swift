@@ -40,8 +40,8 @@ struct ButtonAcceptServiceView: View {
                     },
                     secondaryButton: .cancel(
                         Text("Annuler")
-//                                dismiss()
-
+                        //                                dismiss()
+                        
                     )
                 )
             }

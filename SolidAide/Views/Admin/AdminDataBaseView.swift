@@ -17,7 +17,7 @@ struct AdminDataBaseView: View {
     @Query var services: [ServiceClass]
     @Query var timeBanks: [TimeBankClass]
     @AppStorage(kShowAdminTabKey) private var showAdminTab: Bool = false
-
+    
     func ResetDataBaseUserFunc(context: ModelContext) {
         do {
             let fetchDescriptor = FetchDescriptor<UserClass>()
@@ -115,7 +115,7 @@ struct AdminDataBaseView: View {
                             Text(user.logIn)
                                 .font(.headline)
                         }
-
+                        
                     }
                 }
                 
@@ -145,7 +145,7 @@ struct AdminDataBaseView: View {
                                     .font(.headline)
                             }
                         }
-
+                        
                     }
                 }
                 
@@ -172,7 +172,7 @@ struct AdminDataBaseView: View {
                                     .font(.headline)
                             }
                         }
-
+                        
                     }
                 }
                 
@@ -226,14 +226,14 @@ struct AdminDataBaseView: View {
                                     .font(.headline)
                             }
                         }
-
+                        
                     }
                 }
                 
                 
             }
             .onDisappear { showAdminTab = false }
-
+            
             //  BUTTONS
             HStack {
                 Button("Générer") {
@@ -263,14 +263,6 @@ struct AdminDataBaseView: View {
 }
 
 #Preview {
-    //    AdminDataBaseView()
-    //        .modelContainer(for: [
-    //            UserClass.self,
-    //            ProfileClass.self,
-    //            ChatClass.self,
-    //            ServiceClass.self,
-    //            TimeBankClass.self
-    //        ])
     
     do {
         
@@ -278,7 +270,7 @@ struct AdminDataBaseView: View {
         let container = try ModelContainer(for: UserClass.self, configurations: config)
         
         GenerateDataBaseFunc(context: container.mainContext)
-
+        
         return AdminDataBaseView()
             .modelContainer(container)
         

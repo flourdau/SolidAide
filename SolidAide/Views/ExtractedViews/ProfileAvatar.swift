@@ -8,24 +8,16 @@
 import SwiftUI
 
 struct ProfileAvatar: View {
-//    let imageData: Data?
     var size: CGFloat = 72
     var ringColor: Color = .blue
     var ringWidth: CGFloat = 3
-
+    
     var body: some View {
         Group {
-//            if let data = imageData, let ui = UIImage(data: data) {
-//                Image(uiImage: ui)
-//                    .resizable()
-//                    .scaledToFill()
-//            }
-//            else {
             Image(systemName: "person.crop.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundStyle(ringColor.opacity(0.85))
-//            }
+                .resizable()
+                .scaledToFit()
+                .foregroundStyle(ringColor.opacity(0.85))
         }
         .frame(width: size, height: size)
         .clipShape(Circle())

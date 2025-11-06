@@ -22,7 +22,7 @@ enum SkillsEnum: String, CaseIterable, Codable {
     case householdTasks = "Tâches ménagères"
     case gardening = "Jardin"
 
-    var icon : String {// <== RENAMEME var
+    var icon : String {
         switch self {
         case.administrative: return "printer.fill"
         case.pets: return "pawprint.circle.fill"

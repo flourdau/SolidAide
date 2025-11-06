@@ -12,11 +12,11 @@ struct DemandesView: View {
     @Environment(\.modelContext) private var context
     @Query(filter: #Predicate<UserClass> { user in
         user.logIn == "severine@email.fr"
-    }) var usersFound: [UserClass]
+    })
+    var usersFound: [UserClass]
     @State var userSession: UserSession
     @State var showingAlert = false
     @State var showingAddService = false
-
     @Query(sort: \ServiceClass.startDate, order: .reverse) private var services: [ServiceClass]
     @Query var profiles: [ProfileClass]
     
@@ -27,8 +27,7 @@ struct DemandesView: View {
             }
         }
         List {
-            //            .sorted(using: { $0.startDate > $1.startDate }
-            ForEach(services) { service in // ✅ Utilise filteredServices
+            ForEach(services) { service in
                 if service.profileId.userId == usersFound[0] {
                     NavigationLink(destination: ServiceDetailView(service: service, user: usersFound.first!)) {
                         HStack {
@@ -58,14 +57,12 @@ struct DemandesView: View {
     
     /// Action (D)ELETE
     private func deleteService(at offsets: IndexSet) {
-        // Utiliser l'index dans le tableau filtré pour trouver le bon objet à supprimer
         for index in offsets {
             let serviceToDelete = services[index]
             context.delete(serviceToDelete)
             
         }
     }
-    
     
     init() {
         _userSession = State(initialValue: UserSession())

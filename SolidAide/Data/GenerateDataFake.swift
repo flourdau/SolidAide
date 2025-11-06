@@ -12,73 +12,73 @@ import SwiftUI
 
 func GenerateDataBaseFunc(context: ModelContext) {
     //  USERS
-let users: [UserClass] = [
-            UserClass(  // 0
-                logIn: "marie@email.fr",
-                password: "password123",
-                balance: 1
-            ),
-            UserClass(  // 1
-                logIn: "pierre@email.fr",
-                password: "password123",
-                balance: 5
-            ),
-            UserClass(  // 2
-                logIn: "sophie@email.fr",
-                password: "password123",
-                balance: 5
-            ),
-            UserClass(  // 3
-                logIn: "lucas@email.fr",
-                password: "password123",
-                balance: 5
-            ),
-            UserClass(  // 4
-                logIn: "emma@email.fr",
-                password: "password123",
-                balance: 5
-            ),
-            UserClass(  // 5
-                logIn: "thomas@email.fr",
-                password: "password123",
-                balance: 5
-            ),
-            UserClass(  // 6
-                logIn: "julie@email.fr",
-                password: "password123",
-                balance: 5
-            ),
-            UserClass( // 7
-                logIn: "antoine@email.fr",
-                password: "password123",
-                balance: 5
-            ),
-            UserClass(  // 8
-                logIn: "andrei@email.fr",
-                password: "password123",
-                balance: 5
-            ),
-            UserClass(  // 9
-                logIn: "stacy@email.fr",
-                password: "password123",
-                balance: 5
-            ),
-            UserClass(  // 10
-                logIn: "severine@email.fr",
-                password: "password123",
-                balance: 5
-            ),
-            UserClass(  // 11
-                logIn: "edilene@email.fr",
-                password: "password123",
-                balance: 5
-            ),
-            UserClass(  // 12
-                logIn: "florian@email.fr",
-                password: "password123",
-                balance: 5
-            )
-        ]
+    let users: [UserClass] = [
+        UserClass(  // 0
+            logIn: "marie@email.fr",
+            password: "password123",
+            balance: 1
+                 ),
+        UserClass(  // 1
+            logIn: "pierre@email.fr",
+            password: "password123",
+            balance: 5
+                 ),
+        UserClass(  // 2
+            logIn: "sophie@email.fr",
+            password: "password123",
+            balance: 5
+                 ),
+        UserClass(  // 3
+            logIn: "lucas@email.fr",
+            password: "password123",
+            balance: 5
+                 ),
+        UserClass(  // 4
+            logIn: "emma@email.fr",
+            password: "password123",
+            balance: 5
+                 ),
+        UserClass(  // 5
+            logIn: "thomas@email.fr",
+            password: "password123",
+            balance: 5
+                 ),
+        UserClass(  // 6
+            logIn: "julie@email.fr",
+            password: "password123",
+            balance: 5
+                 ),
+        UserClass( // 7
+            logIn: "antoine@email.fr",
+            password: "password123",
+            balance: 5
+                 ),
+        UserClass(  // 8
+            logIn: "andrei@email.fr",
+            password: "password123",
+            balance: 5
+                 ),
+        UserClass(  // 9
+            logIn: "stacy@email.fr",
+            password: "password123",
+            balance: 5
+                 ),
+        UserClass(  // 10
+            logIn: "severine@email.fr",
+            password: "password123",
+            balance: 5
+                 ),
+        UserClass(  // 11
+            logIn: "edilene@email.fr",
+            password: "password123",
+            balance: 5
+                 ),
+        UserClass(  // 12
+            logIn: "florian@email.fr",
+            password: "password123",
+            balance: 5
+                 )
+    ]
     
     //  PROFILES
     let profiles: [ProfileClass] = [
@@ -291,7 +291,7 @@ let users: [UserClass] = [
             beneficiary: [users[8], users[10]]
         )
     ]
-
+    
     //  CHATS
     let chats: [ChatClass] = [
         // Marie & Pierre
@@ -461,201 +461,201 @@ let users: [UserClass] = [
     ]
     
     //  TIMEBANK
-//    let timeBanks: [TimeBankClass] = [
-//        TimeBankClass(
-//
-//            userId:users[0],
-//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 12, minute: 25).date!,
-//            iconName: "hourglass.badge.plus",
-//            iconColor: .deepBlue,
-//            deposit: 1,
-//            withdrawal: 0,
-//            title: "Bienvenue sur Solid'Aide !",
-//            subtitle: "Solde de temps de bienvenue : +3h"
-//        ),
-//        TimeBankClass(
-//            userId:users[1],
-//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
-//            iconName: "hourglass.tophalf.filled",
-//            iconColor: .mintGreen,
-//            deposit: 0,
-//            withdrawal: 1,
-//            title: "Demande d'aide à Angela pour passer la tondeuse.",
-//            subtitle: "Solde de temps dépensé : -1h"
-//        ),
-//        TimeBankClass(
-//            userId:users[2],
-//            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
-//            iconName: "hourglass.badge.plus",
-//            iconColor: .warmCoral,
-//            deposit: 1,
-//            withdrawal: 0,
-//            title: "Proposition d'aide à Ghania pour bricoler.",
-//            subtitle: "Solde de temps gagné : +3h"
-//        )
-//    ]
+    //    let timeBanks: [TimeBankClass] = [
+    //        TimeBankClass(
+    //
+    //            userId:users[0],
+    //            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 12, minute: 25).date!,
+    //            iconName: "hourglass.badge.plus",
+    //            iconColor: .deepBlue,
+    //            deposit: 1,
+    //            withdrawal: 0,
+    //            title: "Bienvenue sur Solid'Aide !",
+    //            subtitle: "Solde de temps de bienvenue : +3h"
+    //        ),
+    //        TimeBankClass(
+    //            userId:users[1],
+    //            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 16, minute: 0).date!,
+    //            iconName: "hourglass.tophalf.filled",
+    //            iconColor: .mintGreen,
+    //            deposit: 0,
+    //            withdrawal: 1,
+    //            title: "Demande d'aide à Angela pour passer la tondeuse.",
+    //            subtitle: "Solde de temps dépensé : -1h"
+    //        ),
+    //        TimeBankClass(
+    //            userId:users[2],
+    //            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
+    //            iconName: "hourglass.badge.plus",
+    //            iconColor: .warmCoral,
+    //            deposit: 1,
+    //            withdrawal: 0,
+    //            title: "Proposition d'aide à Ghania pour bricoler.",
+    //            subtitle: "Solde de temps gagné : +3h"
+    //        )
+    //    ]
     let timeBanks: [TimeBankClass] = [
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 03, hour: 12, minute: 25).date!,
-                iconName: "hourglass.badge.plus",
-                iconColor: .deepBlue,
-                deposit: 3,
-                withdrawal: 0,
-                title: "Bienvenue sur Solid’Aide !",
-                subtitle: "Solde de temps de bienvenue : +3h"
-            ),
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 04, hour: 16, minute: 0).date!,
-                iconName: "hourglass.tophalf.filled",
-                iconColor: .warmCoral,
-                deposit: 0,
-                withdrawal: 1,
-                title: "Demande de service à Angela pour du passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
-            ),
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 05, hour: 9, minute: 0).date!,
-                iconName: "hourglass.badge.plus",
-                iconColor: .mintGreen,
-                deposit: 3,
-                withdrawal: 0,
-                title: "Proposition de service à Ghania pour bricoler.",
-                subtitle: "Solde de temps gagné : +3h",
-                
-            ),
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 06, hour: 9, minute: 0).date!,
-                iconName: "hourglass.badge.plus",
-                iconColor: .mintGreen,
-                deposit: 2,
-                withdrawal: 0,
-                title: "Proposition de service à Ghania pour bricoler.",
-                subtitle: "Solde de temps gagné : +2h",
-                
-            ),
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 07, hour: 16, minute: 0).date!,
-                iconName: "hourglass.tophalf.filled",
-                iconColor: .warmCoral,
-                deposit: 0,
-                withdrawal: 1,
-                title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
-                
-            ),
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 08, hour: 16, minute: 0).date!,
-                iconName: "hourglass.tophalf.filled",
-                iconColor: .warmCoral,
-                deposit: 0,
-                withdrawal: 1,
-                title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
-                
-            ),
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 09, hour: 16, minute: 0).date!,
-                iconName: "hourglass.tophalf.filled",
-                iconColor: .warmCoral,
-                deposit: 0,
-                withdrawal: 1,
-                title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
-                
-            ),
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 10, hour: 16, minute: 0).date!,
-                iconName: "hourglass.tophalf.filled",
-                iconColor: .warmCoral,
-                deposit: 0,
-                withdrawal: 1,
-                title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
-                
-            ),
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 9, minute: 0).date!,
-                iconName: "hourglass.badge.plus",
-                iconColor: .mintGreen,
-                deposit: 2,
-                withdrawal: 0,
-                title: "Proposition de service à Ghania pour bricoler.",
-                subtitle: "Solde de temps gagné : +2h",
-                
-            ),
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
-                iconName: "hourglass.badge.plus",
-                iconColor: .mintGreen,
-                deposit: 2,
-                withdrawal: 0,
-                title: "Proposition de service à Ghania pour bricoler.",
-                subtitle: "Solde de temps gagné : +2h",
-                
-            ),
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 13, hour: 16, minute: 0).date!,
-                iconName: "hourglass.tophalf.filled",
-                iconColor: .warmCoral,
-                deposit: 0,
-                withdrawal: 1,
-                title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
-                
-            ),
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 14, hour: 16, minute: 0).date!,
-                iconName: "hourglass.tophalf.filled",
-                iconColor: .warmCoral,
-                deposit: 0,
-                withdrawal: 1,
-                title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
-            ),
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 15, hour: 16, minute: 0).date!,
-                iconName: "hourglass.tophalf.filled",
-                iconColor: .warmCoral,
-                deposit: 0,
-                withdrawal: 1,
-                title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
-            ),
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 16, hour: 16, minute: 0).date!,
-                iconName: "hourglass.tophalf.filled",
-                iconColor: .warmCoral,
-                deposit: 0,
-                withdrawal: 1,
-                title: "Demande de service à Angela pour passer la tondeuse.",
-                subtitle: "Solde de temps dépensé : -1h",
-                
-            ),
-            TimeBankClass(
-                userId:users[0],
-                date: DateComponents(calendar: .current, year: 2025, month: 10, day: 17, hour: 9, minute: 0).date!,
-                iconName: "hourglass.badge.plus",
-                iconColor: .mintGreen,
-                deposit: 2,
-                withdrawal: 0,
-                title: "Proposition de service à Ghania pour bricoler.",
-                subtitle: "Solde de temps gagné : +2h",
-            )
-        ]
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 03, hour: 12, minute: 25).date!,
+            iconName: "hourglass.badge.plus",
+            iconColor: .deepBlue,
+            deposit: 3,
+            withdrawal: 0,
+            title: "Bienvenue sur Solid’Aide !",
+            subtitle: "Solde de temps de bienvenue : +3h"
+        ),
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 04, hour: 16, minute: 0).date!,
+            iconName: "hourglass.tophalf.filled",
+            iconColor: .warmCoral,
+            deposit: 0,
+            withdrawal: 1,
+            title: "Demande de service à Angela pour du passer la tondeuse.",
+            subtitle: "Solde de temps dépensé : -1h",
+        ),
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 05, hour: 9, minute: 0).date!,
+            iconName: "hourglass.badge.plus",
+            iconColor: .mintGreen,
+            deposit: 3,
+            withdrawal: 0,
+            title: "Proposition de service à Ghania pour bricoler.",
+            subtitle: "Solde de temps gagné : +3h",
+            
+        ),
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 06, hour: 9, minute: 0).date!,
+            iconName: "hourglass.badge.plus",
+            iconColor: .mintGreen,
+            deposit: 2,
+            withdrawal: 0,
+            title: "Proposition de service à Ghania pour bricoler.",
+            subtitle: "Solde de temps gagné : +2h",
+            
+        ),
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 07, hour: 16, minute: 0).date!,
+            iconName: "hourglass.tophalf.filled",
+            iconColor: .warmCoral,
+            deposit: 0,
+            withdrawal: 1,
+            title: "Demande de service à Angela pour passer la tondeuse.",
+            subtitle: "Solde de temps dépensé : -1h",
+            
+        ),
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 08, hour: 16, minute: 0).date!,
+            iconName: "hourglass.tophalf.filled",
+            iconColor: .warmCoral,
+            deposit: 0,
+            withdrawal: 1,
+            title: "Demande de service à Angela pour passer la tondeuse.",
+            subtitle: "Solde de temps dépensé : -1h",
+            
+        ),
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 09, hour: 16, minute: 0).date!,
+            iconName: "hourglass.tophalf.filled",
+            iconColor: .warmCoral,
+            deposit: 0,
+            withdrawal: 1,
+            title: "Demande de service à Angela pour passer la tondeuse.",
+            subtitle: "Solde de temps dépensé : -1h",
+            
+        ),
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 10, hour: 16, minute: 0).date!,
+            iconName: "hourglass.tophalf.filled",
+            iconColor: .warmCoral,
+            deposit: 0,
+            withdrawal: 1,
+            title: "Demande de service à Angela pour passer la tondeuse.",
+            subtitle: "Solde de temps dépensé : -1h",
+            
+        ),
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 11, hour: 9, minute: 0).date!,
+            iconName: "hourglass.badge.plus",
+            iconColor: .mintGreen,
+            deposit: 2,
+            withdrawal: 0,
+            title: "Proposition de service à Ghania pour bricoler.",
+            subtitle: "Solde de temps gagné : +2h",
+            
+        ),
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 12, hour: 9, minute: 0).date!,
+            iconName: "hourglass.badge.plus",
+            iconColor: .mintGreen,
+            deposit: 2,
+            withdrawal: 0,
+            title: "Proposition de service à Ghania pour bricoler.",
+            subtitle: "Solde de temps gagné : +2h",
+            
+        ),
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 13, hour: 16, minute: 0).date!,
+            iconName: "hourglass.tophalf.filled",
+            iconColor: .warmCoral,
+            deposit: 0,
+            withdrawal: 1,
+            title: "Demande de service à Angela pour passer la tondeuse.",
+            subtitle: "Solde de temps dépensé : -1h",
+            
+        ),
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 14, hour: 16, minute: 0).date!,
+            iconName: "hourglass.tophalf.filled",
+            iconColor: .warmCoral,
+            deposit: 0,
+            withdrawal: 1,
+            title: "Demande de service à Angela pour passer la tondeuse.",
+            subtitle: "Solde de temps dépensé : -1h",
+        ),
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 15, hour: 16, minute: 0).date!,
+            iconName: "hourglass.tophalf.filled",
+            iconColor: .warmCoral,
+            deposit: 0,
+            withdrawal: 1,
+            title: "Demande de service à Angela pour passer la tondeuse.",
+            subtitle: "Solde de temps dépensé : -1h",
+        ),
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 16, hour: 16, minute: 0).date!,
+            iconName: "hourglass.tophalf.filled",
+            iconColor: .warmCoral,
+            deposit: 0,
+            withdrawal: 1,
+            title: "Demande de service à Angela pour passer la tondeuse.",
+            subtitle: "Solde de temps dépensé : -1h",
+            
+        ),
+        TimeBankClass(
+            userId:users[0],
+            date: DateComponents(calendar: .current, year: 2025, month: 10, day: 17, hour: 9, minute: 0).date!,
+            iconName: "hourglass.badge.plus",
+            iconColor: .mintGreen,
+            deposit: 2,
+            withdrawal: 0,
+            title: "Proposition de service à Ghania pour bricoler.",
+            subtitle: "Solde de temps gagné : +2h",
+        )
+    ]
     //  LOOPS INSERT DETABASE
     for user in users { context.insert(user) }
     for profile in profiles { context.insert(profile) }

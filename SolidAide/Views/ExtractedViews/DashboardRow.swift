@@ -11,21 +11,21 @@ struct DashboardRow<Right: View>: View {
     let title: String
     var trailing: Right
     var muted: Bool = false
-
+    
     init(icon: String, title: String, trailing: Right, muted: Bool = false) {
         self.icon = icon
         self.title = title
         self.trailing = trailing
         self.muted = muted
     }
-
+    
     init(icon: String, title: String, muted: Bool = false) where Right == EmptyView {
         self.icon = icon
         self.title = title
         self.trailing = EmptyView()
         self.muted = muted
     }
-
+    
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
@@ -53,14 +53,14 @@ struct DashboardRow<Right: View>: View {
             title: "Banque de temps",
             trailing:
                 Text("+2h depuis 24 heures")
-                    .font(.subheadline)
-                    .foregroundStyle(.green)
+                .font(.subheadline)
+                .foregroundStyle(.green)
         )
-
+        
         DashboardRow(icon: "hand.raised", title: "Services proposés")
-
+        
         DashboardRow(icon: "bell", title: "Notifications", muted: true)
-
+        
         DashboardRow(
             icon: "star",
             title: "Évaluations",
@@ -69,6 +69,6 @@ struct DashboardRow<Right: View>: View {
     }
     .padding()
     .background(Color(.systemGroupedBackground))
-//    .previewLayout(.sizeThatFits)
+    //    .previewLayout(.sizeThatFits)
 }
 

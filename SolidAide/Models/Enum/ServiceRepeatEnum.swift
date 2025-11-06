@@ -15,7 +15,6 @@ enum ServiceRepeatEnum : String, CaseIterable, Codable {
         case .never:  return 0
         case .everyDay: return 24
         case .everyWeek: return 24 * 7
-            
         }
         
     }
@@ -25,7 +24,6 @@ enum ServiceRepeatEnum : String, CaseIterable, Codable {
         case .never: return 0
         case .everyDay: return 1
         case .everyWeek: return 7
-            
         }
         
     }

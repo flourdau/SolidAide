@@ -56,16 +56,8 @@ struct ServiceDetailView: View {
             }
         }
         .sheet(isPresented: $showingEditSheet) {
-            /// (U)PDATE:
             ServiceEditView(viewModel: ServiceFormViewModel(service: service))
         }
     }
-
-}
-
-
-
-#Preview {
-//              ServiceDetailView(service: service)
-
+    
 }

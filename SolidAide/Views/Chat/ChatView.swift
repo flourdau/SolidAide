@@ -8,66 +8,62 @@ import SwiftUI
 import SwiftData
 
 struct ChatView: View {
+    @Environment(\.modelContext) private var modelContext
     @Query(filter: #Predicate<UserClass> { user in
         user.logIn == "severine@email.fr"
     }) var usersFound: [UserClass]
-    @State var userSession: UserSession
-
-    @Environment(\.modelContext) private var modelContext
     @Query private var profiles: [ProfileClass]
     @Query private var chats: [ChatClass]
-    
     @State private var messageType = "Tous"
     @State private var searchMessages: String = ""
     let status = ["Tous", "Non Lus", "Favoris"]
-        
+    
     var filteredProfiles: [ProfileClass] {
-            guard let currentUser = usersFound.first, let myProfile = currentUser.profileId else {
-                return []
-            }
-
-            let contactUserIDs = myProfile.contacts?.map { $0.id } ?? []
-            
-            let contactProfiles = profiles.filter { profile in
-                guard let profileUserId = profile.userId?.id else { return false }
-                return contactUserIDs.contains(profileUserId)
-            }
-
-            switch messageType {
-            case "Tous":
-                return contactProfiles
-
-            case "Non Lus":
-                return contactProfiles.filter { profile in
-                    chats.contains { chat in
-                        chat.sender.id == profile.userId?.id &&
-                        chat.recipient.id == currentUser.id &&
-                        chat.isRead == false
-                    }
-                }
-
-            case "Favoris":
-                let favoriteUserIDs = myProfile.favorite?.map { $0.id } ?? []
-                
-                return profiles.filter { profile in
-                    guard let profileUserId = profile.userId?.id else { return false }
-                    return favoriteUserIDs.contains(profileUserId)
-                }
-                
-            default:
-                return contactProfiles
-            }
+        guard let currentUser = usersFound.first, let myProfile = currentUser.profileId else {
+            return []
         }
+        
+        let contactUserIDs = myProfile.contacts?.map { $0.id } ?? []
+        
+        let contactProfiles = profiles.filter { profile in
+            guard let profileUserId = profile.userId?.id else { return false }
+            return contactUserIDs.contains(profileUserId)
+        }
+        
+        switch messageType {
+        case "Tous":
+            return contactProfiles
+            
+        case "Non Lus":
+            return contactProfiles.filter { profile in
+                chats.contains { chat in
+                    chat.sender.id == profile.userId?.id &&
+                    chat.recipient.id == currentUser.id &&
+                    chat.isRead == false
+                }
+            }
+            
+        case "Favoris":
+            let favoriteUserIDs = myProfile.favorite?.map { $0.id } ?? []
+            
+            return profiles.filter { profile in
+                guard let profileUserId = profile.userId?.id else { return false }
+                return favoriteUserIDs.contains(profileUserId)
+            }
+            
+        default:
+            return contactProfiles
+        }
+    }
     
     private var searchContact: [ProfileClass]{
-         if searchMessages.isEmpty {
-             return filteredProfiles} else{
-                 return filteredProfiles.filter {
-                $0.pseudo.localizedCaseInsensitiveContains(searchMessages)}
-             }
-     }
+        if searchMessages.isEmpty {
+            return filteredProfiles} else{
+                return filteredProfiles.filter {
+                    $0.pseudo.localizedCaseInsensitiveContains(searchMessages)}
+            }
+    }
     
-    // function pour ajuster le message affiché
     private func getLatestChatWith(_ contactInfo: ProfileClass) -> ChatClass? {
         guard let currentUserId = usersFound.first?.id,
               let contactUserId = contactInfo.userId?.id else {
@@ -82,14 +78,9 @@ struct ChatView: View {
             .sorted(by: { $0.dateTime > $1.dateTime })
             .first
     }
-
+    
     var body: some View {
-        let _ = DispatchQueue.main.async {
-            if usersFound.first !== userSession.currentUser {
-                userSession.currentUser = usersFound.first
-            }
-        }
-
+        
         NavigationStack {
             VStack(spacing: 0) {
                 VStack{
@@ -158,10 +149,6 @@ struct ChatView: View {
             .navigationTitle("Messagerie")
             .searchable(text: $searchMessages, placement: .navigationBarDrawer(displayMode: .always), prompt: "Rechercher un contact")
         }
-    }
-
-    init() {
-        _userSession = State(initialValue: UserSession())
     }
 }
 

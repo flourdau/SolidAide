@@ -1,10 +1,10 @@
 /*
-  __
+ __
  / ()  ,_   _  _, _|_  _  _|     |)           ()_|_  _,   _
-|     /  | |/ / |  |  |/ / |     |/\_|  |     /\ |  / |  /   |  |
+ |     /  | |/ / |  |  |/ / |     |/\_|  |     /\ |  / |  /   |  |
  \___/   |/|_/\/|_/|_/|_/\/|_/    \/  \/|/   /(_)|_/\/|_/\__/ \/|/
-                                       (|                      (|
-*/
+ (|                      (|
+ */
 
 import SwiftUI
 
@@ -14,7 +14,6 @@ struct ColoredSegmentedControl: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            // Bouton « Oui »
             Button(action: { selection = true }) {
                 Text("Oui")
                     .fontWeight(.semibold)
@@ -23,8 +22,7 @@ struct ColoredSegmentedControl: View {
                     .background(selection ? Color("mintGreen") : Color(.systemGray5))
                     .foregroundColor(selection ? .white : .primary)
             }
-
-            // Bouton « Non »
+            
             Button(action: { selection = false }) {
                 Text("Non")
                     .fontWeight(.semibold)

@@ -78,25 +78,25 @@ extension View {
     }
     
     /*
-                           ______          _
-         /\               |  ____|        | |
-        /  \   _ __  _ __ | |__ ___  _ __ | |_
-       / /\ \ | '_ \| '_ \|  __/ _ \| '_ \| __|
-      / ____ \| |_) | |_) | | | (_) | | | | |_
+     ______          _
+     /\               |  ____|        | |
+     /  \   _ __  _ __ | |__ ___  _ __ | |_
+     / /\ \ | '_ \| '_ \|  __/ _ \| '_ \| __|
+     / ____ \| |_) | |_) | | | (_) | | | | |_
      /_/    \_\ .__/| .__/|_|  \___/|_| |_|\__|
-              | |   | |
-              |_|   |_|
+     | |   | |
+     |_|   |_|
      */
     
-
-
+    
+    
     // ... toutes vos fonctions spécifiques (lucioleRegular, lucioleBold, etc.) DOIVENT être ici.
     
     // Nouvelle fonction qui sélectionne la bonne variante (Bold ou Regular)
     func applyFont(fontChoice: AppFont, size: Double, weight: Font.Weight = .regular) -> some View {
         // La vue courante est 'self'
         var viewToModify: AnyView
-
+        
         switch fontChoice {
         case .system:
             viewToModify = AnyView(self.font(.system(size: CGFloat(size), weight: weight)))
@@ -108,7 +108,7 @@ extension View {
             } else {
                 viewToModify = AnyView(self.lucioleRegular(fontSize: size))
             }
-
+            
         case .openDys:
             if weight == .bold {
                 viewToModify = AnyView(self.openDysBold(fontSize: size))
@@ -124,46 +124,25 @@ extension View {
     func applyAppFont(_ size: Double, weight: Font.Weight = .regular) -> some View {
         let stored = UserDefaults.standard.string(forKey: "selectedFont") ?? AppFont.system.rawValue
         let fontChoice = AppFont(rawValue: stored) ?? .system
-
+        
         return self.applyFont(fontChoice: fontChoice, size: size, weight: weight)
     }
 }
-//    enum AppFont: String, CaseIterable, Identifiable {
-//        case system   = "System"
-//        case luciole  = "Luciole"
-//        case openDys  = "OpenDyslexic"
-//
-//        var id: String { rawValue }
-//    }
-//extension View {
-//    func applyAppFont(_ size: Double) -> some View {
-//        let stored = UserDefaults.standard.string(forKey: "selectedFont") ?? AppFont.system.rawValue
-//        let fontChoice = AppFont(rawValue: stored) ?? .system
-//
-//        switch fontChoice {
-//        case .system:
-//            return AnyView(self.font(.system(size: CGFloat(size))))
-//        case .luciole:
-//            return AnyView(self.lucioleRegular(fontSize: size))
-//        case .openDys:
-//            return AnyView(self.openDysRegular(fontSize: size))
-//        }
-//    }
-//}
- /*_____________________Nos bouttons :
-  ⠀⠀⠀⠀⠀⠀⠀⠀⣠⣀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  ⠀⠀⠀⠀⠀⠀⡀⢰⠆⣛⣨⣆⣭⠶⡓⠓⠄⠀⠀⠀⠀⠀⠀
-  ⠀⠀⠠⣄⣠⠼⢛⣳⢬⣿⣿⣿⣎⡙⣟⠔⢨⣐⡆⠀⠀⠀⠀
-  ⠀⠀⠀⢻⣗⡲⣴⣇⣿⣿⣿⣿⣿⣟⡄⠠⢁⣿⠇⠀⠀⠀⠀
-  ⠀⢀⣀⣠⣯⡤⣙⣿⣿⣿⣿⣿⣿⣿⡇⢀⢿⡟⠀⠐⠀⡀⡀
-  ⠘⢿⣏⡙⢿⣿⣦⣙⣿⣽⢿⣻⣿⣿⣇⠾⠋⠂⠀⠐⢨⡟⠀
-  ⠀⠀⠈⠙⠫⠚⢿⠿⠿⠟⠛⠿⠿⡿⠉⠀⠀⣀⠌⠄⠋⠀⠀
-  ⠀⠀⠀⠀⠀⠀⠘⣄⠀⠀⠀⢀⡠⠃⡀⠀⠀⠀⡴⠂⠀⠀⠀
-  ⠀⠀⠀⠀⠀⠀⠀⠈⠙⠚⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  */
-  
-    
-    
-    
-    
+
+/*_____________________Nos bouttons :
+ ⠀⠀⠀⠀⠀⠀⠀⠀⣠⣀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+ ⠀⠀⠀⠀⠀⠀⡀⢰⠆⣛⣨⣆⣭⠶⡓⠓⠄⠀⠀⠀⠀⠀⠀
+ ⠀⠀⠠⣄⣠⠼⢛⣳⢬⣿⣿⣿⣎⡙⣟⠔⢨⣐⡆⠀⠀⠀⠀
+ ⠀⠀⠀⢻⣗⡲⣴⣇⣿⣿⣿⣿⣿⣟⡄⠠⢁⣿⠇⠀⠀⠀⠀
+ ⠀⢀⣀⣠⣯⡤⣙⣿⣿⣿⣿⣿⣿⣿⡇⢀⢿⡟⠀⠐⠀⡀⡀
+ ⠘⢿⣏⡙⢿⣿⣦⣙⣿⣽⢿⣻⣿⣿⣇⠾⠋⠂⠀⠐⢨⡟⠀
+ ⠀⠀⠈⠙⠫⠚⢿⠿⠿⠟⠛⠿⠿⡿⠉⠀⠀⣀⠌⠄⠋⠀⠀
+ ⠀⠀⠀⠀⠀⠀⠘⣄⠀⠀⠀⢀⡠⠃⡀⠀⠀⠀⡴⠂⠀⠀⠀
+ ⠀⠀⠀⠀⠀⠀⠀⠈⠙⠚⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+ */
+
+
+
+
+
 
